@@ -1,5 +1,6 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Header from '../../components/Header/Header';
+import EventListContainer from '../../components/EventListContainer/EventListContainer';
 
 import { connect } from 'react-redux';
 import {
@@ -15,12 +16,12 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home-page">
-        <div className="container page">
-          <div className="row">
-            <Button variant="contained" color="primary">
-              Welcome EMS
-            </Button>
-          </div>
+        <Header />
+
+        <div className="container">
+          <p>HOME Component</p>
+
+          <EventListContainer />
         </div>
       </div>
     );

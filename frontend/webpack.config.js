@@ -9,12 +9,12 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
-              presets: ['react', 'es2015']
+              presets: ["react", "es2015", "stage-0"]
             }
           }
-        ],
+        ]
       },
       {
         test: /\.html$/,
@@ -28,10 +28,10 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
-        ],
+          "css-loader",
+          "postcss-loader",
+          "sass-loader"
+        ]
       }
     ]
   },

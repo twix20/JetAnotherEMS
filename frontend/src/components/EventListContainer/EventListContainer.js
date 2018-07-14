@@ -12,7 +12,8 @@ class EventListContainer extends React.Component {
           id: 1,
           title: 'Some fancy Title',
           description: 'Description',
-          imageUrl: 'http://via.placeholder.com/350x150'
+          imageUrl:
+            'https://workmax.pl/wp-content/uploads/2018/01/szkolenia-bhp.jpg'
         }
       ]
     };

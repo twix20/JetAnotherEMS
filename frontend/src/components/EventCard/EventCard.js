@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Chip from '@material-ui/core/Chip';
+import AccessTime from '@material-ui/icons/AccessTime';
+import Person from '@material-ui/icons/Person';
+import CalendarToday from '@material-ui/icons/CalendarToday';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
@@ -20,30 +26,39 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Grid from '@material-ui/core/Grid';
+
+import './EventCard.scss';
 
 const styles = theme => ({
-  card: {
-    display: 'flex'
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column'
+  chip: {
+    margin: theme.spacing.unit
   },
   content: {
     flex: '1 0 auto'
   },
-  cover: {
-    width: 151
+  wrapper: {
+    position: 'relative',
+    top: '25%'
   },
-  controls: {
+  detailsTypo: {
+    color: theme.palette.primary.light
+  },
+  detailsItemInfo: {
     display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit
+    justifyContent: 'space-evenly',
+    color: theme.palette.primary.main
   },
-  playIcon: {
-    height: 38,
-    width: 38
+  imageSlides: {
+    position: 'relative',
+    display: 'inline-block',
+    margin: '0 auto'
+  },
+  image: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    width: '100%',
+    height: '100%'
   }
 });
 
@@ -58,73 +73,83 @@ class EventCard extends React.PureComponent {
     const { classes, theme, event } = this.props;
 
     return (
-      <div>
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.cover}
-            image={event.imageUrl}
-            title={event.title}
-          />
-          <div className={classes.details}>
-            <CardContent className={classes.content}>
-              <Typography variant="headline">Live From Space</Typography>
-              <Typography variant="subheading" color="textSecondary">
-                Mac Miller
-              </Typography>
-            </CardContent>
-            <div className={classes.controls}>
-              <IconButton aria-label="Previous">
-                {theme.direction === 'rtl' ? (
-                  <SkipNextIcon />
-                ) : (
-                  <SkipPreviousIcon />
-                )}
-              </IconButton>
-              <IconButton aria-label="Play/pause">
-                <PlayArrowIcon className={classes.playIcon} />
-              </IconButton>
-              <IconButton aria-label="Next">
-                {theme.direction === 'rtl' ? (
-                  <SkipPreviousIcon />
-                ) : (
-                  <SkipNextIcon />
-                )}
-              </IconButton>
-              <div>
-                <CardActions className={classes.actions} disableActionSpacing>
-                  <IconButton
-                    className={classnames(classes.expand, {
-                      [classes.expandOpen]: this.state.expanded
-                    })}
-                    onClick={this.handleExpandClick}
-                    aria-expanded={this.state.expanded}
-                    aria-label="Show more"
-                  >
-                    <ExpandMoreIcon />
-                  </IconButton>
-                </CardActions>
+      <Card className="eventCard">
+        <Grid container>
+          <Grid item xs={3} className={classes.imageSlides}>
+            <img src={event.imageUrl} className={classes.image} />
+          </Grid>
+
+          <Grid item xs={1} className="eventcard__details">
+            <div className="eventCard__details__item">
+              <div className={classes.detailsItemInfo}>
+                <Typography variant="title" color="inherit">
+                  31
+                </Typography>
+                <Person />
               </div>
+              <div className="eventCard__details__text">People</div>
+            </div>
+            <div className="eventCard__details__item">
+              <div className={classes.detailsItemInfo}>
+                <Typography variant="title" color="inherit">
+                  10
+                </Typography>
+                <CalendarToday />
+              </div>
+              <div className="eventCard__details__text">Days</div>
+            </div>
+          </Grid>
+
+          <Grid item xs={6} className="eventCard__content">
+            <Tooltip title="20/03/2018 Wtorek " placement="top">
+              <Chip
+                avatar={<AccessTime />}
+                label="In 2 days"
+                className={`${classes.chip} eventCard__timeChip`}
+              />
+            </Tooltip>
+
+            <Typography variant="title">Jak wytresowac smoka?</Typography>
+            <Typography variant="subheading" color="textSecondary" gutterBottom>
+              Wrocław, Reja 23/20
+            </Typography>
+            <div className="eventCard__content__description">
+              <Typography variant="body1" color="textSecondary">
+                Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz
+                w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
+                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
+                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+                przez nieznanego drukarzaw przemyśle poligraficznym. Został po
+              </Typography>
             </div>
 
-            <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-              <CardContent>
-                <Typography paragraph variant="body2">
-                  Method:
-                </Typography>
-                <Typography paragraph>
-                  Heat 1/2 cup of the broth in a pot until simmering, add
-                  saffron and set aside for 10 minutes.
-                </Typography>
-                <Typography paragraph>
-                  Heat oil in a (14- to 16-inch) paella pan or a large, deep
-                  skillet over medium-high heat. Add chicken, shrimp and
-                  chorizo,
-                </Typography>
-              </CardContent>
-            </Collapse>
-          </div>
-        </Card>
-      </div>
+            <div className="eventCard__content__tags">
+              <Chip label="C#" />
+              <Chip label="Docker" />
+              <Chip label="Angular" />
+              <Chip label="Linux" />
+              <Chip label="Windows" />
+            </div>
+          </Grid>
+
+          <Grid item xs={2} className="eventCard__tickets">
+            <div className={classes.wrapper}>
+              <div className="eventCard__tickets__price">$12,300</div>
+              <div className="eventCard__tickets__per">21 tickets left</div>
+
+              <Button
+                variant="contained"
+                color="secondary"
+                className="eventCard__tickets__button"
+              >
+                More details
+              </Button>
+            </div>
+          </Grid>
+        </Grid>
+      </Card>
     );
   }
 }

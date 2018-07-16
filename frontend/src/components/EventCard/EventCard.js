@@ -45,8 +45,6 @@ const styles = theme => ({
     color: theme.palette.primary.light
   },
   detailsItemInfo: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
     color: theme.palette.primary.main
   },
   imageSlides: {
@@ -59,6 +57,9 @@ const styles = theme => ({
     maxHeight: '100%',
     width: '100%',
     height: '100%'
+  },
+  inline: {
+    display: 'inline'
   }
 });
 
@@ -75,32 +76,56 @@ class EventCard extends React.PureComponent {
     return (
       <Card className="eventCard">
         <Grid container>
-          <Grid item xs={3} className={classes.imageSlides}>
+          <Grid item xs={12} md={12} lg={3} className={classes.imageSlides}>
             <img src={event.imageUrl} className={classes.image} />
           </Grid>
 
-          <Grid item xs={1} className="eventcard__details">
-            <div className="eventCard__details__item">
+          <Grid
+            item
+            container
+            xs={12}
+            md={12}
+            lg={1}
+            className="eventcard__details"
+          >
+            <Grid
+              item
+              xs={6}
+              md={6}
+              lg={12}
+              className="eventCard__details__item"
+            >
               <div className={classes.detailsItemInfo}>
-                <Typography variant="title" color="inherit">
-                  31
-                </Typography>
-                <Person />
+                <div>
+                  <p variant="title" color="inherit" className={classes.inline}>
+                    31
+                    <Person />
+                  </p>
+                </div>
+                <div className="eventCard__details__text">People</div>
               </div>
-              <div className="eventCard__details__text">People</div>
-            </div>
-            <div className="eventCard__details__item">
+            </Grid>
+
+            <Grid
+              item
+              xs={6}
+              md={6}
+              lg={12}
+              className="eventCard__details__item"
+            >
               <div className={classes.detailsItemInfo}>
-                <Typography variant="title" color="inherit">
-                  10
-                </Typography>
-                <CalendarToday />
+                <div>
+                  <p variant="title" color="inherit" className={classes.inline}>
+                    10
+                    <CalendarToday />
+                  </p>
+                </div>
+                <div className="eventCard__details__text">Days</div>
               </div>
-              <div className="eventCard__details__text">Days</div>
-            </div>
+            </Grid>
           </Grid>
 
-          <Grid item xs={6} className="eventCard__content">
+          <Grid item xs={12} md={12} lg={6} className="eventCard__content">
             <Tooltip title="20/03/2018 Wtorek " placement="top">
               <Chip
                 avatar={<AccessTime />}
@@ -134,7 +159,7 @@ class EventCard extends React.PureComponent {
             </div>
           </Grid>
 
-          <Grid item xs={2} className="eventCard__tickets">
+          <Grid item xs={12} md={12} lg={2} className="eventCard__tickets">
             <div className={classes.wrapper}>
               <div className="eventCard__tickets__price">$12,300</div>
               <div className="eventCard__tickets__per">21 tickets left</div>

@@ -7,19 +7,14 @@ $borderColor: #ced2d2;
 }
 
 .eventcard__details {
-  display: flex;
-  flex-direction: column;
-
   .eventCard__details__item:not(:last-child) {
     border-bottom: 2px solid $borderColor;
   }
 
   .eventCard__details__item {
-    text-align: center;
-    height: 50%;
     display: flex;
+    align-items: center;
     justify-content: center;
-    flex-direction: column;
   }
 
   .eventCard__details__text {

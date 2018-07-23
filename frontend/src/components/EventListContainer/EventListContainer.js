@@ -20,9 +20,13 @@ class EventListContainer extends React.Component {
   }
 
   render() {
+    const n = 25;
+
     return (
       <div>
-        <EventCard event={this.state.events[0]} />
+        {[...Array(n)].map((e, i) => (
+          <EventCard event={this.state.events[0]} />
+        ))}
       </div>
     );
   }

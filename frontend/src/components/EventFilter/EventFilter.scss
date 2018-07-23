@@ -1,0 +1,69 @@
+.eventFilter__card {
+  width: 100%;
+  max-width: 1800px;
+  overflow: visible !important;
+}
+
+.eventFilter__section:not(:last-child) {
+  border-right: 2px gray solid;
+}
+
+.eventFilter__section {
+  min-width: 300px;
+  padding: 10px 10px 20px 10px;
+  background-color: white;
+  text-align: center;
+}
+
+.eventFilter__section--small {
+  min-width: 210px;
+}
+
+.eventFilter__title {
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-align: start;
+}
+
+.eventFilter__dateContainer {
+}
+
+.eventFilter__datePicker {
+}
+
+.eventFilter__tagsPicker {
+  max-width: 230px;
+}
+
+.eventFilter__dateLabel {
+  display: inline-block;
+  font-size: 15px;
+  text-transform: capitalize;
+  margin-right: 10px;
+  min-width: 20px;
+}
+
+.eventFilter__price {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.eventFilter__priceInputContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.eventFilter__priceInputDivider {
+  margin: 0 20px;
+  display: inline-block;
+}
+
+.eventFilter__priceInput {
+  display: inline-block;
+  width: 80px;
+}
+
+.eventFilter__priceInput input {
+  max-width: 80px;
+}

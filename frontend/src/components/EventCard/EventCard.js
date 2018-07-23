@@ -37,10 +37,6 @@ const styles = theme => ({
   content: {
     flex: '1 0 auto'
   },
-  wrapper: {
-    position: 'relative',
-    top: '25%'
-  },
   detailsTypo: {
     color: theme.palette.primary.light
   },
@@ -160,7 +156,7 @@ class EventCard extends React.PureComponent {
           </Grid>
 
           <Grid item xs={12} md={12} lg={2} className="eventCard__tickets">
-            <div className={classes.wrapper}>
+            <div>
               <div className="eventCard__tickets__price">$12,300</div>
               <div className="eventCard__tickets__per">21 tickets left</div>
 

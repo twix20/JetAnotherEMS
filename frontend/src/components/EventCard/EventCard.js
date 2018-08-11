@@ -1,61 +1,81 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 import AccessTime from '@material-ui/icons/AccessTime';
 import Person from '@material-ui/icons/Person';
-import CalendarToday from '@material-ui/icons/CalendarToday';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-
-import classnames from 'classnames';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
-import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Grid from '@material-ui/core/Grid';
-
-import './EventCard.scss';
+import CalendarToday from '@material-ui/icons/CalendarToday';
 
 const styles = theme => ({
-  chip: {
-    margin: theme.spacing.unit
-  },
-  content: {
-    flex: '1 0 auto'
-  },
-  detailsTypo: {
-    color: theme.palette.primary.light
-  },
-  detailsItemInfo: {
-    color: theme.palette.primary.main
-  },
-  imageSlides: {
-    position: 'relative',
-    display: 'inline-block',
-    margin: '0 auto'
-  },
   image: {
     maxWidth: '100%',
     maxHeight: '100%',
-    width: '100%',
+    width: '300px',
     height: '100%'
   },
-  inline: {
-    display: 'inline'
+  detailsContainer: {
+    position: 'relative',
+    padding: theme.spacing.unit * 2,
+    flexGrow: 1
+  },
+  infoContainer: {
+    justifyContent: 'space-evenly'
+  },
+  infoDetailSection: {
+    flexGrow: 1,
+    textAlign: 'center',
+    borderColor: theme.palette.grey['300'],
+    borderStyle: 'solid',
+    borderWidth: '0 2px 0 0',
+
+    '&:not(:first-child)': {
+      borderTopWidth: '2px'
+    }
+  },
+  infoDetail: {
+    color: theme.palette.primary.main,
+    '& h1': {
+      display: 'inline'
+    }
+  },
+  tagsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 0,
+    marginTop: theme.spacing.unit * 2
+  },
+  tag: {
+    padding: theme.spacing.unit / 2,
+    width: 'unset'
+  },
+  description: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    lineHeight: theme.typography.body1.lineHeight,
+    maxHeight: theme.typography.body1.lineHeight * 3,
+    '-webkit-line-clamp': 3 /* number of lines to show */,
+    '-webkit-box-orient': 'vertical'
+  },
+  dateLeft: {
+    position: 'absolute',
+    right: 0,
+    top: theme.spacing.unit * 2,
+    borderRadius: 0
+  },
+  priceContaier: {
+    textAlign: 'center',
+    borderLeft: `2px dashed ${theme.palette.grey['300']}`
+  },
+  priceButtonContainer: {
+    marginTop: theme.spacing.unit * 2
   }
 });
 
@@ -67,66 +87,65 @@ class EventCard extends React.PureComponent {
   };
 
   render() {
-    const { classes, theme, event } = this.props;
+    const { classes, event } = this.props;
 
     return (
-      <Card className="eventCard">
-        <Grid container>
-          <Grid item xs={12} md={12} lg={3} className={classes.imageSlides}>
+      <Paper>
+        <Grid container direction="row">
+          <Grid item>
             <img src={event.imageUrl} className={classes.image} />
           </Grid>
-
           <Grid
             item
             container
-            xs={12}
-            md={12}
+            direction="column"
             lg={1}
-            className="eventcard__details"
+            className={classes.infoContainer}
           >
             <Grid
               item
-              xs={6}
-              md={6}
-              lg={12}
-              className="eventCard__details__item"
+              container
+              direction="column"
+              justify="center"
+              className={classes.infoDetailSection}
             >
-              <div className={classes.detailsItemInfo}>
-                <div>
-                  <p variant="title" color="inherit" className={classes.inline}>
-                    31
-                    <Person />
-                  </p>
-                </div>
-                <div className="eventCard__details__text">People</div>
-              </div>
-            </Grid>
+              <Grid item className={classes.infoDetail}>
+                <Typography variant="display1" color="primary">
+                  4
+                </Typography>
 
+                <Person />
+              </Grid>
+              <Grid item>
+                <Typography>People</Typography>
+              </Grid>
+            </Grid>
             <Grid
               item
-              xs={6}
-              md={6}
-              lg={12}
-              className="eventCard__details__item"
+              container
+              direction="column"
+              justify="center"
+              className={classes.infoDetailSection}
             >
-              <div className={classes.detailsItemInfo}>
-                <div>
-                  <p variant="title" color="inherit" className={classes.inline}>
-                    10
-                    <CalendarToday />
-                  </p>
-                </div>
-                <div className="eventCard__details__text">Days</div>
-              </div>
+              <Grid item className={classes.infoDetail}>
+                <Typography variant="display1" color="primary">
+                  55
+                </Typography>
+
+                <CalendarToday />
+              </Grid>
+
+              <Grid item>
+                <Typography>Duration</Typography>
+              </Grid>
             </Grid>
           </Grid>
-
-          <Grid item xs={12} md={12} lg={6} className="eventCard__content">
+          <Grid item lg={6} className={classes.detailsContainer}>
             <Tooltip title="20/03/2018 Wtorek " placement="top">
               <Chip
                 avatar={<AccessTime />}
                 label="In 2 days"
-                className={`${classes.chip} eventCard__timeChip`}
+                className={classes.dateLeft}
               />
             </Tooltip>
 
@@ -134,45 +153,48 @@ class EventCard extends React.PureComponent {
             <Typography variant="subheading" color="textSecondary" gutterBottom>
               Wrocław, Reja 23/20
             </Typography>
-            <div className="eventCard__content__description">
-              <Typography variant="body1" color="textSecondary">
-                Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz
-                w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
-                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
-                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarzaw przemyśle poligraficznym. Został po
-              </Typography>
-            </div>
 
-            <div className="eventCard__content__tags">
-              <Chip label="C#" />
-              <Chip label="Docker" />
-              <Chip label="Angular" />
-              <Chip label="Linux" />
-              <Chip label="Windows" />
-            </div>
+            <Typography variant="body1" className={classes.description}>
+              Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w
+              przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+              przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
+              przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+              przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
+              przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+              przez nieznanego drukarzaw przemyśle poligraficznym. Został po
+            </Typography>
+
+            <List className={classes.tagsContainer}>
+              {['C#', 'Docker', 'Angular', 'Linux', 'Windows'].map(r => (
+                <ListItem className={classes.tag}>
+                  <Chip label={r} />
+                </ListItem>
+              ))}
+            </List>
           </Grid>
+          <Grid
+            item
+            lg={2}
+            className={classes.priceContaier}
+            justify="center"
+            direction="column"
+            container
+          >
+            <Grid item>
+              <Typography variant="display1">$12,300</Typography>
+              <Typography>21 tickets left</Typography>
+            </Grid>
 
-          <Grid item xs={12} md={12} lg={2} className="eventCard__tickets">
-            <div>
-              <div className="eventCard__tickets__price">$12,300</div>
-              <div className="eventCard__tickets__per">21 tickets left</div>
-
-              <Button
-                variant="contained"
-                color="secondary"
-                className="eventCard__tickets__button"
-              >
+            <Grid item className={classes.priceButtonContainer}>
+              <Button variant="contained" color="secondary">
                 More details
               </Button>
-            </div>
+            </Grid>
           </Grid>
         </Grid>
-      </Card>
+      </Paper>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(EventCard);
+export default withStyles(styles)(EventCard);

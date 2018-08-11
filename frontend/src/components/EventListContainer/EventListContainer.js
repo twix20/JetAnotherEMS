@@ -1,6 +1,8 @@
 import React from 'react';
 
 import EventCard from '../EventCard/EventCard';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 class EventListContainer extends React.Component {
   constructor(props) {
@@ -23,11 +25,13 @@ class EventListContainer extends React.Component {
     const n = 25;
 
     return (
-      <div>
+      <List>
         {[...Array(n)].map((e, i) => (
-          <EventCard event={this.state.events[0]} />
+          <ListItem>
+            <EventCard event={this.state.events[0]} />
+          </ListItem>
         ))}
-      </div>
+      </List>
     );
   }
 }

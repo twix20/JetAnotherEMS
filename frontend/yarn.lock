@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@babel/runtime@7.0.0-beta.42":
+  version "7.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.42.tgz#352e40c92e0460d3e82f49bd7e79f6cda76f919f"
+  dependencies:
+    core-js "^2.5.3"
+    regenerator-runtime "^0.11.1"
+
 "@babel/runtime@^7.0.0-beta.42":
   version "7.0.0-beta.53"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.53.tgz#9df22ae34823ce89f790060594b83ee572e2c5d2"
@@ -2219,7 +2226,7 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.7:
+core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3, core-js@^2.5.7:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
@@ -3422,7 +3429,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.1, fbjs@^0.8.16:
+fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.4:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -5217,7 +5224,7 @@ jsx-ast-utils@^2.0.0:
   dependencies:
     array-includes "^3.0.3"
 
-keycode@^2.1.8, keycode@^2.1.9:
+keycode@^2.1.7, keycode@^2.1.8, keycode@^2.1.9:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
 
@@ -5839,6 +5846,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -6936,7 +6947,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -7309,6 +7320,35 @@ react-select@^1.2.1:
     prop-types "^15.5.8"
     react-input-autosize "^2.1.2"
 
+react-swipeable-views-core@^0.12.16:
+  version "0.12.16"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.12.16.tgz#f7ded6feb154ade2ad5529f11db0c5caab613061"
+  dependencies:
+    "@babel/runtime" "7.0.0-beta.42"
+    warning "^4.0.1"
+
+react-swipeable-views-utils@^0.12.16:
+  version "0.12.16"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.12.16.tgz#f64f0ab0efaa8717ccd1471c8b7293728833c0b2"
+  dependencies:
+    "@babel/runtime" "7.0.0-beta.42"
+    fbjs "^0.8.4"
+    keycode "^2.1.7"
+    prop-types "^15.6.0"
+    react-event-listener "^0.6.0"
+    react-swipeable-views-core "^0.12.16"
+
+react-swipeable-views@^0.12.16:
+  version "0.12.16"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.12.16.tgz#b1be94acbfd60bb3df55571dfc452b231e80db3b"
+  dependencies:
+    "@babel/runtime" "7.0.0-beta.42"
+    dom-helpers "^3.2.1"
+    prop-types "^15.5.4"
+    react-swipeable-views-core "^0.12.16"
+    react-swipeable-views-utils "^0.12.16"
+    warning "^4.0.1"
+
 react-test-renderer@^16.0.0-0:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.4.1.tgz#f2fb30c2c7b517db6e5b10ed20bb6b0a7ccd8d70"
@@ -7491,7 +7531,7 @@ regenerate@^1.2.1:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 

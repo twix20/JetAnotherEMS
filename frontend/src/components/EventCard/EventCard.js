@@ -10,8 +10,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import AccessTime from '@material-ui/icons/AccessTime';
 import Person from '@material-ui/icons/Person';
-import Avatar from '@material-ui/core/Avatar';
 import CalendarToday from '@material-ui/icons/CalendarToday';
+import TagsList from '../TagsList';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   image: {
@@ -45,16 +46,6 @@ const styles = theme => ({
       display: 'inline'
     }
   },
-  tagsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
-    marginTop: theme.spacing.unit * 2
-  },
-  tag: {
-    padding: theme.spacing.unit / 2,
-    width: 'unset'
-  },
   description: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -80,11 +71,7 @@ const styles = theme => ({
 });
 
 class EventCard extends React.PureComponent {
-  state = { expanded: false };
-
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-  };
+  state = {};
 
   render() {
     const { classes, event } = this.props;
@@ -164,13 +151,7 @@ class EventCard extends React.PureComponent {
               przez nieznanego drukarzaw przemyśle poligraficznym. Został po
             </Typography>
 
-            <List className={classes.tagsContainer}>
-              {['C#', 'Docker', 'Angular', 'Linux', 'Windows'].map(r => (
-                <ListItem className={classes.tag}>
-                  <Chip label={r} />
-                </ListItem>
-              ))}
-            </List>
+            <TagsList />
           </Grid>
           <Grid
             item
@@ -186,9 +167,11 @@ class EventCard extends React.PureComponent {
             </Grid>
 
             <Grid item className={classes.priceButtonContainer}>
-              <Button variant="contained" color="secondary">
-                More details
-              </Button>
+              <Link to={`event/${event.id}`}>
+                <Button variant="contained" color="secondary">
+                  More details
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </Grid>

@@ -6,14 +6,16 @@ import { ConnectedRouter } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { store, history } from './store';
-import App from './App';
+import HomePage from './pages/Home';
+import EventPage from './pages/Event';
 
 ReactDOM.render(
   <MuiThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>
-          <Route path="/" component={App} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/event/:id" component={EventPage} />
         </Switch>
       </ConnectedRouter>
     </Provider>

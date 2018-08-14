@@ -13,8 +13,10 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
   },
@@ -24,13 +26,23 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  link: {
+    color: theme.palette.common.white,
+    '&:hover': {
+      color: theme.palette.common.white
+    }
   }
-};
+});
 
 class Header extends React.Component {
   state = {
     auth: true,
     anchorEl: null
+  };
+
+  goToHome = () => {
+    this.props.history.push('/');
   };
 
   handleChange = (event, checked) => {
@@ -78,7 +90,9 @@ class Header extends React.Component {
               color="inherit"
               className={classes.flex}
             >
-              Event Managment System
+              <Button color="inherit" onClick={this.goToHome}>
+                Event Managment System
+              </Button>
             </Typography>
             {auth ? (
               <div>
@@ -124,4 +138,4 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(withRouter(Header));

@@ -11,7 +11,7 @@ class EventListContainer extends React.Component {
     this.state = {
       events: [
         {
-          id: 1,
+          id: 2,
           title: 'Some fancy Title',
           description: 'Description',
           imageUrl:

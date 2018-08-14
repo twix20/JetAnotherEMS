@@ -1,9 +1,10 @@
 import React from 'react';
-import Header from '../../components/Header/Header';
 import EventListContainer from '../../components/EventListContainer/EventListContainer';
 import EventFilter from '../../components/EventFilter/EventFilter';
 import Grid from '@material-ui/core/Grid';
 import { Parallax, Background } from 'react-parallax';
+
+import DefaultLayout from '../../layouts/Default';
 
 import { connect } from 'react-redux';
 import {
@@ -17,12 +18,10 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({});
 
-class Home extends React.Component {
+class HomePage extends React.Component {
   render() {
     return (
-      <div className="home-page">
-        <Header />
-
+      <DefaultLayout>
         <Parallax
           className="home__paralax"
           blur={3}
@@ -40,11 +39,8 @@ class Home extends React.Component {
 
             <EventListContainer />
           </Grid>
-          <Grid item lg={2}>
-            Stopka? Reklama?
-          </Grid>
         </Grid>
-      </div>
+      </DefaultLayout>
     );
   }
 }
@@ -52,4 +48,4 @@ class Home extends React.Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(HomePage);

@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
-
+import moment from 'moment';
 import times from 'lodash/times';
 
 import DaySchedule from '../DaySchedule';
+import Dots from './Dots';
 
 const tutorialSteps = [
   {
@@ -58,6 +57,12 @@ class DayScheduleCarousel extends React.Component {
     activeStep: 0
   };
 
+  handleDotClick = step => {
+    this.setState({
+      activeStep: step
+    });
+  };
+
   handleNext = () => {
     this.setState(prevState => ({
       activeStep: prevState.activeStep + 1
@@ -82,41 +87,38 @@ class DayScheduleCarousel extends React.Component {
 
     return (
       <div className={classes.root}>
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          className={classes.mobileStepper}
-          nextButton={
-            <Button
-              size="small"
-              onClick={this.handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              Next
-              {theme.direction === 'rtl' ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
+        <Grid container justify="space-around">
+          <Grid item>
             <Button
               size="small"
               onClick={this.handleBack}
               disabled={activeStep === 0}
             >
-              {theme.direction === 'rtl' ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
-              Previous
+              <KeyboardArrowLeft />
             </Button>
-          }
-        />
+          </Grid>
 
+          <Grid item>
+            <Typography variant="title">
+              {moment().format('l')} {moment().format('dddd')}
+            </Typography>
+            <Dots
+              steps={maxSteps}
+              activeStep={activeStep}
+              onDotClick={this.handleDotClick}
+            />
+          </Grid>
+
+          <Grid item>
+            <Button
+              size="small"
+              onClick={this.handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              <KeyboardArrowRight />
+            </Button>
+          </Grid>
+        </Grid>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={this.state.activeStep}
@@ -128,15 +130,6 @@ class DayScheduleCarousel extends React.Component {
 
             return <div className={classes.scheduleContainer}>{c}</div>;
           })}
-
-          {/* {tutorialSteps.map(step => (
-            <img
-              key={step.label}
-              className={classes.img}
-              src={step.imgPath}
-              alt={step.label}
-            />
-          ))} */}
         </SwipeableViews>
       </div>
     );

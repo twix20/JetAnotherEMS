@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import DayScheduleCarousel from '../../components/DayScheduleCarousel';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import PlaceIcon from '@material-ui/icons/Place';
+import MapIcon from '@material-ui/icons/Map';
 import times from 'lodash/times';
 
 function TabContainer(props) {
@@ -68,7 +69,7 @@ class ScrollableTabsButtonForce extends React.Component {
             <Tab label="Schedule" icon={<CalendarTodayIcon />} />
             <Tab label="People" icon={<PersonPinIcon />} />
             <Tab label="Item Three" icon={<FavoriteIcon />} />
-            <Tab label="Item Four" icon={<HelpIcon />} />
+            <Tab label="Localization" icon={<MapIcon />} />
             <Tab label="Item Five" icon={<ShoppingBasket />} />
           </Tabs>
         </AppBar>

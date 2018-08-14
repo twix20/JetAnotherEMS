@@ -22,7 +22,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FolderIcon from '@material-ui/icons/Folder';
 import IconButton from '@material-ui/core/IconButton';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import SaveIcon from '@material-ui/icons/Save';
 import TagsList from '../TagsList';
 import moment from 'moment';
 
@@ -123,7 +122,7 @@ class DaySchedule extends React.Component {
             <School />
           </Avatar>
           <Typography variant="title">18:00</Typography>
-          <Typography align="justify">{moment().format('l')}</Typography>
+          <Typography align="justify">2h</Typography>
         </Grid>
 
         <Grid item lg={11}>

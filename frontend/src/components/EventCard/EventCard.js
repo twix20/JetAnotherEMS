@@ -13,6 +13,10 @@ import Person from '@material-ui/icons/Person';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import TagsList from '../TagsList';
 import { Link } from 'react-router-dom';
+import Checkbox from '@material-ui/core/Checkbox';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import PlaceIcon from '@material-ui/icons/Place';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 const styles = theme => ({
   image: {
@@ -20,6 +24,13 @@ const styles = theme => ({
     maxHeight: '100%',
     width: '300px',
     height: '100%'
+  },
+  imageContainer: {
+    position: 'relative'
+  },
+  heart: {
+    position: 'absolute',
+    right: 0
   },
   detailsContainer: {
     position: 'relative',
@@ -63,7 +74,25 @@ const styles = theme => ({
   },
   priceContaier: {
     textAlign: 'center',
-    borderLeft: `2px dashed ${theme.palette.grey['300']}`
+    borderLeft: `2px dashed ${theme.palette.grey['300']}`,
+    position: 'relative',
+    '&:before, &:after': {
+      position: 'absolute',
+      content: "' '",
+      height: '24px',
+      width: '24px',
+      borderRadius: '50%',
+      display: 'block',
+      backgroundColor: theme.palette.background.default
+    },
+    '&:before': {
+      top: '-12px',
+      left: '-12px'
+    },
+    '&:after': {
+      bottom: '-12px',
+      left: '-12px'
+    }
   },
   priceButtonContainer: {
     marginTop: theme.spacing.unit * 2
@@ -79,7 +108,13 @@ class EventCard extends React.PureComponent {
     return (
       <Paper>
         <Grid container direction="row">
-          <Grid item>
+          <Grid item className={classes.imageContainer}>
+            <Checkbox
+              className={classes.heart}
+              icon={<FavoriteBorder />}
+              checkedIcon={<FavoriteIcon />}
+              value="checkedH"
+            />
             <img src={event.imageUrl} className={classes.image} />
           </Grid>
           <Grid
@@ -123,7 +158,7 @@ class EventCard extends React.PureComponent {
               </Grid>
 
               <Grid item>
-                <Typography>Duration</Typography>
+                <Typography>Days</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -138,7 +173,7 @@ class EventCard extends React.PureComponent {
 
             <Typography variant="title">Jak wytresowac smoka?</Typography>
             <Typography variant="subheading" color="textSecondary" gutterBottom>
-              Wrocław, Reja 23/20
+              <PlaceIcon fontSize="inherit" />Wrocław, Reja 23/20
             </Typography>
 
             <Typography variant="body1" className={classes.description}>

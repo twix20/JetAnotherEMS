@@ -27,6 +27,11 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Chip from '@material-ui/core/Chip';
 import Select from 'react-select';
 import TagsPicker from '../TagsPicker/TagsPicker';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 import './EventFilter.scss';
 
@@ -76,7 +81,7 @@ class EventFilter extends React.Component {
             <div className="eventFilter__title">Location</div>
 
             <div>
-              <SuperSelectField
+              {/* <SuperSelectField
                 name="state11"
                 hintText="Single value"
                 //   value={state11}
@@ -87,7 +92,7 @@ class EventFilter extends React.Component {
                 {Array.apply(null, { length: 20 }).map((e, i) => (
                   <div value={i}>Option {i}</div>
                 ))}
-              </SuperSelectField>
+              </SuperSelectField> */}
             </div>
           </Grid>
           <Grid item className="eventFilter__section">
@@ -155,16 +160,15 @@ class EventFilter extends React.Component {
             item
             className="eventFilter__section eventFilter__section--small"
           >
-            <div className="eventFilter__title">Matching results</div>
-            <div style={{ textAlign: 'center' }}>
-              <Button
-                variant="contained"
-                color="primary"
-                className="eventCard__tickets__button"
-              >
-                23
-                <Explicit className={classes.rightIcon} />
-              </Button>
+            <div className="eventFilter__title">Filters</div>
+            <div>
+              <Checkbox
+                id="favorites-checkbox"
+                icon={<FavoriteBorder />}
+                checkedIcon={<Favorite />}
+                value="checkedH"
+              />
+              <label for="favorites-checkbox">Favorites</label>
             </div>
           </Grid>
         </Grid>

@@ -3,14 +3,31 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { store, history } from './store';
 import HomePage from './pages/Home';
 import EventPage from './pages/Event';
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#455A64'
+    },
+    secondary: {
+      main: '#0044ff'
+    },
+
+    background: {
+      default: '#eeeeee'
+    }
+  }
+});
+
+console.log(theme);
+
 ReactDOM.render(
-  <MuiThemeProvider>
+  <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>

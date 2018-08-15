@@ -22,77 +22,27 @@ const tutorialSteps = [
     label: '1. Work with something that you like, like…',
     imgPath: '/static/images/steppers/2-work.jpg'
   },
-  {
-    label: '2. Keep your friends close to you and hangout with them',
-    imgPath: '/static/images/steppers/3-friends.jpg'
-  },
-  {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
-  },
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  {
-    label: '2. Keep your friends close to you and hangout with them',
-    imgPath: '/static/images/steppers/3-friends.jpg'
-  },
-  {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
-  },
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  {
-    label: '2. Keep your friends close to you and hangout with them',
-    imgPath: '/static/images/steppers/3-friends.jpg'
-  },
-  {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
-  },
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  {
-    label: '2. Keep your friends close to you and hangout with them',
-    imgPath: '/static/images/steppers/3-friends.jpg'
-  },
-  {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
-  },
+  ,
   {
     label: '1. Work with something that you like, like…',
     imgPath: '/static/images/steppers/2-work.jpg'
   },
   ,
   {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
+    label: '1. Work with something that you like, like…',
+    imgPath: '/static/images/steppers/2-work.jpg'
   },
+  ,
   {
     label: '1. Work with something that you like, like…',
     imgPath: '/static/images/steppers/2-work.jpg'
   },
   ,
   {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
-  },
-  {
     label: '1. Work with something that you like, like…',
     imgPath: '/static/images/steppers/2-work.jpg'
   },
   ,
-  {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
-  },
   {
     label: '1. Work with something that you like, like…',
     imgPath: '/static/images/steppers/2-work.jpg'
@@ -118,8 +68,16 @@ const styles = theme => ({
     overflow: 'hidden',
     width: '100%'
   },
+  dotsContainer: {
+    // flexGrow: 1
+  },
+  dotsPaginationContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   scheduleContainer: {
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 4
   }
 });
 
@@ -158,8 +116,8 @@ class DayScheduleCarousel extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Grid container justify="space-around">
-          <Grid item lg={1}>
+        <Grid container justify="center">
+          <Grid item className={classes.dotsPaginationContainer}>
             <Button
               size="small"
               onClick={this.handleBack}
@@ -169,7 +127,7 @@ class DayScheduleCarousel extends React.Component {
             </Button>
           </Grid>
 
-          <Grid item lg={10}>
+          <Grid item className={classes.dotsContainer}>
             <Dots
               item
               steps={maxSteps}
@@ -178,7 +136,7 @@ class DayScheduleCarousel extends React.Component {
             />
           </Grid>
 
-          <Grid item lg={1}>
+          <Grid item className={classes.dotsPaginationContainer}>
             <Button
               size="small"
               onClick={this.handleNext}

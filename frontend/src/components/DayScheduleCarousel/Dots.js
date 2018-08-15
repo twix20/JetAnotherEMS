@@ -8,10 +8,10 @@ import moment from 'moment';
 
 const styles = theme => ({
   dots: {
-    height: '100px'
+    overflowX: 'auto'
   },
   button: {
-    margin: theme.spacing.unit,
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px`,
     textAlign: 'center',
     display: 'inline-block'
   },
@@ -21,35 +21,51 @@ const styles = theme => ({
 });
 
 class Dots extends React.Component {
+  constructor(props) {
+    super(props);
+    // Declare and initialize the ref in the constructor
+    this.activeDotRef = React.createRef();
+  }
+
+  componentDidUpdate() {
+    const id = this.activeDotRef.props.id;
+    const el = document.getElementById(id);
+    const parent = el.parentNode;
+    const offset = el.offsetLeft - parent.offsetLeft - parent.offsetWidth / 2;
+
+    parent.scroll({ left: offset, behavior: 'smooth' });
+
+    console.log(this.activeDotRef);
+  }
+
   render() {
-    const {
-      classes,
-      activeStep,
-      steps,
-      onDotClick,
+    const { classes, activeStep, steps, onDotClick } = this.props;
 
-      ...rest
-    } = this.props;
-
-    const maxStepsToShow = 5;
+    const self = this;
 
     return (
-      <div rest className={classes.dots} index={activeStep}>
-        {[...new Array(maxStepsToShow)].map((_, i) => {
-          let offset = steps - (steps - activeStep);
-          offset = offset - 2 > 0 ? offset - 2 : 0;
-          const step = offset + i;
-
-          console.log(step);
-
+      <Grid
+        item
+        container
+        wrap="nowrap"
+        className={classes.dots}
+        index={activeStep}
+        justify={steps > 6 ? '' : 'center'}
+      >
+        {[...new Array(steps)].map((_, step) => {
           const isActive = step === activeStep;
           const dotColor = isActive ? 'secondary' : 'textSecondary';
           // eslint-disable-next-line react/no-array-index-key
 
           const day = moment().add(step, 'days');
-
           return (
-            <div
+            <Grid
+              ref={node => {
+                if (isActive) {
+                  self.activeDotRef = node;
+                }
+              }}
+              item
               id={`element_${step}`}
               key={step}
               onClick={() => onDotClick(step)}
@@ -61,10 +77,10 @@ class Dots extends React.Component {
               <Typography variant="caption" className={classes.day}>
                 {day.format('dddd')}
               </Typography>
-            </div>
+            </Grid>
           );
         })}
-      </div>
+      </Grid>
     );
   }
 }

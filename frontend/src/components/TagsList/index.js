@@ -23,7 +23,7 @@ function TagsList(props) {
   return (
     <List className={classes.tagsContainer}>
       {['C#', 'Docker', 'Angular', 'Linux', 'Windows'].map(r => (
-        <ListItem className={classes.tag}>
+        <ListItem key={r} className={classes.tag}>
           <Chip label={r} />
         </ListItem>
       ))}

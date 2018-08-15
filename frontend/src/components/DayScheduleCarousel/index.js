@@ -26,34 +26,11 @@ const tutorialSteps = [
   {
     label: '1. Work with something that you like, like…',
     imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  ,
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  ,
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  ,
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  ,
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
   }
 ];
 
 const styles = theme => ({
-  root: {
-    // maxWidth: 400,
-    // flexGrow: 1
-  },
+  root: {},
   header: {
     display: 'flex',
     alignItems: 'center',
@@ -68,9 +45,7 @@ const styles = theme => ({
     overflow: 'hidden',
     width: '100%'
   },
-  dotsContainer: {
-    // flexGrow: 1
-  },
+  dotsContainer: {},
   dotsPaginationContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -117,7 +92,7 @@ class DayScheduleCarousel extends React.Component {
     return (
       <div className={classes.root}>
         <Grid container justify="center">
-          <Grid item className={classes.dotsPaginationContainer}>
+          <Grid item className={classes.dotsPaginationContainer} lg={1}>
             <Button
               size="small"
               onClick={this.handleBack}
@@ -127,7 +102,7 @@ class DayScheduleCarousel extends React.Component {
             </Button>
           </Grid>
 
-          <Grid item className={classes.dotsContainer}>
+          <Grid item container className={classes.dotsContainer} lg={10}>
             <Dots
               item
               steps={maxSteps}
@@ -136,7 +111,7 @@ class DayScheduleCarousel extends React.Component {
             />
           </Grid>
 
-          <Grid item className={classes.dotsPaginationContainer}>
+          <Grid item className={classes.dotsPaginationContainer} lg={1}>
             <Button
               size="small"
               onClick={this.handleNext}
@@ -152,10 +127,12 @@ class DayScheduleCarousel extends React.Component {
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
         >
-          {times(maxSteps, () => {
-            const c = times(5, () => <DaySchedule />);
-
-            return <div className={classes.scheduleContainer}>{c}</div>;
+          {times(maxSteps, i => {
+            return (
+              <div key={i} className={classes.scheduleContainer}>
+                {times(5, i => <DaySchedule key={i} />)}
+              </div>
+            );
           })}
         </SwipeableViews>
       </div>

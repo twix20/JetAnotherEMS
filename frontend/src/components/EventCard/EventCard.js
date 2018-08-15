@@ -17,6 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PlaceIcon from '@material-ui/icons/Place';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import HeartCheckbox from '../common/HeartCheckbox';
 
 const styles = theme => ({
   image: {
@@ -109,11 +110,9 @@ class EventCard extends React.PureComponent {
       <Paper>
         <Grid container direction="row">
           <Grid item className={classes.imageContainer}>
-            <Checkbox
+            <HeartCheckbox
+              id={`favoriteEvent_${event.id}`}
               className={classes.heart}
-              icon={<FavoriteBorder />}
-              checkedIcon={<FavoriteIcon />}
-              value="checkedH"
             />
             <img src={event.imageUrl} className={classes.image} />
           </Grid>
@@ -163,10 +162,10 @@ class EventCard extends React.PureComponent {
             </Grid>
           </Grid>
           <Grid item lg={6} className={classes.detailsContainer}>
-            <Tooltip title="20/03/2018 Wtorek " placement="top">
+            <Tooltip title="In 2 days" placement="top">
               <Chip
                 avatar={<AccessTime />}
-                label="In 2 days"
+                label="20/03/2018"
                 className={classes.dateLeft}
               />
             </Tooltip>

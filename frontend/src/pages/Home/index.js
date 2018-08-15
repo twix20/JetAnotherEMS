@@ -1,7 +1,9 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import EventListContainer from '../../components/EventListContainer/EventListContainer';
-import EventFilter from '../../components/EventFilter/EventFilter';
+import EventFilter from '../../components/EventFilter';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { Parallax, Background } from 'react-parallax';
 
 import DefaultLayout from '../../layouts/Default';
@@ -18,8 +20,17 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({});
 
+const styles = theme => ({
+  listHeaderContainer: {
+    padding: theme.spacing.unit * 3,
+    paddingBottom: theme.spacing.unit / 2
+  }
+});
+
 class HomePage extends React.Component {
   render() {
+    const { classes } = this.props;
+
     return (
       <DefaultLayout>
         <Parallax
@@ -35,7 +46,16 @@ class HomePage extends React.Component {
         <Grid container>
           <Grid item lg={2} />
           <Grid item lg={8}>
-            <p>HOME Component</p>
+            <Grid
+              container
+              justify="space-between"
+              className={classes.listHeaderContainer}
+            >
+              <Grid item>
+                <Typography variant="headline">23 Results Found</Typography>
+              </Grid>
+              <Grid item>Sort by</Grid>
+            </Grid>
 
             <EventListContainer />
           </Grid>
@@ -45,7 +65,9 @@ class HomePage extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomePage);
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(HomePage)
+);

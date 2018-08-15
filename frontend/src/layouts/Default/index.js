@@ -1,10 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Header from '../../components/Header/Header';
-import EventListContainer from '../../components/EventListContainer/EventListContainer';
-import EventFilter from '../../components/EventFilter/EventFilter';
-import Grid from '@material-ui/core/Grid';
-import { Parallax, Background } from 'react-parallax';
 
 const styles = theme => ({
   '@global': {
@@ -13,6 +9,18 @@ const styles = theme => ({
     },
     body: {
       backgroundColor: theme.palette.background.default
+    },
+
+    '.rc-slider': {
+      '& .rc-slider-handle': {
+        borderColor: theme.palette.primary.light,
+        '&:active': {
+          boxShadow: `0 0 5px ${theme.palette.primary.dark}`
+        }
+      },
+      '& .rc-slider-track': {
+        backgroundColor: theme.palette.primary.light
+      }
     }
   },
   root: {}

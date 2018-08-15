@@ -71,6 +71,9 @@ class Dots extends React.Component {
               onClick={() => onDotClick(step)}
               className={classes.button}
             >
+              {/* <Typography variant="caption" color={dotColor}>
+                <b>{day.format("MMMM")}</b>
+              </Typography> */}
               <Typography variant="display3" color={dotColor}>
                 <b>{day.format('DD')}</b>
               </Typography>

@@ -44,7 +44,7 @@ const styles = theme => ({
   infoDetailSection: {
     flexGrow: 1,
     textAlign: 'center',
-    borderColor: theme.palette.grey['300'],
+    borderColor: theme.palette.divider,
     borderStyle: 'solid',
     borderWidth: '0 2px 0 0',
 
@@ -75,7 +75,7 @@ const styles = theme => ({
   },
   priceContaier: {
     textAlign: 'center',
-    borderLeft: `2px dashed ${theme.palette.grey['300']}`,
+    borderLeft: `2px dashed ${theme.palette.divider}`,
     position: 'relative',
     '&:before, &:after': {
       position: 'absolute',

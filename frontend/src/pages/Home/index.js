@@ -35,10 +35,8 @@ class HomePage extends React.Component {
       <DefaultLayout>
         <Parallax
           className="home__paralax"
-          blur={3}
           bgImage="https://www.mch-group.com/-/media/mch-group/Images/Content/News/Blog/2017/2017-04/Marco-Balich-Rio-Olympic-Ceremony-1200.jpg"
           bgImageAlt="the dog"
-          strength={200}
         >
           <EventFilter className="home__eventFilterContainer" />
         </Parallax>

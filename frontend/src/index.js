@@ -13,38 +13,15 @@ import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 
 import { store, history } from './store';
 import HomePage from './pages/Home';
-import EventPage from './pages/Event';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#455A64'
-    },
-    secondary: {
-      main: '#0044ff'
-    },
-
-    background: {
-      default: '#eeeeee'
-    }
-  }
-});
-
-console.log(theme);
+import App from './App';
 
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/event/:id" component={EventPage} />
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
-    </MuiPickersUtilsProvider>
-  </MuiThemeProvider>,
-
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Switch>
+        <Route path="/" component={App} />
+      </Switch>
+    </ConnectedRouter>
+  </Provider>,
   document.getElementById('root')
 );

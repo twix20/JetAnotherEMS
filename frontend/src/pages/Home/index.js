@@ -6,6 +6,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Parallax, Background } from 'react-parallax';
 
+import PropTypes from 'prop-types';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 import DefaultLayout from '../../layouts/Default';
 
 import { connect } from 'react-redux';
@@ -22,12 +30,32 @@ const mapDispatchToProps = dispatch => ({});
 
 const styles = theme => ({
   listHeaderContainer: {
-    padding: theme.spacing.unit * 3,
+    padding: `${theme.spacing.unit}px 0`,
     paddingBottom: theme.spacing.unit / 2
+  },
+  sortBy: {},
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 220
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2
   }
 });
 
 class HomePage extends React.Component {
+  state = {
+    sortBy: ''
+  };
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -46,13 +74,33 @@ class HomePage extends React.Component {
           <Grid item lg={8}>
             <Grid
               container
+              wrap="nowrap"
               justify="space-between"
               className={classes.listHeaderContainer}
             >
-              <Grid item>
+              <Grid item container justify="flex-end" direction="column">
                 <Typography variant="headline">23 Results Found</Typography>
               </Grid>
-              <Grid item>Sort by</Grid>
+              <Grid item>
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="sortByInput">Sort by</InputLabel>
+                  <Select
+                    value={this.state.sortBy}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'sortBy',
+                      id: 'sortByInput'
+                    }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ticket price Ascending</MenuItem>
+                    <MenuItem value={20}>Ticket price Descending</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
 
             <EventListContainer />

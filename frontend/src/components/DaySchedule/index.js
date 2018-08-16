@@ -79,11 +79,6 @@ const styles = theme => ({
   attachmentItem: {
     marginRight: theme.spacing.unit
   },
-  attachmentBadge: {
-    width: '20px',
-    height: '20px',
-    top: '-8px'
-  },
   descriptionContainer: {
     padding: theme.spacing.unit
   },
@@ -149,15 +144,7 @@ class DaySchedule extends React.Component {
                     <Typography className={classes.heading}>C3 105</Typography>
                   </Grid>
                   <Grid item className={classes.attachmentItem}>
-                    <Badge
-                      badgeContent={3}
-                      color="primary"
-                      classes={{
-                        badge: classes.attachmentBadge
-                      }}
-                    >
-                      <AttachmentIcon />
-                    </Badge>
+                    <AttachmentIcon />
                   </Grid>
                 </Grid>
               </ExpansionPanelSummary>

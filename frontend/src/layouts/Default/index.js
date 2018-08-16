@@ -1,16 +1,10 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Header from '../../components/Header/Header';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const styles = theme => ({
   '@global': {
-    html: {
-      padding: '0'
-    },
-    body: {
-      backgroundColor: theme.palette.background.default
-    },
-
     '.rc-slider': {
       '& .rc-slider-handle': {
         borderColor: theme.palette.primary.light,
@@ -32,6 +26,8 @@ class DefaultLayout extends React.Component {
 
     return (
       <div className={classes.root}>
+        <CssBaseline />
+
         <Header />
 
         {children}

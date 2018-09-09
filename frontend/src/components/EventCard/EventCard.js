@@ -19,6 +19,8 @@ import PlaceIcon from '@material-ui/icons/Place';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import HeartCheckbox from '../common/HeartCheckbox';
 
+import EventImagesCarousel from '../EventImagesCarousel';
+
 const styles = theme => ({
   image: {
     maxWidth: '100%',
@@ -31,7 +33,8 @@ const styles = theme => ({
   },
   heart: {
     position: 'absolute',
-    right: 0
+    left: 0,
+    zIndex: 3
   },
   detailsContainer: {
     position: 'relative',
@@ -109,19 +112,21 @@ class EventCard extends React.PureComponent {
     return (
       <Paper>
         <Grid container direction="row">
-          <Grid item className={classes.imageContainer}>
+          <Grid item className={classes.imageContainer} md={3}>
             <HeartCheckbox
               id={`favoriteEvent_${event.id}`}
               className={classes.heart}
             />
-            <img src={event.imageUrl} className={classes.image} />
+
+            <EventImagesCarousel />
+            {/* <img src={event.imageUrl} className={classes.image} /> */}
           </Grid>
           <Grid
             item
             container
             direction="column"
-            lg={1}
             className={classes.infoContainer}
+            lg={1}
           >
             <Grid
               item

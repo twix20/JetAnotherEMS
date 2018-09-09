@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
@@ -23,5 +24,9 @@ function HeartCheckbox(props) {
     </div>
   );
 }
+
+HeartCheckbox.propTypes = {
+  labelText: PropTypes.string
+};
 
 export default withStyles(styles)(HeartCheckbox);

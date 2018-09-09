@@ -73,7 +73,8 @@ const styles = theme => ({
     position: 'absolute',
     left: -(theme.spacing.unit * 3),
     top: -theme.spacing.unit / 2,
-    backgroundColor: theme.palette.secondary.light
+    backgroundColor: theme.palette.secondary.light,
+    boxShadow: `0 0 15px 7px ${theme.palette.background.paper}`
   },
   tutor: {},
   attachmentItem: {

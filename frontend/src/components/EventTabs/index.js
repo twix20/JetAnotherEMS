@@ -68,8 +68,8 @@ class ScrollableTabsButtonForce extends React.Component {
           >
             <Tab label="Schedule" icon={<CalendarTodayIcon />} />
             <Tab label="People" icon={<PersonPinIcon />} />
-            <Tab label="Item Three" icon={<FavoriteIcon />} />
             <Tab label="Localization" icon={<MapIcon />} />
+            <Tab label="Item Three" icon={<FavoriteIcon />} />
             <Tab label="Item Five" icon={<ShoppingBasket />} />
           </Tabs>
         </AppBar>

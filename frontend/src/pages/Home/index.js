@@ -93,7 +93,7 @@ class HomePage extends React.Component {
                     }}
                   >
                     <MenuItem value="">
-                      <em>None</em>
+                      <em>Nothing</em>
                     </MenuItem>
                     <MenuItem value={10}>Ticket price Ascending</MenuItem>
                     <MenuItem value={20}>Ticket price Descending</MenuItem>

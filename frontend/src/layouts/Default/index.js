@@ -3,6 +3,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Header from '../../components/Header/Header';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+// general styles
+import 'react-responsive-carousel/lib/styles/main.css';
+
+// carousel styles
+import 'react-responsive-carousel/lib/styles/carousel.css';
+
 const styles = theme => ({
   '@global': {
     '.rc-slider': {
@@ -15,6 +21,9 @@ const styles = theme => ({
       '& .rc-slider-track': {
         backgroundColor: theme.palette.primary.light
       }
+    },
+    h2: {
+      borderTop: 'none'
     }
   },
   root: {}

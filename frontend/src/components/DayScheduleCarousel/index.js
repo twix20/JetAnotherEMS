@@ -123,14 +123,14 @@ class DayScheduleCarousel extends React.Component {
         </Grid>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={this.state.activeStep}
+          index={activeStep}
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
         >
           {times(maxSteps, i => {
             return (
               <div key={i} className={classes.scheduleContainer}>
-                {times(5, i => <DaySchedule key={i} />)}
+                {i === activeStep && times(5, i => <DaySchedule key={i} />)}
               </div>
             );
           })}

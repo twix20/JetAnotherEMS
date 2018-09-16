@@ -33,7 +33,7 @@ const styles = theme => ({
   },
   heart: {
     position: 'absolute',
-    left: 0,
+    left: 25,
     zIndex: 3
   },
   detailsContainer: {

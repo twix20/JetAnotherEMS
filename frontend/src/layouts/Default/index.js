@@ -23,7 +23,8 @@ const styles = theme => ({
       }
     },
     h2: {
-      borderTop: 'none'
+      borderTop: 'none',
+      padding: 0
     }
   },
   root: {}

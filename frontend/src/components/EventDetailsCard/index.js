@@ -30,6 +30,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PersonIcon from '@material-ui/icons/Person';
@@ -187,7 +189,19 @@ class EventDetailsCard extends React.Component {
                         onClose={this.handleHeaderMenuClose}
                       >
                         <MenuItem onClick={this.handleHeaderMenuClose}>
-                          Export event scheadule
+                          <ListItemIcon>
+                            <ArrowUpwardIcon />
+                          </ListItemIcon>
+                          <ListItemText inset primary="Export scheadule" />
+                        </MenuItem>
+                        <MenuItem onClick={this.handleHeaderMenuClose}>
+                          <ListItemIcon>
+                            <CloudDownloadIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            inset
+                            primary="Download all attachments"
+                          />
                         </MenuItem>
                       </Menu>
                     </div>

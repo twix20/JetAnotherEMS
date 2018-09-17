@@ -4,6 +4,7 @@ import DefaultLayout from '../../layouts/Default';
 import Grid from '@material-ui/core/Grid';
 import EventTabs from '../../components/EventTabs';
 import EventDetailsCard from '../../components/EventDetailsCard';
+import EventCreatorOpenerButton from '../../components/EventCreatorOpenerButton';
 
 const styles = theme => ({
   cardMargin: {
@@ -23,15 +24,13 @@ class EventPage extends React.Component {
   render() {
     const { classes } = this.props;
 
-    const { startDate } = this.state.event;
-
     return (
       <DefaultLayout>
         <Grid container>
           <Grid item lg={2} />
           <Grid item lg={8}>
-            Event Page {startDate.toISOString().substring(0, 10)}
             <div className={classes.cardMargin}>
+              <EventCreatorOpenerButton mode="edit" />
               <EventDetailsCard />
             </div>
             <EventTabs />

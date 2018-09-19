@@ -20,6 +20,13 @@ import PlaceIcon from '@material-ui/icons/Place';
 import MapIcon from '@material-ui/icons/Map';
 import times from 'lodash/times';
 
+import GoogleMapReact from 'google-map-react';
+
+const cords = {
+  lat: 51.1078852,
+  lng: 17.0385376
+};
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -39,9 +46,31 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   tabContentContainer: {
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing.unit * 1,
+    minHeight: '45vh'
   }
 });
+
+function renderMarkers(map, maps) {
+  let marker = new maps.Marker({
+    position: cords,
+    map,
+    title: 'Wrocław'
+  });
+}
+
+const LocationMap = props => {
+  return (
+    <div style={{ height: '45vh', width: '100%' }}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: 'AIzaSyC0g5z6TrUV9gh7xDT2PwK6HqRsf1PZu7s' }}
+        defaultCenter={props.center}
+        defaultZoom={props.zoom}
+        onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+      />
+    </div>
+  );
+};
 
 class ScrollableTabsButtonForce extends React.Component {
   state = {
@@ -76,8 +105,12 @@ class ScrollableTabsButtonForce extends React.Component {
 
         <div className={classes.tabContentContainer}>
           {value === 0 && <DayScheduleCarousel />}
-          {value === 1 && <TabContainer>Item Two</TabContainer>}
-          {value === 2 && <TabContainer>Item Three</TabContainer>}
+          {value === 1 && <TabContainer>People grid with tickets</TabContainer>}
+          {value === 2 && (
+            <TabContainer>
+              <LocationMap center={cords} zoom={11} />
+            </TabContainer>
+          )}
           {value === 3 && <TabContainer>Item Four</TabContainer>}
           {value === 4 && <TabContainer>Item Five</TabContainer>}
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -53,6 +54,9 @@ const styles = theme => ({
   },
   scheduleContainer: {
     padding: theme.spacing.unit * 4
+  },
+  hidden: {
+    display: 'none'
   }
 });
 
@@ -129,7 +133,12 @@ class DayScheduleCarousel extends React.Component {
         >
           {times(maxSteps, i => {
             return (
-              <div key={i} className={classes.scheduleContainer}>
+              <div
+                key={i}
+                className={classnames(classes.scheduleContainer, {
+                  [classes.hidden]: activeStep !== i
+                })}
+              >
                 {i === activeStep && times(5, i => <DaySchedule key={i} />)}
               </div>
             );

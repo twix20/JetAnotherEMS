@@ -91,7 +91,7 @@ class EventCreatorDialog extends React.Component {
             direction="column"
             className={classes.contentContainer}
           >
-            <Grid item>DODAJ TYTUŁ</Grid>
+            {/* <Grid item>DODAJ TYTUŁ</Grid> */}
 
             <Grid item container className={classes.flex}>
               <Grid

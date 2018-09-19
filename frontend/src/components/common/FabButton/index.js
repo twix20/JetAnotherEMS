@@ -16,6 +16,7 @@ import green from '@material-ui/core/colors/green';
 
 const styles = theme => ({
   fab: {
+    zIndex: 1,
     position: 'fixed',
     bottom: theme.spacing.unit * 2,
     right: theme.spacing.unit * 2

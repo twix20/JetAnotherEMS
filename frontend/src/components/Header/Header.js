@@ -94,8 +94,13 @@ class Header extends React.Component {
                 Event Managment System
               </Button>
             </Typography>
+
             {auth ? (
-              <div>
+              <React.Fragment>
+                <Typography component="div" variant="title" color="inherit">
+                  Janusz Kowalski
+                </Typography>
+
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
                   aria-haspopup="true"
@@ -120,8 +125,9 @@ class Header extends React.Component {
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                 </Menu>
-              </div>
+              </React.Fragment>
             ) : (
               <div>
                 <Button color="inherit">Login</Button>

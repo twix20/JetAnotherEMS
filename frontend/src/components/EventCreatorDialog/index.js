@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +14,14 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import Grid from '@material-ui/core/Grid';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
+import CreatorTabs from './CreatorTabs';
+import TicketTabs from './TicketTabs';
+
+import 'react-big-calendar-like-google/lib/css/react-big-calendar.css';
 
 const styles = {
   appBar: {
@@ -20,6 +29,13 @@ const styles = {
   },
   flex: {
     flex: 1
+  },
+  flexedCalendar: {
+    flex: 2
+  },
+  contentContainer: {
+    width: '100%',
+    height: '100%'
   }
 };
 
@@ -28,8 +44,17 @@ function Transition(props) {
 }
 
 class EventCreatorDialog extends React.Component {
+  state = {
+    tabSelected: 0
+  };
+
+  handleTabChange = i => {
+    this.setState({ tabSelected: i });
+  };
+
   render() {
     const { classes, open, handleClose } = this.props;
+    const { tabSelected } = this.state;
 
     return (
       <div>
@@ -60,18 +85,28 @@ class EventCreatorDialog extends React.Component {
               </Button>
             </Toolbar>
           </AppBar>
-          <List>
-            <ListItem button>
-              <ListItemText primary="Phone ringtone" secondary="Titania" />
-            </ListItem>
-            <Divider />
-            <ListItem button>
-              <ListItemText
-                primary="Default notification ringtone"
-                secondary="Tethys"
-              />
-            </ListItem>
-          </List>
+
+          <Grid
+            container
+            direction="column"
+            className={classes.contentContainer}
+          >
+            <Grid item>DODAJ TYTUŁ</Grid>
+
+            <Grid item container className={classes.flex}>
+              <Grid
+                item
+                className={classnames(classes.flex, {
+                  [classes.flexedCalendar]: tabSelected === 1
+                })}
+              >
+                <CreatorTabs onTabChange={this.handleTabChange} />
+              </Grid>
+              <Grid item className={classes.flex}>
+                <TicketTabs />
+              </Grid>
+            </Grid>
+          </Grid>
         </Dialog>
       </div>
     );

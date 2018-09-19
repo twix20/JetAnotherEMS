@@ -34,8 +34,6 @@ class Dots extends React.Component {
     const offset = el.offsetLeft - parent.offsetLeft - parent.offsetWidth / 2;
 
     parent.scroll({ left: offset, behavior: 'smooth' });
-
-    console.log(this.activeDotRef);
   }
 
   render() {

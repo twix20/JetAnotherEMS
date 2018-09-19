@@ -51,8 +51,6 @@ class EventFilter extends React.Component {
   };
 
   handleDateChange = (newDate, name) => {
-    // console.log(this);
-    console.log(name);
     this.setState({
       date: {
         ...this.state.date,

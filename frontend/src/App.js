@@ -3,6 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import BigCalendar from 'react-big-calendar-like-google';
+import moment from 'moment';
 
 import HomePage from './pages/Home';
 import EventPage from './pages/Event';
@@ -21,6 +23,8 @@ const theme = createMuiTheme({
     }
   }
 });
+
+BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
 class App extends React.Component {
   render() {

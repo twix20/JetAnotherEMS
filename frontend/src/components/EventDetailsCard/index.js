@@ -50,6 +50,8 @@ import Divider from '@material-ui/core/Divider';
 import EventImagesCarousel from '../EventImagesCarousel';
 import CountdownTimer from '../common/CountdownTimer';
 
+import EventTicketsOpenerButton from '../EventTicketsChooserDialog/EventTicketsOpenerButton';
+
 const styles = theme => ({
   detailsContainer: {
     paddingTop: '0 !important',
@@ -282,14 +284,7 @@ class EventDetailsCard extends React.Component {
               </Grid>
 
               <Grid item className={classes.buyTicketContainer}>
-                <Button
-                  variant="extendedFab"
-                  aria-label="Delete"
-                  className={classes.button}
-                >
-                  <NavigationIcon className={classes.extendedIcon} />
-                  Buy a ticket now!
-                </Button>
+                <EventTicketsOpenerButton />
               </Grid>
 
               <Grid item>

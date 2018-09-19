@@ -52,10 +52,19 @@ const styles = theme => ({
 });
 
 function renderMarkers(map, maps) {
+  var infowindow = new google.maps.InfoWindow({
+    content: '<strong>Wrocław</strong> <br/> Reja 23/20'
+  });
+
   let marker = new maps.Marker({
     position: cords,
     map,
     title: 'Wrocław'
+  });
+
+  infowindow.open(map, marker);
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
   });
 }
 

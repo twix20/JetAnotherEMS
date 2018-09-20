@@ -20,6 +20,7 @@ import PlaceIcon from '@material-ui/icons/Place';
 import MapIcon from '@material-ui/icons/Map';
 import times from 'lodash/times';
 
+import PeopleTable from '../../components/PeopleTable';
 import GoogleMapReact from 'google-map-react';
 
 const cords = {
@@ -105,7 +106,7 @@ class ScrollableTabsButtonForce extends React.Component {
             textColor="primary"
           >
             <Tab label="Schedule" icon={<CalendarTodayIcon />} />
-            <Tab label="People" icon={<PersonPinIcon />} />
+            <Tab label="Participants" icon={<PersonPinIcon />} />
             <Tab label="Location" icon={<MapIcon />} />
             <Tab label="Item Three" icon={<FavoriteIcon />} />
             <Tab label="Item Five" icon={<ShoppingBasket />} />
@@ -114,7 +115,11 @@ class ScrollableTabsButtonForce extends React.Component {
 
         <div className={classes.tabContentContainer}>
           {value === 0 && <DayScheduleCarousel />}
-          {value === 1 && <TabContainer>People grid with tickets</TabContainer>}
+          {value === 1 && (
+            <TabContainer>
+              <PeopleTable />
+            </TabContainer>
+          )}
           {value === 2 && (
             <TabContainer>
               <LocationMap center={cords} zoom={11} />

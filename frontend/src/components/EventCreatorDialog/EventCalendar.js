@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import BigCalendar from 'react-big-calendar-like-google';
 
+import EventDayCreatorDialog from './EventDayCreatorDialog';
+
 const styles = theme => ({
   root: {
     '& .rbc-time-content': {
@@ -13,6 +15,10 @@ const styles = theme => ({
 
 class EventCalendar extends React.Component {
   state = {
+    dayCreator: {
+      open: false,
+      slotInfo: null
+    },
     events: [
       {
         title: 'All Day Event very long title',
@@ -125,8 +131,30 @@ class EventCalendar extends React.Component {
     ]
   };
 
+  handleCancel = () => {
+    this.setState({
+      dayCreator: {
+        ...this.state.dayCreator,
+        slotInfo: null,
+        open: false
+      }
+    });
+  };
+
+  handleOk = event => {
+    console.log(event);
+
+    this.setState({
+      dayCreator: {
+        ...this.state.dayCreator,
+        slotInfo: null,
+        open: false
+      }
+    });
+  };
+
   render() {
-    const { events } = this.state;
+    const { events, dayCreator } = this.state;
     const { classes } = this.props;
 
     return (
@@ -139,14 +167,32 @@ class EventCalendar extends React.Component {
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date(2015, 3, 12)}
             onSelectEvent={event => alert(event.title)}
-            onSelectSlot={slotInfo =>
-              alert(
-                `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-                  `\nend: ${slotInfo.end.toLocaleString()}` +
-                  `\naction: ${slotInfo.action}`
-              )
+            onSelectSlot={
+              slotInfo =>
+                this.setState({
+                  dayCreator: {
+                    ...this.state.dayCreator,
+                    slotInfo,
+                    open: true
+                  }
+                })
+
+              // alert(
+              //   `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+              //     `\nend: ${slotInfo.end.toLocaleString()}` +
+              //     `\naction: ${slotInfo.action}`
+              // )
             }
           />
+
+          {dayCreator.open && (
+            <EventDayCreatorDialog
+              open={dayCreator.open}
+              slotInfo={dayCreator.slotInfo}
+              onCancel={this.handleCancel}
+              onOk={this.handleOk}
+            />
+          )}
         </div>
       </div>
     );

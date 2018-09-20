@@ -13,7 +13,7 @@ class GalleryUploaderTab extends React.Component {
     return (
       <div>
         <ImagesUploader
-          url="http://localhost:8080/multiple"
+          // url="http://localhost:8080/multiple"
           optimisticPreviews
           onLoadEnd={err => {
             if (err) {

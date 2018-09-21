@@ -13,7 +13,7 @@ import red from '@material-ui/core/colors/red';
 const styles = theme => ({
   root: {
     color: red[600],
-    '&$checked': {
+    '&:checked': {
       color: `${red[500]} !important`
     }
   }

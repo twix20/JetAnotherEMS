@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { Typography } from '@material-ui/core';
 import classnames from 'classnames';
+import red from '@material-ui/core/colors/red';
 
 const styles = theme => ({
   digit: {
@@ -25,7 +26,7 @@ const styles = theme => ({
     textTransform: 'uppercase'
   },
   seconds: {
-    color: theme.palette.secondary.dark
+    color: red[200]
   }
 });
 

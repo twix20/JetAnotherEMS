@@ -102,14 +102,12 @@ class ScrollableTabsButtonForce extends React.Component {
             value={value}
             onChange={this.handleChange}
             centered
-            indicatorColor="primary"
-            textColor="primary"
+            indicatorColor="secondary"
+            textColor="secondary"
           >
             <Tab label="Schedule" icon={<CalendarTodayIcon />} />
             <Tab label="Participants" icon={<PersonPinIcon />} />
             <Tab label="Location" icon={<MapIcon />} />
-            <Tab label="Item Three" icon={<FavoriteIcon />} />
-            <Tab label="Item Five" icon={<ShoppingBasket />} />
           </Tabs>
         </AppBar>
 
@@ -125,8 +123,6 @@ class ScrollableTabsButtonForce extends React.Component {
               <LocationMap center={cords} zoom={11} />
             </TabContainer>
           )}
-          {value === 3 && <TabContainer>Item Four</TabContainer>}
-          {value === 4 && <TabContainer>Item Five</TabContainer>}
         </div>
       </div>
     );

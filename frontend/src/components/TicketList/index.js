@@ -43,7 +43,7 @@ class TicketList extends React.Component {
             </ListItemAvatar>
             <ListItemText
               primary={`${ticket.name} - ${ticket.price}${ticket.currency}`}
-              secondary={`${ticket.left} tickets left`}
+              secondary={ticket.left ? `${ticket.left} tickets left` : null}
             />
             {actions && (
               <ListItemSecondaryAction>

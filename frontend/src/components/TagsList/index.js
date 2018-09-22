@@ -8,8 +8,7 @@ const styles = theme => ({
   tagsContainer: {
     display: 'flex',
     flexDirection: 'row',
-    padding: 0,
-    marginTop: theme.spacing.unit * 2
+    padding: 0
   },
   tag: {
     padding: theme.spacing.unit / 2,

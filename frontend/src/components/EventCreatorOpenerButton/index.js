@@ -9,7 +9,7 @@ const styles = theme => {};
 
 class EventCreatorOpenerButton extends React.Component {
   state = {
-    eventCreatorOpen: true
+    eventCreatorOpen: false
   };
 
   handleFabClick = () => {

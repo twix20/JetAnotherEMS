@@ -100,6 +100,11 @@ const styles = theme => ({
   },
   priceButtonContainer: {
     marginTop: theme.spacing.unit * 2
+  },
+  descriptionContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    display: 'flex'
   }
 });
 
@@ -166,7 +171,13 @@ class EventCard extends React.PureComponent {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item lg={6} className={classes.detailsContainer}>
+          <Grid
+            item
+            container
+            direction="column"
+            lg={6}
+            className={classes.detailsContainer}
+          >
             <Tooltip title="In 2 days" placement="top">
               <Chip
                 avatar={<AccessTime />}
@@ -175,22 +186,30 @@ class EventCard extends React.PureComponent {
               />
             </Tooltip>
 
-            <Typography variant="title">Jak wytresowac smoka?</Typography>
-            <Typography variant="subheading" color="textSecondary" gutterBottom>
-              <PlaceIcon fontSize="inherit" />Wrocław, Reja 23/20
-            </Typography>
+            <Grid item>
+              <Typography variant="title" gutterBottom>
+                Jak wytresowac smoka?
+              </Typography>
+              <Typography variant="subheading" color="textSecondary">
+                <PlaceIcon fontSize="inherit" />Wrocław, Reja 23/20
+              </Typography>
+            </Grid>
 
-            <Typography variant="body1" className={classes.description}>
-              Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w
-              przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-              przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
-              przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-              przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
-              przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-              przez nieznanego drukarzaw przemyśle poligraficznym. Został po
-            </Typography>
+            <Grid item className={classes.descriptionContainer}>
+              <Typography variant="body1" className={classes.description}>
+                Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz
+                w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
+                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
+                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
+                przez nieznanego drukarzaw przemyśle poligraficznym. Został po
+              </Typography>
+            </Grid>
 
-            <TagsList />
+            <Grid item>
+              <TagsList />
+            </Grid>
           </Grid>
           <Grid
             item

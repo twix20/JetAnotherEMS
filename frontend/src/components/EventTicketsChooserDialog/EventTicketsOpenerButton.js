@@ -19,6 +19,7 @@ import EventTicketsChooserDialog from './index';
 const availableTickets = [
   {
     id: 'fdeeca12-c708-476d-81b5-a8554bfff8b3',
+    name: 'REGULAR',
     bought: 2,
     left: 30,
     price: 10.0,
@@ -26,6 +27,7 @@ const availableTickets = [
   },
   {
     id: '41c25bfd-b2b4-4e14-b23c-9f39c7f72cf4',
+    name: 'VIP',
     bought: 1,
     left: 10,
     price: 0.0,
@@ -52,10 +54,10 @@ class EventTicketsOpenerButton extends React.Component {
   render() {
     return (
       <div>
-        <Typography variant="subheading">
+        {/* <Typography variant="subheading">
           Selected ticket id: {this.state.selectedValue.id}
         </Typography>
-        <br />
+        <br /> */}
         <Button
           variant="extendedFab"
           aria-label="Delete"

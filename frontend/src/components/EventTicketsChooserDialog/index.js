@@ -16,6 +16,8 @@ import blue from '@material-ui/core/colors/blue';
 
 import NoteIcon from '@material-ui/icons/Note';
 
+import TicketList from '../TicketList';
+
 const styles = theme => ({
   avatar: {
     backgroundColor: blue[100],
@@ -44,25 +46,10 @@ class EventTicketsChooserDialog extends React.Component {
           Choose a ticket to buy
         </DialogTitle>
         <div>
-          <List>
-            {tickets.map((ticket, i) => (
-              <ListItem
-                button
-                onClick={() => this.handleListItemClick(ticket)}
-                key={i}
-              >
-                <ListItemAvatar>
-                  <Avatar className={classes.avatar}>
-                    <NoteIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={`${ticket.price}${ticket.currency}`}
-                  secondary={`${ticket.left} tickets left`}
-                />
-              </ListItem>
-            ))}
-          </List>
+          <TicketList
+            tickets={tickets}
+            handleListItemClick={this.handleListItemClick}
+          />
         </div>
       </Dialog>
     );

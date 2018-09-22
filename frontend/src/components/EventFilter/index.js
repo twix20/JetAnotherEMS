@@ -12,6 +12,8 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import HeartCheckobx from '../common/HeartCheckbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const styles = theme => ({
   section: {
@@ -139,7 +141,26 @@ class EventFilter extends React.Component {
               Filters
             </Typography>
 
-            <HeartCheckobx id="filterFavorite" labelText="Favorites" />
+            <Grid item>
+              <FormControlLabel
+                control={<HeartCheckobx id="filterFavorite" />}
+                label="Favorites"
+              />
+            </Grid>
+
+            <Grid item>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // checked={this.state.checkedB}
+                    // onChange={this.handleChange("checkedB")}
+                    value="checkedB"
+                    color="primary"
+                  />
+                }
+                label="Ongoing"
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Paper>

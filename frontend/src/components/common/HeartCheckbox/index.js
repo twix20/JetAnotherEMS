@@ -36,8 +36,6 @@ function HeartCheckbox(props) {
         }}
         onChange={onChange}
       />
-
-      {labelText && <label htmlFor={id}>{labelText}</label>}
     </div>
   );
 }

@@ -39,6 +39,7 @@ import NoteIcon from '@material-ui/icons/Note';
 
 import Button from '@material-ui/core/Button';
 import NavigationIcon from '@material-ui/icons/Navigation';
+import SchoolIcon from '@material-ui/icons/School';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -101,7 +102,7 @@ class EventDetailsCard extends React.Component {
         secondaryText: '12.08.2018 - 13.04.2019'
       },
       {
-        icon: () => <PersonIcon />,
+        icon: () => <SchoolIcon />,
         primaryText: 'Teachers',
         secondaryText: '56'
       },
@@ -156,7 +157,7 @@ class EventDetailsCard extends React.Component {
             <Grid
               item
               container
-              lg={expanded ? 12 : 7}
+              lg={expanded ? 12 : 6}
               md={12}
               justify="center"
             >
@@ -171,7 +172,7 @@ class EventDetailsCard extends React.Component {
 
             <Grid
               item
-              lg={expanded ? 12 : 5}
+              lg={expanded ? 12 : 6}
               md={12}
               container
               direction="column"

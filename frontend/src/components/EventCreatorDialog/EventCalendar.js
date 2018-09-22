@@ -23,7 +23,7 @@ class EventCalendar extends React.Component {
       {
         title: 'All Day Event very long title',
         bgColor: '#ff7f50',
-        allDay: true,
+        // allDay: true,
         start: new Date(2015, 3, 0),
         end: new Date(2015, 3, 1)
       },
@@ -57,7 +57,7 @@ class EventCalendar extends React.Component {
         title: 'Conference',
         bgColor: '#e9967a',
         start: new Date(2015, 3, 11),
-        end: new Date(2015, 3, 13),
+        end: new Date(2015, 3, 11),
         desc: 'Big conference for important people'
       },
       {
@@ -116,17 +116,6 @@ class EventCalendar extends React.Component {
         bgColor: '#cd853f',
         start: new Date(2015, 3, 13, 7, 0, 0),
         end: new Date(2015, 3, 13, 10, 30, 0)
-      },
-      {
-        title: 'Late Night Event',
-        bgColor: '#b0e0e6',
-        start: new Date(2015, 3, 17, 19, 30, 0),
-        end: new Date(2015, 3, 18, 2, 0, 0)
-      },
-      {
-        title: 'Multi-day Event',
-        start: new Date(2015, 3, 20, 19, 30, 0),
-        end: new Date(2015, 3, 22, 2, 0, 0)
       }
     ]
   };
@@ -162,8 +151,10 @@ class EventCalendar extends React.Component {
         <div className={classes.root}>
           <BigCalendar
             selectable
+            showMultiDayTimes={false}
             events={events}
             defaultView="week"
+            views={['day', 'week', 'month']}
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date(2015, 3, 12)}
             onSelectEvent={event => alert(event.title)}

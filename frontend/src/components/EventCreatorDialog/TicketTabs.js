@@ -1,11 +1,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import GenericTabs from './GenericTabs';
+import TicketListCreator from './TicketListCreator';
 
 const tabs = [
   {
     label: 'Tickets',
-    content: () => <div>asdsda </div>
+    content: () => <TicketListCreator />
   }
 ];
 

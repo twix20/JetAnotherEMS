@@ -3,31 +3,30 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
 
 import { TimePicker } from 'material-ui-pickers';
 
 import moment from 'moment';
-
-import DateRangeIcon from '@material-ui/icons/DateRange';
-
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import TitleIcon from '@material-ui/icons/Title';
+import SchoolIcon from '@material-ui/icons/School';
+import SubjectIcon from '@material-ui/icons/Subject';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import LabelIcon from '@material-ui/icons/Label';
 
-import { DatePicker } from 'material-ui-pickers';
 import Grid from '@material-ui/core/Grid';
+import TagsPicker from '../../TagsPicker/TagsPicker';
 
 const styles = theme => ({
   paper: {
-    maxWidth: 'unset'
+    maxWidth: 'unset',
+    overflow: 'visible',
+    maxWidth: '600px'
   },
   timePicker: {
     flex: 1,
@@ -35,23 +34,33 @@ const styles = theme => ({
       marginBottom: theme.spacing.unit,
       marginLeft: '5%'
     }
+  },
+  formIconContainer: {
+    width: 40
+  },
+  formFieldContainer: {
+    width: 'unset',
+    flexGrow: 1
+  },
+  dialogContent: {
+    overflow: 'visible'
   }
 });
 
-const FormItem = props => {
-  const { icon: Icon, children, ...rest } = props;
+const FormItem = withStyles(styles)(props => {
+  const { classes, icon: Icon, children, ...rest } = props;
 
   return (
-    <Grid item container spacing={8} alignItems="flex-end" {...rest}>
-      <Grid item lg={1}>
+    <Grid item container spacing={8} alignItems="baseline" {...rest}>
+      <Grid item className={classes.formIconContainer}>
         <Icon />
       </Grid>
-      <Grid item lg={11} container>
+      <Grid item container className={classes.formFieldContainer}>
         {children}
       </Grid>
     </Grid>
   );
-};
+});
 
 FormItem.propTypes = {
   icon: PropTypes.func.isRequired
@@ -66,8 +75,6 @@ class EventDayCreatorDialog extends React.Component {
   };
 
   handleEntering = () => {
-    console.log(this.props);
-
     const { slotInfo } = this.props;
     if (slotInfo) {
       this.setState({
@@ -91,7 +98,35 @@ class EventDayCreatorDialog extends React.Component {
   render() {
     const { classes, open, onCancel, onOk, slotInfo } = this.props;
 
-    console.log(slotInfo);
+    const textFields = [
+      {
+        icon: TitleIcon,
+        id: 'title',
+        label: 'Title',
+        textFieldProps: {}
+      },
+      {
+        icon: SchoolIcon,
+        id: 'teacher',
+        label: 'Teacher',
+        textFieldProps: {}
+      },
+      {
+        icon: MeetingRoomIcon,
+        id: 'lecture-room',
+        label: 'Lecture room',
+        textFieldProps: {}
+      },
+      {
+        icon: SubjectIcon,
+        id: 'description',
+        label: 'Description',
+        textFieldProps: {
+          multiline: true,
+          rows: 4
+        }
+      }
+    ];
 
     return (
       <Dialog
@@ -108,7 +143,7 @@ class EventDayCreatorDialog extends React.Component {
         <DialogTitle id="confirmation-dialog-title">
           Day {moment(slotInfo.start).format('DD/MM')}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.dialogContent}>
           <Grid container>
             <FormItem icon={AccessTimeIcon}>
               <TimePicker
@@ -126,6 +161,27 @@ class EventDayCreatorDialog extends React.Component {
                 value={this.state.date.to}
                 onChange={newDate => this.handleDateChange(newDate, 'to')}
               />
+            </FormItem>
+
+            {textFields.map((t, i) => (
+              <FormItem key={i} icon={t.icon}>
+                <TextField
+                  label={t.label}
+                  id={t.id}
+                  // value={newTicket.name}
+                  // onChange={this.handleNewTicketInputChange("name")}
+                  fullWidth
+                  margin="dense"
+                  {...t.textFieldProps}
+                  // InputLabelProps={{
+                  //   shrink: true
+                  // }}
+                />
+              </FormItem>
+            ))}
+
+            <FormItem icon={LabelIcon}>
+              <TagsPicker />
             </FormItem>
           </Grid>
         </DialogContent>

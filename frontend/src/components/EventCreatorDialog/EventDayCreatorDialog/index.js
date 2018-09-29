@@ -98,7 +98,7 @@ class EventDayCreatorDialog extends React.Component {
   render() {
     const { classes, open, onCancel, onOk, slotInfo } = this.props;
 
-    const textFields = [
+    const formItems = [
       {
         icon: TitleIcon,
         id: 'title',
@@ -116,6 +116,14 @@ class EventDayCreatorDialog extends React.Component {
         id: 'lecture-room',
         label: 'Lecture room',
         textFieldProps: {}
+      },
+      {
+        icon: LabelIcon,
+        id: 'tags-picker',
+        label: 'Tags',
+        children: () => {
+          return <TagsPicker />;
+        }
       },
       {
         icon: SubjectIcon,
@@ -163,26 +171,26 @@ class EventDayCreatorDialog extends React.Component {
               />
             </FormItem>
 
-            {textFields.map((t, i) => (
+            {formItems.map((t, i) => (
               <FormItem key={i} icon={t.icon}>
-                <TextField
-                  label={t.label}
-                  id={t.id}
-                  // value={newTicket.name}
-                  // onChange={this.handleNewTicketInputChange("name")}
-                  fullWidth
-                  margin="dense"
-                  {...t.textFieldProps}
-                  // InputLabelProps={{
-                  //   shrink: true
-                  // }}
-                />
+                {t.children ? (
+                  t.children()
+                ) : (
+                  <TextField
+                    label={t.label}
+                    id={t.id}
+                    // value={newTicket.name}
+                    // onChange={this.handleNewTicketInputChange("name")}
+                    fullWidth
+                    margin="dense"
+                    {...t.textFieldProps}
+                    // InputLabelProps={{
+                    //   shrink: true
+                    // }}
+                  />
+                )}
               </FormItem>
             ))}
-
-            <FormItem icon={LabelIcon}>
-              <TagsPicker />
-            </FormItem>
           </Grid>
         </DialogContent>
         <DialogActions>

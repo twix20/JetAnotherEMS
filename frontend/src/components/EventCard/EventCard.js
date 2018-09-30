@@ -18,6 +18,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import PlaceIcon from '@material-ui/icons/Place';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import HeartCheckbox from '../common/HeartCheckbox';
+import SchoolIcon from '@material-ui/icons/School';
 
 import EventImagesCarousel from '../EventImagesCarousel';
 
@@ -156,10 +157,10 @@ class EventCard extends React.PureComponent {
                   4
                 </Typography>
 
-                <Person />
+                <SchoolIcon />
               </Grid>
               <Grid item>
-                <Typography>People</Typography>
+                <Typography>Teachers</Typography>
               </Grid>
             </Grid>
             <Grid

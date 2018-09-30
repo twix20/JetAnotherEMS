@@ -100,7 +100,6 @@ class HomePage extends React.Component {
                     </MenuItem>
                     <MenuItem value={10}>Ticket price Ascending</MenuItem>
                     <MenuItem value={20}>Ticket price Descending</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

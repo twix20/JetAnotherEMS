@@ -43,7 +43,7 @@ const uploader = new FineUploaderTraditional({
     },
     validation: {
       allowedExtensions: ['jpeg', 'jpg', 'png'],
-      itemLimit: 3,
+      itemLimit: 5,
       sizeLimit: 5120000 // 50 kB = 50 * 1024 bytes
     },
     messages: {
@@ -72,7 +72,7 @@ class GalleryUploaderTab extends React.Component {
 
   dropzoneContent = (
     <span className={'react-fine-uploader-gallery-dropzone-content'}>
-      Drop up to 3 photos here!
+      Drop up to 5 photos here!
     </span>
   );
 

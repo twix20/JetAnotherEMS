@@ -55,7 +55,7 @@ const styles = theme => ({
 });
 
 const FormItem = withStyles(styles)(props => {
-  const { classes, icon: Icon, children, ...rest } = props;
+  const { classes, icon: Icon, children, alignItems, ...rest } = props;
 
   return (
     <Grid
@@ -63,7 +63,7 @@ const FormItem = withStyles(styles)(props => {
       container
       className={classes.formContainer}
       spacing={8}
-      alignItems="baseline"
+      alignItems={alignItems}
       {...rest}
     >
       <Grid item className={classes.formIconContainer}>
@@ -75,6 +75,10 @@ const FormItem = withStyles(styles)(props => {
     </Grid>
   );
 });
+
+FormItem.defaultProps = {
+  alignItems: 'baseline'
+};
 
 FormItem.propTypes = {
   icon: PropTypes.func.isRequired
@@ -114,6 +118,31 @@ class EventDayCreatorDialog extends React.Component {
 
     const formItems = [
       {
+        icon: AccessTimeIcon,
+        id: 'time',
+        label: 'Time',
+        children: () => {
+          return (
+            <React.Fragment>
+              <TimePicker
+                className={classes.timePicker}
+                autoOk
+                label="From"
+                value={this.state.date.from}
+                onChange={newDate => this.handleDateChange(newDate, 'from')}
+              />
+              <TimePicker
+                className={classes.timePicker}
+                autoOk
+                label="To"
+                value={this.state.date.to}
+                onChange={newDate => this.handleDateChange(newDate, 'to')}
+              />
+            </React.Fragment>
+          );
+        }
+      },
+      {
         icon: TitleIcon,
         id: 'title',
         label: 'Title',
@@ -152,6 +181,7 @@ class EventDayCreatorDialog extends React.Component {
         icon: AttachmentIcon,
         id: 'attachments',
         label: 'Attachments',
+        alignItems: 'start',
         children: () => {
           return <AttachmentsUploader />;
         }
@@ -175,26 +205,8 @@ class EventDayCreatorDialog extends React.Component {
         </DialogTitle>
         <DialogContent className={classes.dialogContent}>
           <Grid container>
-            <FormItem icon={AccessTimeIcon}>
-              <TimePicker
-                className={classes.timePicker}
-                autoOk
-                label="From"
-                value={this.state.date.from}
-                onChange={newDate => this.handleDateChange(newDate, 'from')}
-              />
-
-              <TimePicker
-                className={classes.timePicker}
-                autoOk
-                label="To"
-                value={this.state.date.to}
-                onChange={newDate => this.handleDateChange(newDate, 'to')}
-              />
-            </FormItem>
-
             {formItems.map((t, i) => (
-              <FormItem key={i} icon={t.icon}>
+              <FormItem key={i} {...t}>
                 {t.children ? (
                   t.children()
                 ) : (

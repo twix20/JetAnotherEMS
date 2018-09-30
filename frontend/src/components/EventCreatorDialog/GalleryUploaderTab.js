@@ -66,7 +66,7 @@ class GalleryUploaderTab extends React.Component {
   fileInputChildren = () => (
     <span>
       <CloudUploadIcon className="react-fine-uploader-gallery-file-input-upload-icon" />
-      Select Photos
+      Select photos
     </span>
   );
 

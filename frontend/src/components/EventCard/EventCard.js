@@ -61,6 +61,9 @@ const styles = theme => ({
       display: 'inline'
     }
   },
+  infoNumber: {
+    marginRight: theme.spacing.unit
+  },
   description: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -99,7 +102,11 @@ const styles = theme => ({
     }
   },
   priceButtonContainer: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
+
+    '& a': {
+      textDecoration: 'none'
+    }
   },
   descriptionContainer: {
     flexGrow: 1,
@@ -141,7 +148,11 @@ class EventCard extends React.PureComponent {
               className={classes.infoDetailSection}
             >
               <Grid item className={classes.infoDetail}>
-                <Typography variant="display1" color="primary">
+                <Typography
+                  className={classes.infoNumber}
+                  variant="display1"
+                  color="primary"
+                >
                   4
                 </Typography>
 
@@ -159,7 +170,11 @@ class EventCard extends React.PureComponent {
               className={classes.infoDetailSection}
             >
               <Grid item className={classes.infoDetail}>
-                <Typography variant="display1" color="primary">
+                <Typography
+                  className={classes.infoNumber}
+                  variant="display1"
+                  color="primary"
+                >
                   55
                 </Typography>
 

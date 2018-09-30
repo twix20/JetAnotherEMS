@@ -18,9 +18,11 @@ import SchoolIcon from '@material-ui/icons/School';
 import SubjectIcon from '@material-ui/icons/Subject';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import LabelIcon from '@material-ui/icons/Label';
+import AttachmentIcon from '@material-ui/icons/Attachment';
 
 import Grid from '@material-ui/core/Grid';
 import TagsPicker from '../../TagsPicker/TagsPicker';
+import AttachmentsUploader from '../../AttachmentsUploader';
 
 const styles = theme => ({
   paper: {
@@ -35,15 +37,20 @@ const styles = theme => ({
       marginLeft: '5%'
     }
   },
+  formContainer: {
+    position: 'relative'
+  },
   formIconContainer: {
     width: 40
   },
   formFieldContainer: {
     width: 'unset',
-    flexGrow: 1
+    flexGrow: 1,
+    maxWidth: 'calc(100% - 40px)'
   },
   dialogContent: {
-    overflow: 'visible'
+    overflow: 'visible',
+    minHeight: 200
   }
 });
 
@@ -51,7 +58,14 @@ const FormItem = withStyles(styles)(props => {
   const { classes, icon: Icon, children, ...rest } = props;
 
   return (
-    <Grid item container spacing={8} alignItems="baseline" {...rest}>
+    <Grid
+      item
+      container
+      className={classes.formContainer}
+      spacing={8}
+      alignItems="baseline"
+      {...rest}
+    >
       <Grid item className={classes.formIconContainer}>
         <Icon />
       </Grid>
@@ -122,7 +136,7 @@ class EventDayCreatorDialog extends React.Component {
         id: 'tags-picker',
         label: 'Tags',
         children: () => {
-          return <TagsPicker />;
+          return <TagsPicker canCreate />;
         }
       },
       {
@@ -132,6 +146,14 @@ class EventDayCreatorDialog extends React.Component {
         textFieldProps: {
           multiline: true,
           rows: 4
+        }
+      },
+      {
+        icon: AttachmentIcon,
+        id: 'attachments',
+        label: 'Attachments',
+        children: () => {
+          return <AttachmentsUploader />;
         }
       }
     ];

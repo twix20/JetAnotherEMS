@@ -40,4 +40,8 @@ class EventCreatorOpenerButton extends React.Component {
   }
 }
 
+EventCreatorOpenerButton.propTypes = {
+  mode: PropTypes.oneOf(['add', 'edit'])
+};
+
 export default withStyles(styles)(EventCreatorOpenerButton);

@@ -15,6 +15,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import DefaultLayout from '../../layouts/Default';
+import EventCreatorOpenerButton from '../../components/EventCreatorOpenerButton';
 
 import { connect } from 'react-redux';
 import {
@@ -72,6 +73,8 @@ class HomePage extends React.Component {
         <Grid container>
           <Grid item lg={2} />
           <Grid item lg={8}>
+            <EventCreatorOpenerButton mode="add" />
+
             <Grid
               container
               wrap="nowrap"

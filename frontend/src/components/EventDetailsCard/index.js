@@ -190,6 +190,7 @@ class EventDetailsCard extends React.Component {
                         anchorEl={headerMenuEl}
                         open={Boolean(headerMenuEl)}
                         onClose={this.handleHeaderMenuClose}
+                        anchorPosition=""
                       >
                         <MenuItem onClick={this.handleHeaderMenuClose}>
                           <ListItemIcon>

@@ -13,6 +13,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Chip from '@material-ui/core/Chip';
 
 import Select from 'react-select';
+import Creatable from 'react-select/lib/Creatable';
 import NoSsr from '@material-ui/core/NoSsr';
 import Paper from '@material-ui/core/Paper';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
@@ -237,7 +238,7 @@ class TagsPicker extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, canCreate } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -258,10 +259,12 @@ class TagsPicker extends React.Component {
       label = 'Tags';
     }
 
+    const SelectComponent = canCreate ? Creatable : Select;
+
     return (
       <div className={classes.root}>
         <NoSsr>
-          <Select
+          <SelectComponent
             classes={classes}
             styles={selectStyles}
             textFieldProps={{
@@ -286,6 +289,10 @@ class TagsPicker extends React.Component {
 TagsPicker.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
+};
+
+TagsPicker.defaultProps = {
+  canCreate: false
 };
 
 export default withStyles(styles, { withTheme: true })(TagsPicker);

@@ -38,6 +38,3 @@ docs/api/
 
 # DotEnv
 .env
-
-# Build
-dist/

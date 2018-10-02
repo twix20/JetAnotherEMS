@@ -12,7 +12,7 @@ ReactDOM.render(
   <Provider store={store}>
     <HashRouter history={history}>
       <Switch>
-        <Route exact path="/" component={App} />
+        <Route path="/" component={App} />
       </Switch>
     </HashRouter>
   </Provider>,

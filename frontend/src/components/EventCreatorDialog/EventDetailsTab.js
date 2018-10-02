@@ -38,14 +38,16 @@ const styles = theme => ({
 });
 
 const IconInputTemplate = withStyles(styles)(props => {
-  const { classes, Icon, children, className } = props;
+  const { classes, Icon, children, className, alignItems } = props;
 
   return (
     <Grid
+      item
       container
+      lg={12}
       spacing={8}
-      alignItems="baseline"
-      className={classnames(classes.root)}
+      alignItems={alignItems}
+      className={classnames(classes.root, classes.fieldItem)}
     >
       <Grid item>
         <Icon />
@@ -56,6 +58,10 @@ const IconInputTemplate = withStyles(styles)(props => {
     </Grid>
   );
 });
+
+IconInputTemplate.defaultProps = {
+  alignItems: 'center'
+};
 
 IconInputTemplate.propTypes = {
   Icon: PropTypes.func.isRequired
@@ -73,27 +79,27 @@ class EventDetailsTab extends React.Component {
 
     return (
       <Grid container direction="column" className={classes.root}>
-        <Grid item className={classes.fieldItem} lg={12}>
-          <IconInputTemplate Icon={TitleIcon}>
-            <TextField className={classes.field} label="Event title" />
-          </IconInputTemplate>
-        </Grid>
-        <Grid item className={classes.fieldItem} lg={12}>
-          <IconInputTemplate Icon={LocationOnIcon}>
-            <TextField className={classes.field} label="Location" />
-          </IconInputTemplate>
-        </Grid>
-        <Grid item className={classnames(classes.fieldItem)} lg={12}>
-          <IconInputTemplate Icon={SubjectIcon} className={classes.exp}>
-            <ReactQuill
-              theme="snow"
-              placeholder={'Description'}
-              className={classes.quillContainer}
-              value={this.state.text}
-              onChange={this.handleChange}
-            />
-          </IconInputTemplate>
-        </Grid>
+        <IconInputTemplate Icon={TitleIcon}>
+          <TextField className={classes.field} label="Event title" />
+        </IconInputTemplate>
+
+        <IconInputTemplate Icon={LocationOnIcon}>
+          <TextField className={classes.field} label="Location" />
+        </IconInputTemplate>
+
+        <IconInputTemplate
+          Icon={SubjectIcon}
+          className={classes.exp}
+          alignItems="baseline"
+        >
+          <ReactQuill
+            theme="snow"
+            placeholder={'Description'}
+            className={classes.quillContainer}
+            value={this.state.text}
+            onChange={this.handleChange}
+          />
+        </IconInputTemplate>
       </Grid>
     );
   }

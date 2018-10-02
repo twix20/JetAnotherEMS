@@ -6,7 +6,10 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   submitBtn: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
+    '&:hover': {
+      bottom: theme.spacing.unit / 4
+    }
   }
 });
 

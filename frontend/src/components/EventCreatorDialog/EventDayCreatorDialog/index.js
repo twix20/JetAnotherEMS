@@ -27,7 +27,6 @@ import AttachmentsUploader from '../../AttachmentsUploader';
 const styles = theme => ({
   paper: {
     maxWidth: 'unset',
-    overflow: 'visible',
     maxWidth: '600px'
   },
   timePicker: {
@@ -195,6 +194,7 @@ class EventDayCreatorDialog extends React.Component {
         }}
         disableBackdropClick
         disableEscapeKeyDown
+        scroll={'paper'}
         maxWidth="xs"
         onEntering={this.handleEntering}
         aria-labelledby="confirmation-dialog-title"
@@ -226,15 +226,19 @@ class EventDayCreatorDialog extends React.Component {
               </FormItem>
             ))}
           </Grid>
+          <DialogActions>
+            <Button onClick={onCancel} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => onOk(this.state)}
+              color="primary"
+              variant="contained"
+            >
+              Save
+            </Button>
+          </DialogActions>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={() => onOk(this.state)} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
       </Dialog>
     );
   }

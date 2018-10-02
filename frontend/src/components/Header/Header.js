@@ -15,6 +15,8 @@ import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import Dialog from '@material-ui/core/Dialog';
+import LoginRegisterTabs from '../LoginRegisterTabs';
 
 const styles = theme => ({
   root: {
@@ -38,7 +40,8 @@ const styles = theme => ({
 class Header extends React.Component {
   state = {
     auth: true,
-    anchorEl: null
+    anchorEl: null,
+    openLoginRegisterDialog: false
   };
 
   goToHome = () => {
@@ -55,6 +58,17 @@ class Header extends React.Component {
 
   handleClose = () => {
     this.setState({ anchorEl: null });
+  };
+
+  //Login/Register dialog
+  handleClickOpenDialog = () => {
+    this.setState({
+      openLoginRegisterDialog: true
+    });
+  };
+
+  handleCloseDialog = () => {
+    this.setState({ openLoginRegisterDialog: false });
   };
 
   render() {
@@ -123,14 +137,21 @@ class Header extends React.Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
                   <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                 </Menu>
               </React.Fragment>
             ) : (
               <div>
-                <Button color="inherit">Login</Button>
+                <Button color="inherit" onClick={this.handleClickOpenDialog}>
+                  Login / Register
+                </Button>
+
+                <Dialog
+                  open={this.state.openLoginRegisterDialog}
+                  onClose={this.handleCloseDialog}
+                >
+                  <LoginRegisterTabs />
+                </Dialog>
               </div>
             )}
           </Toolbar>

@@ -104,7 +104,12 @@ class Header extends React.Component {
               color="inherit"
               className={classes.flex}
             >
-              <Button color="inherit" onClick={this.goToHome}>
+              <Button
+                color="inherit"
+                onClick={this.goToHome}
+                disableRipple
+                variant="flat"
+              >
                 Event Managment System
               </Button>
             </Typography>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import Header from '../../components/Header/Header';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -27,23 +28,32 @@ const styles = theme => ({
       padding: 0
     }
   },
-  root: {}
+  root: {},
+  contentContainer: {
+    maxWidth: 1600,
+    padding: theme.spacing.unit
+  }
 });
 
 class DefaultLayout extends React.Component {
   render() {
-    const { children, classes } = this.props;
+    const { children, classes, aboveContent } = this.props;
 
     return (
       <div className={classes.root}>
+        <Header />
         <CssBaseline />
 
-        <Header />
+        {aboveContent}
 
-        {children}
+        <div className={classes.contentContainer}>{children}</div>
       </div>
     );
   }
 }
+
+DefaultLayout.defaultProps = {
+  aboveContent: <div />
+};
 
 export default withStyles(styles)(DefaultLayout);

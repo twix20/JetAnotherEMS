@@ -52,8 +52,16 @@ const styles = theme => ({
     borderStyle: 'solid',
     borderWidth: '0 2px 0 0',
 
-    '&:not(:first-child)': {
-      borderTopWidth: '2px'
+    [theme.breakpoints.up('lg')]: {
+      '&:not(:first-child)': {
+        borderTopWidth: '2px'
+      }
+    },
+    [theme.breakpoints.down('md')]: {
+      borderBottomWidth: '2px',
+      '&:not(:first-child)': {
+        borderRightWidth: 0
+      }
     }
   },
   infoDetail: {
@@ -82,8 +90,8 @@ const styles = theme => ({
   },
   priceContaier: {
     textAlign: 'center',
-    borderLeft: `2px dashed ${theme.palette.divider}`,
     position: 'relative',
+    padding: theme.spacing.unit,
     '&:before, &:after': {
       position: 'absolute',
       content: "' '",
@@ -93,13 +101,27 @@ const styles = theme => ({
       display: 'block',
       backgroundColor: theme.palette.background.default
     },
+
     '&:before': {
       top: '-12px',
       left: '-12px'
     },
-    '&:after': {
-      bottom: '-12px',
-      left: '-12px'
+
+    [theme.breakpoints.down('md')]: {
+      borderTop: `2px dashed ${theme.palette.divider}`,
+
+      '&:after': {
+        top: '-12px',
+        right: '-12px'
+      }
+    },
+
+    [theme.breakpoints.up('lg')]: {
+      borderLeft: `2px dashed ${theme.palette.divider}`,
+      '&:after': {
+        bottom: '-12px',
+        left: '-12px'
+      }
     }
   },
   priceButtonContainer: {
@@ -137,7 +159,7 @@ class EventCard extends React.PureComponent {
           <Grid
             item
             container
-            direction="column"
+            direction="row"
             className={classes.infoContainer}
             lg={1}
           >
@@ -147,6 +169,8 @@ class EventCard extends React.PureComponent {
               direction="column"
               justify="center"
               className={classes.infoDetailSection}
+              lg={12}
+              xs={6}
             >
               <Grid item className={classes.infoDetail}>
                 <Typography
@@ -169,6 +193,8 @@ class EventCard extends React.PureComponent {
               direction="column"
               justify="center"
               className={classes.infoDetailSection}
+              lg={12}
+              xs={6}
             >
               <Grid item className={classes.infoDetail}>
                 <Typography

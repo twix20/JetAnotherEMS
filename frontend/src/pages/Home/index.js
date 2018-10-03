@@ -61,52 +61,51 @@ class HomePage extends React.Component {
     const { classes } = this.props;
 
     return (
-      <DefaultLayout>
-        <Parallax
-          className="home__paralax"
-          bgImage="https://www.mch-group.com/-/media/mch-group/Images/Content/News/Blog/2017/2017-04/Marco-Balich-Rio-Olympic-Ceremony-1200.jpg"
-          bgImageAlt="the dog"
-        >
-          <EventFilter className="home__eventFilterContainer" />
-        </Parallax>
-
+      <DefaultLayout
+        aboveContent={
+          <Parallax
+            className="home__paralax"
+            bgImage="https://www.mch-group.com/-/media/mch-group/Images/Content/News/Blog/2017/2017-04/Marco-Balich-Rio-Olympic-Ceremony-1200.jpg"
+            bgImageAlt="the dog"
+          >
+            <EventFilter className="home__eventFilterContainer" />
+          </Parallax>
+        }
+      >
         <Grid container>
-          <Grid item lg={2} />
-          <Grid item lg={8}>
-            <EventCreatorOpenerButton mode="add" />
+          <EventCreatorOpenerButton mode="add" />
 
-            <Grid
-              container
-              wrap="nowrap"
-              justify="space-between"
-              className={classes.listHeaderContainer}
-            >
-              <Grid item container justify="flex-end" direction="column">
-                <Typography variant="headline">23 Results Found</Typography>
-              </Grid>
-              <Grid item>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="sortByInput">Sort by</InputLabel>
-                  <Select
-                    value={this.state.sortBy}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'sortBy',
-                      id: 'sortByInput'
-                    }}
-                  >
-                    <MenuItem value="">
-                      <em>Nothing</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ticket price Ascending</MenuItem>
-                    <MenuItem value={20}>Ticket price Descending</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+          <Grid
+            container
+            wrap="nowrap"
+            justify="space-between"
+            className={classes.listHeaderContainer}
+          >
+            <Grid item container justify="flex-end" direction="column">
+              <Typography variant="headline">23 Results Found</Typography>
             </Grid>
-
-            <EventListContainer />
+            <Grid item>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="sortByInput">Sort by</InputLabel>
+                <Select
+                  value={this.state.sortBy}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    name: 'sortBy',
+                    id: 'sortByInput'
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>Nothing</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ticket price Ascending</MenuItem>
+                  <MenuItem value={20}>Ticket price Descending</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
+
+          <EventListContainer />
         </Grid>
       </DefaultLayout>
     );

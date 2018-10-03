@@ -29,9 +29,13 @@ const styles = theme => ({
     }
   },
   root: {},
+  content: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
   contentContainer: {
     maxWidth: 1600,
-    padding: theme.spacing.unit
+    margin: theme.spacing.unit
   }
 });
 
@@ -46,7 +50,9 @@ class DefaultLayout extends React.Component {
 
         {aboveContent}
 
-        <div className={classes.contentContainer}>{children}</div>
+        <div className={classes.content}>
+          <div className={classes.contentContainer}>{children}</div>
+        </div>
       </div>
     );
   }

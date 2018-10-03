@@ -27,14 +27,11 @@ class EventPage extends React.Component {
     return (
       <DefaultLayout>
         <Grid container>
-          <Grid item lg={2} />
-          <Grid item lg={8}>
-            <div className={classes.cardMargin}>
-              <EventCreatorOpenerButton mode="edit" />
-              <EventDetailsCard />
-            </div>
-            <EventTabs />
-          </Grid>
+          <div className={classes.cardMargin}>
+            <EventCreatorOpenerButton mode="edit" />
+            <EventDetailsCard />
+          </div>
+          <EventTabs />
         </Grid>
       </DefaultLayout>
     );

@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import Hidden from '@material-ui/core/Hidden';
 import SwipeableViews from 'react-swipeable-views';
 import moment from 'moment';
 import times from 'lodash/times';
@@ -96,17 +97,25 @@ class DayScheduleCarousel extends React.Component {
     return (
       <div className={classes.root}>
         <Grid container justify="center">
-          <Grid item className={classes.dotsPaginationContainer} lg={1}>
-            <Button
-              size="small"
-              onClick={this.handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-            </Button>
-          </Grid>
+          <Hidden mdDown>
+            <Grid item className={classes.dotsPaginationContainer} lg={1}>
+              <Button
+                size="small"
+                onClick={this.handleBack}
+                disabled={activeStep === 0}
+              >
+                <KeyboardArrowLeft />
+              </Button>
+            </Grid>
+          </Hidden>
 
-          <Grid item container className={classes.dotsContainer} lg={10}>
+          <Grid
+            item
+            container
+            className={classes.dotsContainer}
+            lg={10}
+            md={12}
+          >
             <Dots
               item
               steps={maxSteps}
@@ -114,16 +123,17 @@ class DayScheduleCarousel extends React.Component {
               onDotClick={this.handleDotClick}
             />
           </Grid>
-
-          <Grid item className={classes.dotsPaginationContainer} lg={1}>
-            <Button
-              size="small"
-              onClick={this.handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              <KeyboardArrowRight />
-            </Button>
-          </Grid>
+          <Hidden mdDown>
+            <Grid item className={classes.dotsPaginationContainer} lg={1}>
+              <Button
+                size="small"
+                onClick={this.handleNext}
+                disabled={activeStep === maxSteps - 1}
+              >
+                <KeyboardArrowRight />
+              </Button>
+            </Grid>
+          </Hidden>
         </Grid>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}

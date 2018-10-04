@@ -14,7 +14,9 @@ import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
 import NavigationIcon from '@material-ui/icons/Navigation';
+
 import EventTicketsChooserDialog from './index';
+import TicketCard from './TicketCard';
 
 const availableTickets = [
   {
@@ -38,7 +40,7 @@ const availableTickets = [
 class EventTicketsOpenerButton extends React.Component {
   state = {
     open: false,
-    selectedValue: availableTickets[0]
+    selectedTicket: null
   };
 
   handleClickOpen = () => {
@@ -48,28 +50,32 @@ class EventTicketsOpenerButton extends React.Component {
   };
 
   handleClose = value => {
-    this.setState({ selectedValue: value, open: false });
+    this.setState({ selectedTicket: value, open: false });
   };
 
   render() {
+    const { selectedTicket } = this.state;
+
+    console.log(selectedTicket);
+
     return (
       <div>
-        {/* <Typography variant="subheading">
-          Selected ticket id: {this.state.selectedValue.id}
-        </Typography>
-        <br /> */}
-        <Button
-          variant="extendedFab"
-          aria-label="Delete"
-          onClick={this.handleClickOpen}
-        >
-          <NavigationIcon />
-          Buy a ticket now!
-        </Button>
+        {selectedTicket === null ? (
+          <Button
+            variant="extendedFab"
+            aria-label="Delete"
+            onClick={this.handleClickOpen}
+          >
+            <NavigationIcon />
+            Buy a ticket now!
+          </Button>
+        ) : (
+          <TicketCard ticket={selectedTicket} />
+        )}
 
         <EventTicketsChooserDialog
           tickets={availableTickets}
-          selectedValue={this.state.selectedValue}
+          selectedValue={this.state.selectedTicket}
           open={this.state.open}
           onClose={this.handleClose}
         />

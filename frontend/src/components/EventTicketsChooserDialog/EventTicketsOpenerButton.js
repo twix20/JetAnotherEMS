@@ -70,7 +70,7 @@ class EventTicketsOpenerButton extends React.Component {
             Buy a ticket now!
           </Button>
         ) : (
-          <TicketCard ticket={selectedTicket} />
+          <TicketCard ticket={selectedTicket} status="awaitingAproval" />
         )}
 
         <EventTicketsChooserDialog

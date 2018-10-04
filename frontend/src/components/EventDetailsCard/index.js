@@ -62,7 +62,9 @@ const styles = theme => ({
     flex: 1
   },
   buyTicketContainer: {
-    textAlign: 'center'
+    textAlign: 'center',
+    justifyContent: 'center',
+    padding: theme.spacing.unit * 2
   },
   expandedCarouselContainer: {
     margin: theme.spacing.unit * 3,
@@ -285,7 +287,7 @@ class EventDetailsCard extends React.Component {
                 </CardContent>
               </Grid>
 
-              <Grid item className={classes.buyTicketContainer}>
+              <Grid item container className={classes.buyTicketContainer}>
                 <EventTicketsOpenerButton />
               </Grid>
 

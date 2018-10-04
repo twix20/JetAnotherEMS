@@ -56,7 +56,13 @@ class TicketCard extends React.Component {
     return (
       <Card className={classes.card}>
         <Grid container>
-          <Grid item xs={6} container justify="center" direction="column">
+          <Grid
+            item
+            xs={cardMode.actions || cardMode.content ? 6 : 12}
+            container
+            justify="center"
+            direction="column"
+          >
             <CardHeader title="Ticket" subheader="VIP - 200PLN" />
           </Grid>
           <Grid item xs={6}>

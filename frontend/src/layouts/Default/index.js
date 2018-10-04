@@ -35,7 +35,7 @@ const styles = theme => ({
   },
   contentContainer: {
     maxWidth: 1600,
-    padding: theme.spacing.unit,
+    padding: theme.spacing.unit * 1.5,
     margin: 'auto'
     // display: "flex"
   }

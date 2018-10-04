@@ -30,12 +30,14 @@ const styles = theme => ({
   },
   root: {},
   content: {
-    display: 'flex',
+    // display: "flex",
     justifyContent: 'center'
   },
   contentContainer: {
     maxWidth: 1600,
-    margin: theme.spacing.unit
+    padding: theme.spacing.unit,
+    margin: 'auto'
+    // display: "flex"
   }
 });
 

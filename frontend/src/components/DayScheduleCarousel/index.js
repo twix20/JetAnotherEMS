@@ -135,9 +135,8 @@ class DayScheduleCarousel extends React.Component {
             return (
               <div
                 key={i}
-                className={classnames(classes.scheduleContainer, {
-                  [classes.hidden]: activeStep !== i
-                })}
+                hidden={activeStep !== i}
+                className={classnames(classes.scheduleContainer)}
               >
                 {i === activeStep && times(5, i => <DaySchedule key={i} />)}
               </div>

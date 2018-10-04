@@ -23,8 +23,6 @@ import {
   HOME_PAGE_UNLOADED
 } from '../../constants/actionTypes';
 
-import './Home.scss';
-
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({});
@@ -45,6 +43,19 @@ const styles = theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
+  },
+  eventFilterContainer: {
+    position: 'absolute'
+  },
+  paralax: {
+    position: 'relative',
+    height: 320,
+    display: 'flex',
+    justifyContent: 'center',
+
+    '& .react-parallax-bgimage': {
+      filter: 'blur(3px) grayscale(50%)'
+    }
   }
 });
 
@@ -64,11 +75,11 @@ class HomePage extends React.Component {
       <DefaultLayout
         aboveContent={
           <Parallax
-            className="home__paralax"
+            className={classes.paralax}
             bgImage="https://www.mch-group.com/-/media/mch-group/Images/Content/News/Blog/2017/2017-04/Marco-Balich-Rio-Olympic-Ceremony-1200.jpg"
             bgImageAlt="the dog"
           >
-            <EventFilter className="home__eventFilterContainer" />
+            <EventFilter className={classes.eventFilterContainer} />
           </Parallax>
         }
       >

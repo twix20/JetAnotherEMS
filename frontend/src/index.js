@@ -11,9 +11,7 @@ import App from './App';
 ReactDOM.render(
   <Provider store={store}>
     <HashRouter history={history}>
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
+      <App />
     </HashRouter>
   </Provider>,
   document.getElementById('root')

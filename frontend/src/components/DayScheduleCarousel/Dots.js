@@ -13,7 +13,11 @@ const styles = theme => ({
   button: {
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px`,
     textAlign: 'center',
-    display: 'inline-block'
+    display: 'inline-block',
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing.unit * 2
+    }
   },
   day: {
     textTransform: 'uppercase'

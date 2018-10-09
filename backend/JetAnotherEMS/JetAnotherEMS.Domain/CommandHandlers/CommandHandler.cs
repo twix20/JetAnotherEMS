@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using JetAnotherEMS.Domain.Core.Bus;
+﻿using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Core.Commands;
 using JetAnotherEMS.Domain.Core.Notifications;
+using JetAnotherEMS.Domain.Interfaces;
 using MediatR;
 
 namespace JetAnotherEMS.Domain.CommandHandlers

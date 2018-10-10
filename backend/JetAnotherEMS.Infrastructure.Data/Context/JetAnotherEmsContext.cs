@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using JetAnotherEMS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -6,7 +7,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
 {
     public class JetAnotherEmsContext : DbContext
     {
-        //public DbSet<Customer> Customers { get; set; }
+        public DbSet<SchoolingEvent> SchoolingEvents { get; set; }
+        public DbSet<SchoolingEventDay> SchoolingEventDays { get; set; }
+        public DbSet<SchoolingEventDayAttachment> SchoolingEventDayAttachments { get; set; }
+        public DbSet<SchoolingEventDayTag> SchoolingEventDayTags { get; set; }
+        public DbSet<SchoolingEventTicket> SchoolingEventTickets { get; set; }
+        public DbSet<UserSchoolingEventTicket> UserSchoolingEventTickets { get; set; }
+        public DbSet<GoogleMapsAddress> GoogleMapsAddresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,7 +26,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         {
             // get the configuration from the app settings
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Path.GetFullPath(@"../JetAnotherEMS.WebApi"))
                 .AddJsonFile("appsettings.json")
                 .Build();
 

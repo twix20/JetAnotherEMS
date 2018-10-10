@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27825.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JetAnotherEMS.WebApi", "JetAnotherEMS\JetAnotherEMS.WebApi.csproj", "{66D68197-DC51-4A47-BDA4-E5EDE67E7BEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JetAnotherEMS.WebApi", "JetAnotherEMS.WebApi\JetAnotherEMS.WebApi.csproj", "{66D68197-DC51-4A47-BDA4-E5EDE67E7BEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JetAnotherEMS.Application", "JetAnotherEMS.Application\JetAnotherEMS.Application.csproj", "{C534B7D9-E6C0-4681-BE99-0252C3EEC762}"
 EndProject

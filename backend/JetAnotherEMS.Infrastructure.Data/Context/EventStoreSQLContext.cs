@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using JetAnotherEMS.Domain.Core.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +20,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         {
             // get the configuration from the app settings
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Path.GetFullPath(@"../JetAnotherEMS.WebApi"))
                 .AddJsonFile("appsettings.json")
                 .Build();
 

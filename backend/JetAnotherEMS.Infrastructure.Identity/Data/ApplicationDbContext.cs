@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using JetAnotherEMS.Infrastructure.Identity.Models;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace JetAnotherEMS.Infrastructure.Identity.Data
 {
@@ -12,17 +13,21 @@ namespace JetAnotherEMS.Infrastructure.Identity.Data
             : base(options)
         {
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    }
+    public class ApplicationContextDbFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    {
+        ApplicationDbContext IDesignTimeDbContextFactory<ApplicationDbContext>.CreateDbContext(string[] args)
         {
             // get the configuration from the app settings
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Path.GetFullPath(@"../JetAnotherEMS.WebApi"))
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            // define the database to use
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+
+            return new ApplicationDbContext(optionsBuilder.Options);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using JetAnotherEMS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new CustomerMap());
+
+            modelBuilder.Entity<SchoolingEvent>().HasData(new SchoolingEvent()
+            {
+                Id = Guid.Parse("f9d6f596-b4af-40f0-8520-6f2e124c085d"),
+                Title = "Seed title",
+                Description = "Seed description",
+            });
 
             base.OnModelCreating(modelBuilder);
         }

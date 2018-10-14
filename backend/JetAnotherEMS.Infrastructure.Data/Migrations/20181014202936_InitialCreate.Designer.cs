@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JetAnotherEmsContext))]
-    [Migration("20181014201856_InitialCreate")]
+    [Migration("20181014202936_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("SchoolingEvents");
+
+                    b.HasData(
+                        new { Id = new Guid("f9d6f596-b4af-40f0-8520-6f2e124c085d"), Description = "Seed description", Title = "Seed title" }
+                    );
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDay", b =>

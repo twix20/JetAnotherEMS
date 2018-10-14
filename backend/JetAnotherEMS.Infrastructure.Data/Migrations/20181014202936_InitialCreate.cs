@@ -183,6 +183,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "SchoolingEvents",
+                columns: new[] { "Id", "Description", "LocationId", "Title" },
+                values: new object[] { new Guid("f9d6f596-b4af-40f0-8520-6f2e124c085d"), "Seed description", null, "Seed title" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_SchoolingEventDayAttachments_SchoolingEventDayId",
                 table: "SchoolingEventDayAttachments",

@@ -57,7 +57,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.ToTable("SchoolingEvents");
 
                     b.HasData(
-                        new { Id = new Guid("f9d6f596-b4af-40f0-8520-6f2e124c085d"), Description = "Seed description", Title = "Seed title" }
+                        new { Id = new Guid("f9d6f596-b4af-40f0-8520-6f2e124c085d"), Description = "Seed description", Title = "Seed title" },
+                        new { Id = new Guid("ec2dd6aa-2433-46a9-94c5-2b2292385f0d"), Description = "Seed description 2", Title = "Seed title 2" }
                     );
                 });
 

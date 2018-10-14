@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
-using JetAnotherEMS.Domain.Models;
+﻿using JetAnotherEMS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
 
 namespace JetAnotherEMS.Infrastructure.Data.Context
 {
@@ -26,6 +26,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                 Id = Guid.Parse("f9d6f596-b4af-40f0-8520-6f2e124c085d"),
                 Title = "Seed title",
                 Description = "Seed description",
+            }, new SchoolingEvent()
+            {
+                Id = Guid.Parse("ec2dd6aa-2433-46a9-94c5-2b2292385f0d"),
+                Title = "Seed title 2",
+                Description = "Seed description 2",
             });
 
             base.OnModelCreating(modelBuilder);

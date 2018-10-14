@@ -188,6 +188,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: new[] { "Id", "Description", "LocationId", "Title" },
                 values: new object[] { new Guid("f9d6f596-b4af-40f0-8520-6f2e124c085d"), "Seed description", null, "Seed title" });
 
+            migrationBuilder.InsertData(
+                table: "SchoolingEvents",
+                columns: new[] { "Id", "Description", "LocationId", "Title" },
+                values: new object[] { new Guid("ec2dd6aa-2433-46a9-94c5-2b2292385f0d"), "Seed description 2", null, "Seed title 2" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_SchoolingEventDayAttachments_SchoolingEventDayId",
                 table: "SchoolingEventDayAttachments",

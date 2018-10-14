@@ -1,16 +1,13 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using JetAnotherEMS.Infrastructure.Data.Context;
 using JetAnotherEMS.Infrastructure.Identity.Authorization;
-using JetAnotherEMS.Infrastructure.Identity.Data;
 using JetAnotherEMS.Infrastructure.IoC;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using JetAnotherEMS.Application.ViewModels;
+using JetAnotherEMS.Domain.Models;
 
 namespace JetAnotherEMS.Application.AutoMapper
 {
@@ -11,6 +13,8 @@ namespace JetAnotherEMS.Application.AutoMapper
                 //TODO: register mappings
                 //cfg.AddProfile(new DomainToViewModelMappingProfile());
                 //cfg.AddProfile(new ViewModelToDomainMappingProfile());
+
+                cfg.CreateMap<SchoolingEvent, SchoolingEventViewModel>();
             });
         }
     }

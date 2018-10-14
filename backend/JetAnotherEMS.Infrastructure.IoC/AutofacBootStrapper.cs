@@ -7,6 +7,7 @@ namespace JetAnotherEMS.Infrastructure.IoC
         public static ContainerBuilder RegisterServices(ContainerBuilder builder)
         {
 
+            builder.RegisterAssemblyModules(typeof(AutofacBootStrapper).Assembly);
 
             return builder;
         }

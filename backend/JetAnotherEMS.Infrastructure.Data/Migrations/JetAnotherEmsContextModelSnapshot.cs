@@ -88,6 +88,14 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<byte[]>("Content");
+
+                    b.Property<string>("Extension");
+
+                    b.Property<string>("NameOriginal");
+
+                    b.Property<string>("NameToStore");
+
                     b.Property<Guid?>("SchoolingEventDayId");
 
                     b.Property<Guid?>("SchoolingEventId");
@@ -106,13 +114,33 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Description");
+
                     b.Property<Guid?>("SchoolingEventDayId");
+
+                    b.Property<string>("Value");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SchoolingEventDayId");
 
                     b.ToTable("SchoolingEventDayTags");
+                });
+
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventFollower", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("EventId");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("SchoolingEventFollowers");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventTicket", b =>
@@ -187,6 +215,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventDay")
                         .WithMany("Tags")
                         .HasForeignKey("SchoolingEventDayId");
+                });
+
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventFollower", b =>
+                {
+                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
+                        .WithMany("Followers")
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventTicket", b =>

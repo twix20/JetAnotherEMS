@@ -68,6 +68,25 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SchoolingEventFollowers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    EventId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SchoolingEventFollowers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SchoolingEventFollowers_SchoolingEvents_EventId",
+                        column: x => x.EventId,
+                        principalTable: "SchoolingEvents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SchoolingEventTickets",
                 columns: table => new
                 {
@@ -94,6 +113,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    NameToStore = table.Column<string>(nullable: true),
+                    NameOriginal = table.Column<string>(nullable: true),
+                    Extension = table.Column<string>(nullable: true),
+                    Content = table.Column<byte[]>(nullable: true),
                     SchoolingEventDayId = table.Column<Guid>(nullable: true),
                     SchoolingEventId = table.Column<Guid>(nullable: true)
                 },
@@ -119,6 +142,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Value = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     SchoolingEventDayId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -179,6 +204,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 column: "SchoolingEventDayId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SchoolingEventFollowers_EventId",
+                table: "SchoolingEventFollowers",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SchoolingEvents_LocationId",
                 table: "SchoolingEvents",
                 column: "LocationId");
@@ -206,6 +236,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "SchoolingEventDayTags");
+
+            migrationBuilder.DropTable(
+                name: "SchoolingEventFollowers");
 
             migrationBuilder.DropTable(
                 name: "UserSchoolingEventTickets");

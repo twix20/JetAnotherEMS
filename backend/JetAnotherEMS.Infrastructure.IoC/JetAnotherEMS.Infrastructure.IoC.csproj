@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="1.2.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.1.3" />
@@ -13,6 +14,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JetAnotherEMS.Application\JetAnotherEMS.Application.csproj" />
+    <ProjectReference Include="..\JetAnotherEMS.Infrastructure.Bus\JetAnotherEMS.Infrastructure.Bus.csproj" />
+    <ProjectReference Include="..\JetAnotherEMS.Infrastructure.Data\JetAnotherEMS.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\JetAnotherEMS.Infrastructure.Identity\JetAnotherEMS.Infrastructure.Identity.csproj" />
   </ItemGroup>
 
 </Project>

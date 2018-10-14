@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JetAnotherEMS.WebApi.Controllers
 {
     [Authorize]
+    [Route("api/[controller]")]
     public class SchoolingEventController : ApiController
     {
         private readonly ISchoolingEventService _schoolingEventService;
@@ -25,13 +26,16 @@ namespace JetAnotherEMS.WebApi.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> Get()
+        public async Task<IActionResult> Get()
         {
-            return Task.FromResult(Response(_schoolingEventService.GetAll()));
+            var entities = await _schoolingEventService.GetAll();
+
+            return Response(entities);
         }
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             return Response(await _schoolingEventService.GetById(id));

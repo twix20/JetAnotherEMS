@@ -9,8 +9,6 @@ namespace JetAnotherEMS.Domain.CommandHandlers
 {
     public abstract class CommandHandler
     {
-        private INotificationHandler<DomainNotification> notifications;
-
         public IUnitOfWork Uow { get; }
         public IMediatorHandler Bus { get; }
         public DomainNotificationHandler Notifications { get; }

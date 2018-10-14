@@ -19,5 +19,7 @@ namespace JetAnotherEMS.Domain.Models
         public virtual ICollection<UserSchoolingEventTicket> ParticipantsTickets { get; set; }
 
         public virtual ICollection<SchoolingEventTicket> AvailableTickets { get; set; }
+
+        public virtual ICollection<SchoolingEventFollower> Followers { get; set; }
     }
 }

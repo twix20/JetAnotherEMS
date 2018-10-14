@@ -3,10 +3,8 @@ using JetAnotherEMS.Domain.Core.Models;
 
 namespace JetAnotherEMS.Domain.Models
 {
-    public class UserSchoolingEventTicket : Entity
+    public class Follower : Entity
     {
         public Guid UserId { get; set; }
-
-        public virtual SchoolingEventTicket Ticket { get; set; }
     }
 }

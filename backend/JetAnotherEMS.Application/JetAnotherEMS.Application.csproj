@@ -5,16 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\JetAnotherEMS.Domain.Core\JetAnotherEMS.Domain.Core.csproj" />
+    <ProjectReference Include="..\JetAnotherEMS.Domain\JetAnotherEMS.Domain.csproj" />
   </ItemGroup>
 
 </Project>

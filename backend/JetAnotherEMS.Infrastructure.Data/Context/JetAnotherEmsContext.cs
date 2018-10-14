@@ -9,6 +9,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
     {
         public DbSet<SchoolingEvent> SchoolingEvents { get; set; }
         public DbSet<SchoolingEventDay> SchoolingEventDays { get; set; }
+        public DbSet<SchoolingEventFollower> SchoolingEventFollowers { get; set; }
         public DbSet<SchoolingEventDayAttachment> SchoolingEventDayAttachments { get; set; }
         public DbSet<SchoolingEventDayTag> SchoolingEventDayTags { get; set; }
         public DbSet<SchoolingEventTicket> SchoolingEventTickets { get; set; }

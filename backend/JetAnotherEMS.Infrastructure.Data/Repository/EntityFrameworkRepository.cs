@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using JetAnotherEMS.Domain.Core.Models;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Infrastructure.Data.Context;
@@ -19,14 +20,14 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
             DbSet = Context.Set<TEntity>();
         }
 
-        public virtual void Add(TEntity obj)
+        public virtual Task Add(TEntity obj)
         {
-            DbSet.Add(obj);
+            return DbSet.AddAsync(obj);
         }
 
-        public virtual TEntity GetById(Guid id)
+        public virtual Task<TEntity> GetById(Guid id)
         {
-            return DbSet.Find(id);
+            return DbSet.FindAsync(id);
         }
 
         public virtual IQueryable<TEntity> GetAll()
@@ -34,19 +35,20 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
             return DbSet;
         }
 
-        public virtual void Update(TEntity obj)
+        public virtual Task Update(TEntity obj)
         {
-            DbSet.Update(obj);
+            return Task.FromResult(DbSet.Update(obj));
         }
 
-        public virtual void Remove(Guid id)
+        public virtual async Task Remove(Guid id)
         {
-            DbSet.Remove(DbSet.Find(id));
+            var entity = await GetById(id);
+            DbSet.Remove(entity);
         }
 
-        public int SaveChanges()
+        public Task<int> SaveChanges()
         {
-            return Context.SaveChanges();
+            return Context.SaveChangesAsync();
         }
 
         public void Dispose()

@@ -7,5 +7,8 @@ namespace JetAnotherEMS.Domain.Models
 {
     public class Tag : Entity
     {
+        public string Value { get; set; }
+
+        public string Description { get; set; }
     }
 }

@@ -1,38 +1,43 @@
 ﻿using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Core.Commands;
 using JetAnotherEMS.Domain.Core.Notifications;
+using JetAnotherEMS.Domain.Core.Validation;
 using JetAnotherEMS.Domain.Interfaces;
 using MediatR;
 
 namespace JetAnotherEMS.Domain.CommandHandlers
 {
-    public class CommandHandler
+    public abstract class CommandHandler
     {
-        private readonly IUnitOfWork _uow;
-        private readonly IMediatorHandler _bus;
-        private readonly DomainNotificationHandler _notifications;
+        private INotificationHandler<DomainNotification> notifications;
 
-        public CommandHandler(IUnitOfWork uow, IMediatorHandler bus, INotificationHandler<DomainNotification> notifications)
+        public IUnitOfWork Uow { get; }
+        public IMediatorHandler Bus { get; }
+        public DomainNotificationHandler Notifications { get; }
+        public IValidationService ValidationService { get; }
+
+        public CommandHandler(IUnitOfWork uow, IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IValidationService validationService)
         {
-            _uow = uow;
-            _notifications = (DomainNotificationHandler)notifications;
-            _bus = bus;
+            Uow = uow;
+            Notifications = (DomainNotificationHandler)notifications;
+            Bus = bus;
+            ValidationService = validationService;
         }
 
         protected void NotifyValidationErrors(Command message)
         {
             foreach (var error in message.ValidationResult.Errors)
             {
-                _bus.RaiseEvent(new DomainNotification(message.MessageType, error.ErrorMessage));
+                Bus.RaiseEvent(new DomainNotification(message.MessageType, error.ErrorMessage));
             }
         }
 
         public bool Commit()
         {
-            if (_notifications.HasNotifications()) return false;
-            if (_uow.Commit()) return true;
+            if (Notifications.HasNotifications()) return false;
+            if (Uow.Commit()) return true;
 
-            _bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
+            Bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
             return false;
         }
     }

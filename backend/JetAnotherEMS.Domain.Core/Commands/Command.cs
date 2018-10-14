@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentValidation.Results;
 using JetAnotherEMS.Domain.Core.Events;
+using JetAnotherEMS.Domain.Core.Validation;
 
 
 namespace JetAnotherEMS.Domain.Core.Commands
@@ -15,6 +16,11 @@ namespace JetAnotherEMS.Domain.Core.Commands
             Timestamp = DateTime.Now;
         }
 
-        public abstract bool IsValid();
+        public virtual bool IsValid(IValidationService validationService)
+        {
+            ValidationResult = validationService.Validate(this);
+
+            return ValidationResult.IsValid;
+        }
     }
 }

@@ -50,11 +50,9 @@ namespace JetAnotherEMS.WebApi
                 };
             });
 
-
-            var path = Path.Combine(Path.GetFullPath("./Certificates"), "jetanotherems.pfx");
-
             // Can be moved to future separate identity server
             // configure identity server with in-memory stores, keys, clients and scopes
+            var path = Path.Combine(Path.GetFullPath("./Certificates"), "jetanotherems.pfx");
             services.AddIdentityServer()
                 .AddSigningCredential(new X509Certificate2(path))
                 .AddInMemoryPersistedGrants()

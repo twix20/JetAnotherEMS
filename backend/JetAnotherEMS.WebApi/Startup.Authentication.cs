@@ -1,7 +1,13 @@
-﻿using JetAnotherEMS.Infrastructure.Identity.Data;
+﻿using System;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using JetAnotherEMS.Infrastructure.Identity;
+using JetAnotherEMS.Infrastructure.Identity.Data;
 using JetAnotherEMS.Infrastructure.Identity.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace JetAnotherEMS.WebApi
 {
@@ -22,6 +28,38 @@ namespace JetAnotherEMS.WebApi
                 options.Password.RequiredLength = 1;
                 options.Password.RequiredUniqueChars = 1;
             });
+
+
+
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://localhost:44364";
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidAudiences = new[]
+                    {
+                        "api1"
+                    },
+                };
+            });
+
+            // Can be moved to future separate identity server
+            // configure identity server with in-memory stores, keys, clients and scopes
+            var path = Path.Combine(Path.GetFullPath("./Certificates"), "jetanotherems.pfx");
+            services.AddIdentityServer()
+                .AddSigningCredential(new X509Certificate2(path))
+                .AddInMemoryPersistedGrants()
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryClients(Config.GetClients())
+                .AddAspNetIdentity<ApplicationUser>();
         }
     }
 }

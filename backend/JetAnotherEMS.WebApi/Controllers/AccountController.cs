@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Core.Notifications;
 using JetAnotherEMS.Infrastructure.Identity.Models;
@@ -8,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace JetAnotherEMS.WebApi.Controllers
@@ -19,22 +21,25 @@ namespace JetAnotherEMS.WebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
+        private readonly IConfiguration _configuration;
 
         public AccountController(
             INotificationHandler<DomainNotification> notifications, 
             IMediatorHandler mediator, 
             UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager, 
-            ILoggerFactory loggerFactory) : base(notifications, mediator)
+            ILoggerFactory loggerFactory, 
+            IConfiguration configuration) : base(notifications, mediator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("register")]
+        [Route("[action]")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -59,6 +64,40 @@ namespace JetAnotherEMS.WebApi.Controllers
 
             AddIdentityErrors(result);
             return Response(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("[action]")]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+                return BadRequest();
+
+            var areCredentialsValid = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+            if (!areCredentialsValid.Succeeded)
+                return BadRequest();
+
+            var identityServerUrl = _configuration.GetValue<string>("IdentityServer:Url");
+            var clientId = _configuration.GetValue<string>("IdentityServer:ClientId");
+            var secret = _configuration.GetValue<string>("IdentityServer:Secret");
+            var allowedScope = _configuration.GetValue<string>("IdentityServer:AllowedScope");
+
+            var disco = await DiscoveryClient.GetAsync(identityServerUrl);
+            var tokenClient = new TokenClient(disco.TokenEndpoint, clientId, secret);
+
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(model.Email, model.Password, allowedScope);
+
+            return Response(tokenResponse.Json);
         }
 
         private async Task AddRolesAndClaimsToNewUser(ApplicationUser user, RegisterViewModel model)

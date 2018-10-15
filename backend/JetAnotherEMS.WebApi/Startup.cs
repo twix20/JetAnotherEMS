@@ -84,7 +84,10 @@ namespace JetAnotherEMS.WebApi
             }
 
             app.UseStaticFiles();
+
             app.UseAuthentication();
+
+            app.UseIdentityServer();
 
             app.UseHttpsRedirection();
             app.UseMvc();

@@ -1,13 +1,16 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using JetAnotherEMS.Infrastructure.Data.Context;
 using JetAnotherEMS.Infrastructure.Identity.Authorization;
+using JetAnotherEMS.Infrastructure.Identity.Data;
 using JetAnotherEMS.Infrastructure.IoC;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -41,17 +44,32 @@ namespace JetAnotherEMS.WebApi
 
             AddAutoMapperSetup(services);
             AddAuthorization(services);
+            AddAuthentication(services);
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
             AutofacBootStrapper.RegisterServices(builder);
+
+            // DB Contexts
+            builder.RegisterType<ApplicationContextDbFactory>().AsSelf().AsImplementedInterfaces();
+
+            builder.RegisterType<EventStoreSQLContext>();
+            builder.RegisterType<JetAnotherEmsContext>();
+
+            builder.RegisterType<ApplicationContextDbFactory>().AsSelf().AsImplementedInterfaces();
+            builder.Register<ApplicationDbContext>(ctx =>
+            {
+                var factory = ctx.Resolve<IDesignTimeDbContextFactory<ApplicationDbContext>>();
+                return factory.CreateDbContext(new string[] { });
+            });
+
             ApplicationContainer = builder.Build();
 
             return new AutofacServiceProvider(this.ApplicationContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IHostingEnvironment env)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -76,6 +94,9 @@ namespace JetAnotherEMS.WebApi
             {
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "JetAnotherEMS Project API v1");
             });
+
+
+            CreateRoles(serviceProvider);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace JetAnotherEMS.Infrastructure.IoC.AutofacModules
                 .Where(t => t.Name.EndsWith("Handler"))
                 .AsImplementedInterfaces();
 
-            builder.RegisterType<DomainNotificationHandler>().As<INotificationHandler<DomainNotification>>().AsSelf();
+            builder.RegisterType<DomainNotificationHandler>().As<INotificationHandler<DomainNotification>>().AsSelf().InstancePerLifetimeScope();
         }
     }
 }

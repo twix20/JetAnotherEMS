@@ -9,6 +9,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
     public class JetAnotherEmsContext : DbContext
     {
         public DbSet<SchoolingEvent> SchoolingEvents { get; set; }
+        public DbSet<SchoolingEventAddress> SchoolingEventAddresses { get; set; }
         public DbSet<SchoolingEventDay> SchoolingEventDays { get; set; }
         public DbSet<SchoolingEventFollower> SchoolingEventFollowers { get; set; }
         public DbSet<SchoolingEventDayAttachment> SchoolingEventDayAttachments { get; set; }
@@ -20,18 +21,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new CustomerMap());
-
-            modelBuilder.Entity<SchoolingEvent>().HasData(new SchoolingEvent()
-            {
-                Id = Guid.Parse("f9d6f596-b4af-40f0-8520-6f2e124c085d"),
-                Title = "Seed title",
-                Description = "Seed description",
-            }, new SchoolingEvent()
-            {
-                Id = Guid.Parse("ec2dd6aa-2433-46a9-94c5-2b2292385f0d"),
-                Title = "Seed title 2",
-                Description = "Seed description 2",
-            });
 
             base.OnModelCreating(modelBuilder);
         }

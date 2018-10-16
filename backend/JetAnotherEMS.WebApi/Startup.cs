@@ -100,6 +100,10 @@ namespace JetAnotherEMS.WebApi
 
 
             CreateRoles(serviceProvider);
+
+            // DUMMY SEED
+            var ctx = serviceProvider.GetService<JetAnotherEmsContext>();
+            ctx.Seed();
         }
     }
 }

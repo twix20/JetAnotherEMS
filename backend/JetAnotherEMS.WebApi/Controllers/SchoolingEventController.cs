@@ -28,7 +28,7 @@ namespace JetAnotherEMS.WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
-            var entities = await _schoolingEventService.GetAll();
+            var entities = await _schoolingEventService.GetFeaturedEvents(0, 10);
 
             return Response(entities);
         }

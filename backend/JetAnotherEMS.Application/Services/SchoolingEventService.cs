@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace JetAnotherEMS.Application.Services
 {
@@ -17,34 +19,37 @@ namespace JetAnotherEMS.Application.Services
     {
         private readonly IMediatorHandler _bus;
         private readonly ISchoolingEventRepository _schoolingEventRepository;
-        private readonly IMapper _mapper;
 
-        public SchoolingEventService(ISchoolingEventRepository schoolingEventRepository, IMapper mapper, IMediatorHandler bus)
+        public SchoolingEventService(ISchoolingEventRepository schoolingEventRepository, IMediatorHandler bus)
         {
             this._schoolingEventRepository = schoolingEventRepository;
-            _mapper = mapper;
             _bus = bus;
         }
 
-        public Task<IEnumerable<SchoolingEventViewModel>> GetAll()
+        public async Task<IEnumerable<SchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize)
         {
-            var entities = _schoolingEventRepository.GetAll().ToList();
+            //TODO: add pagination
 
-            var entitiesVms = entities.Select(e => _mapper.Map<SchoolingEventViewModel>(e));
+            var featuredEvents = await _schoolingEventRepository
+                .GetAll()
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ProjectTo<SchoolingEventViewModel>()
+                .ToListAsync();
 
-            return Task.FromResult(entitiesVms);
+            return featuredEvents;
         }
 
         public async Task<SchoolingEventViewModel> GetById(Guid id)
         {
             var entity = await _schoolingEventRepository.GetById(id);
 
-            return _mapper.Map<SchoolingEventViewModel>(entity);
+            return Mapper.Map<SchoolingEventViewModel>(entity);
         }
 
         public async Task Create(SchoolingEventViewModel viewModel)
         {
-            var command = _mapper.Map<CreateNewSchoolingEventCommand>(viewModel);
+            var command = Mapper.Map<CreateNewSchoolingEventCommand>(viewModel);
 
             await _bus.SendCommand(command);
         }

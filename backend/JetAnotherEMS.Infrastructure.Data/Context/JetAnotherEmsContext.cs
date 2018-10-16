@@ -34,7 +34,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                 .Build();
 
             // define the database to use
-            optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(config.GetConnectionString("DefaultConnection"));
         }
 
     }

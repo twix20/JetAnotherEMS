@@ -34,6 +34,8 @@ namespace JetAnotherEMS.WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddCors();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "JetAnotherEMS API", Version = "v1" });
@@ -89,6 +91,16 @@ namespace JetAnotherEMS.WebApi
 
             app.UseIdentityServer();
 
+            app.UseCors(
+                options =>
+                {
+                    options
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+
             app.UseHttpsRedirection();
             app.UseMvc();
 
@@ -97,6 +109,8 @@ namespace JetAnotherEMS.WebApi
             {
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "JetAnotherEMS Project API v1");
             });
+
+
 
 
             CreateRoles(serviceProvider);

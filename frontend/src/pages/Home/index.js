@@ -23,9 +23,7 @@ import {
   HOME_PAGE_UNLOADED
 } from '../../constants/actionTypes';
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = dispatch => ({});
+import schoolingEventActions from '../../actions/schoolingEventActions';
 
 const styles = theme => ({
   listHeaderContainer: {
@@ -69,7 +67,9 @@ class HomePage extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, getFeaturedSchoolingEventsRequest } = this.props;
+
+    console.log(this.props);
 
     return (
       <DefaultLayout
@@ -85,6 +85,14 @@ class HomePage extends React.Component {
       >
         <Grid container>
           <EventCreatorOpenerButton mode="add" />
+
+          <div
+            onClick={() => {
+              getFeaturedSchoolingEventsRequest();
+            }}
+          >
+            Click me!
+          </div>
 
           <Grid
             container
@@ -122,6 +130,19 @@ class HomePage extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  getFeaturedSchoolingEventsRequest: () => {
+    dispatch(
+      schoolingEventActions.getFeaturedSchoolingEventsRequest.start({
+        page: 0,
+        pageSize: 10
+      })
+    );
+  }
+});
 
 export default withStyles(styles)(
   connect(

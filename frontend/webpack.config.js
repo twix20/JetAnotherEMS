@@ -9,6 +9,7 @@ module.exports = {
     filename: "index_bundle.js",
     publicPath: "/JetAnotherEMS/"
   },
+  devtool: "eval-source-map",
   module: {
     rules: [
       {

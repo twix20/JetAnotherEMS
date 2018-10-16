@@ -5,8 +5,8 @@
   "homepage": "http://twix20.github.io/JetAnotherEMS",
   "devDependencies": {
     "cross-env": "^5.1.4",
-    "react-scripts": "1.1.1",
-    "gh-pages": "^2.0.0"
+    "gh-pages": "^2.0.0",
+    "react-scripts": "1.1.1"
   },
   "dependencies": {
     "@material-ui/core": "^3.1.1",
@@ -59,6 +59,7 @@
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.1",
+    "redux-saga": "^0.16.2",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "typecheck": "^0.1.2",

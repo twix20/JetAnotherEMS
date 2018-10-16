@@ -11,7 +11,7 @@ namespace JetAnotherEMS.Application.AutoMapper
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<SchoolingEvent, SchoolingEventViewModel>()
+                cfg.CreateMap<SchoolingEvent, FeaturedSchoolingEventViewModel>()
 
                     .ForMember(dest => dest.ScheduleDaysCount, opts => opts.MapFrom(src => src.Schedule.Count))
                     .ForMember(

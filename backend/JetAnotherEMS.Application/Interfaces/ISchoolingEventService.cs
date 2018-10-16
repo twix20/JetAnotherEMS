@@ -8,10 +8,10 @@ namespace JetAnotherEMS.Application.Interfaces
 {
     public interface ISchoolingEventService
     {
-        Task<IEnumerable<SchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize);
+        Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize);
 
-        Task<SchoolingEventViewModel> GetById(Guid id);
+        Task<FeaturedSchoolingEventViewModel> GetById(Guid id);
 
-        Task Create(SchoolingEventViewModel viewModel);
+        Task Create(FeaturedSchoolingEventViewModel viewModel);
     }
 }

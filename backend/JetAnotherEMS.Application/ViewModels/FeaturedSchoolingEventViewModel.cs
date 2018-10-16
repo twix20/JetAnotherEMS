@@ -2,7 +2,7 @@
 
 namespace JetAnotherEMS.Application.ViewModels
 {
-    public class SchoolingEventViewModel : EntityViewModel
+    public class FeaturedSchoolingEventViewModel : EntityViewModel
     {
         public string Title { get; set; }
 

@@ -26,7 +26,7 @@ namespace JetAnotherEMS.Application.Services
             _bus = bus;
         }
 
-        public async Task<IEnumerable<SchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize)
+        public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize)
         {
             //TODO: add pagination
 
@@ -34,20 +34,20 @@ namespace JetAnotherEMS.Application.Services
                 .GetAll()
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .ProjectTo<SchoolingEventViewModel>()
+                .ProjectTo<FeaturedSchoolingEventViewModel>()
                 .ToListAsync();
 
             return featuredEvents;
         }
 
-        public async Task<SchoolingEventViewModel> GetById(Guid id)
+        public async Task<FeaturedSchoolingEventViewModel> GetById(Guid id)
         {
             var entity = await _schoolingEventRepository.GetById(id);
 
-            return Mapper.Map<SchoolingEventViewModel>(entity);
+            return Mapper.Map<FeaturedSchoolingEventViewModel>(entity);
         }
 
-        public async Task Create(SchoolingEventViewModel viewModel)
+        public async Task Create(FeaturedSchoolingEventViewModel viewModel)
         {
             var command = Mapper.Map<CreateNewSchoolingEventCommand>(viewModel);
 

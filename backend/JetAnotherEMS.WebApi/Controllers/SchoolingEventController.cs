@@ -43,7 +43,7 @@ namespace JetAnotherEMS.WebApi.Controllers
 
         [HttpPost]
         [Authorize(Policy = "CanCreateSchoolingEvent")]
-        public async Task<IActionResult> Post([FromBody]SchoolingEventViewModel viewModel)
+        public async Task<IActionResult> Post([FromBody]FeaturedSchoolingEventViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

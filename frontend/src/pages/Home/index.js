@@ -4,13 +4,10 @@ import EventListContainer from '../../components/EventListContainer/EventListCon
 import EventFilter from '../../components/EventFilter';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Parallax, Background } from 'react-parallax';
+import { Parallax } from 'react-parallax';
 
-import PropTypes from 'prop-types';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -18,12 +15,9 @@ import DefaultLayout from '../../layouts/Default';
 import EventCreatorOpenerButton from '../../components/EventCreatorOpenerButton';
 
 import { connect } from 'react-redux';
-import {
-  HOME_PAGE_LOADED,
-  HOME_PAGE_UNLOADED
-} from '../../constants/actionTypes';
 
 import schoolingEventActions from '../../actions/schoolingEventActions';
+import { schoolingEventSelectors } from '../../reducers/selectors';
 
 const styles = theme => ({
   listHeaderContainer: {
@@ -67,9 +61,13 @@ class HomePage extends React.Component {
   };
 
   render() {
-    const { classes, getFeaturedSchoolingEventsRequest } = this.props;
+    const {
+      classes,
+      getFeaturedEvents,
+      getFeaturedSchoolingEventsRequest
+    } = this.props;
 
-    console.log(this.props);
+    console.log(getFeaturedEvents.length);
 
     return (
       <DefaultLayout
@@ -131,7 +129,9 @@ class HomePage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  getFeaturedEvents: schoolingEventSelectors.featured(state)
+});
 
 const mapDispatchToProps = dispatch => ({
   getFeaturedSchoolingEventsRequest: () => {

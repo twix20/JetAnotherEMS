@@ -5,7 +5,6 @@ import ActionTypes, {
 
 const featureddefaultState = {
   byId: {},
-  all: [],
   loading: false
 };
 
@@ -20,7 +19,6 @@ const featured = (state = featureddefaultState, action) => {
               return acc;
             }, state.byId)
           },
-          all: state.all.concat(action.data.data),
           loading: false
         };
       }
@@ -41,6 +39,10 @@ const featured = (state = featureddefaultState, action) => {
     default:
       return state;
   }
+};
+
+export const selectors = {
+  featured: state => Object.values(state.schoolingEvent.featured.byId) || []
 };
 
 export default combineReducers({

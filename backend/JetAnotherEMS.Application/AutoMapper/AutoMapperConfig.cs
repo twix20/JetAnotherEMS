@@ -13,7 +13,7 @@ namespace JetAnotherEMS.Application.AutoMapper
             {
                 cfg.CreateMap<SchoolingEvent, FeaturedSchoolingEventViewModel>()
 
-                    .ForMember(dest => dest.ScheduleDaysCount, opts => opts.MapFrom(src => src.Schedule.Count))
+                    .ForMember(dest => dest.ScheduleDaysCount, opts => opts.MapFrom(src => src.Schedule.GroupBy(d => d.From.Day).Count()))
                     .ForMember(dest => dest.TeacherNames, opts => opts.MapFrom(src => src.Schedule.Select(d => d.Teacher).Distinct()))
                     .ForMember(dest => dest.StartingDateTime, opts => opts.MapFrom(src => src.Schedule.OrderBy(d => d.From).Select(d => d.From).FirstOrDefault()))
                     .ForMember(

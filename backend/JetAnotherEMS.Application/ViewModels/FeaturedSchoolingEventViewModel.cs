@@ -15,6 +15,8 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public List<string> TeacherNames { get; set; }
 
+        public SchoolingEventAddressViewModel Location { get; set; }
+
         public List<SchoolingEventDayTagViewModel> FeaturedTags { get; set; }
         //TODO: tickets left count
         //TODO: ticket min price

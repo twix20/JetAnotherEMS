@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -52,6 +53,9 @@ import EventImagesCarousel from '../EventImagesCarousel';
 import CountdownTimer from '../common/CountdownTimer';
 
 import EventTicketsOpenerButton from '../EventTicketsChooserDialog/EventTicketsOpenerButton';
+
+import { connect } from 'react-redux';
+import schoolingEventActions from '../../actions/schoolingEventActions';
 
 const styles = theme => ({
   detailsContainer: {
@@ -125,6 +129,14 @@ class EventDetailsCard extends React.Component {
       }
     ]
   };
+
+  componentDidMount() {
+    const { eventId, fetchEvent, fetchSchedule } = this.props;
+
+    console.log(eventId);
+
+    fetchSchedule(eventId);
+  }
 
   handleHeaderMenuClick = event => {
     this.setState({ headerMenuEl: event.currentTarget });
@@ -319,4 +331,22 @@ class EventDetailsCard extends React.Component {
   }
 }
 
-export default withStyles(styles)(EventDetailsCard);
+EventDetailsCard.propTypes = {
+  eventId: PropTypes.string.isRequired
+};
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  fetchEvent: id =>
+    dispatch(schoolingEventActions.getEventRequest.start({ id })),
+  fetchSchedule: id =>
+    dispatch(schoolingEventActions.getScheduleRequst.start({ id }))
+});
+
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(EventDetailsCard)
+);

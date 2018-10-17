@@ -1,16 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import ActionTypes, {
-  GET_FEATURED_SCHOOLING_EVENTS_REQUEST
-} from '../constants/actionTypes';
+import ActionTypes from '../constants/actionTypes';
 
 export function* sagaRequestWrapper(requestActionTypes, apiCall, apiCallArgs) {
   try {
-    const response = yield call(apiCall, ...apiCallArgs);
-    yield put(requestActionTypes.success(response));
-    return { response };
+    const response = yield call(apiCall, apiCallArgs);
+    yield put(requestActionTypes.success({ response, ...apiCallArgs }));
+    return { response, apiCallArgs };
   } catch (error) {
-    yield put(requestActionTypes.failure(error));
-    return { error };
+    yield put(requestActionTypes.failure({ error, ...apiCallArgs }));
+    return { error, apiCallArgs };
   }
 }
 

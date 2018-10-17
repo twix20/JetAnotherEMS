@@ -1,7 +1,8 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import ProptTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -103,22 +104,29 @@ function generate(element) {
   );
 }
 
+//TODO: rename DaySchedule to DayActivity
 class DaySchedule extends React.Component {
   state = {};
 
   render() {
-    const { classes } = this.props;
+    const { classes, day } = this.props;
 
     const secondary = true;
 
+    console.log(day);
+
     return (
       <Grid container className={classes.activityContainer}>
-        <Grid item lg={1} className={classes.timeline}>
+        <Grid item xs={3} lg={1} className={classes.timeline}>
           <Avatar className={classes.timelineAvatar} color="secondary">
             <School />
           </Avatar>
-          <Typography variant="title">18:00</Typography>
-          <Typography align="justify">2h</Typography>
+          <Typography variant="title">
+            {moment(day.from).format('HH:MM')}
+          </Typography>
+          <Typography align="justify">
+            {moment.duration(moment(day.to).diff(day.from)).asHours()}h
+          </Typography>
         </Grid>
 
         <Grid item lg={11}>
@@ -128,7 +136,7 @@ class DaySchedule extends React.Component {
                 <Grid container justify="space-between">
                   <Grid item>
                     <Typography className={classes.heading}>
-                      <b>English</b>
+                      <b>{day.title}</b>
                     </Typography>
                     <Typography className={classes.heading} variant="caption">
                       with
@@ -137,12 +145,14 @@ class DaySchedule extends React.Component {
                       gutterBottom
                       className={classNames(classes.heading, classes.tutor)}
                     >
-                      Piotr Markiewicz
+                      {day.teacher}
                     </Typography>
                     <Typography className={classes.heading} variant="caption">
                       at
                     </Typography>
-                    <Typography className={classes.heading}>C3 105</Typography>
+                    <Typography className={classes.heading}>
+                      {day.lectureRoom}
+                    </Typography>
                   </Grid>
                   <Grid item className={classes.attachmentItem}>
                     <AttachmentIcon />
@@ -156,20 +166,12 @@ class DaySchedule extends React.Component {
                     container
                     direction="column"
                     justify="space-between"
-                    lg={8}
+                    xs={8}
                     className={classes.descriptionContainer}
                   >
                     <Grid item>
-                      <Typography variant="headline">Description</Typography>
-                      <Typography variant="body1">
-                        Lorem ipsum dolor sit amet, habeo dictas interesset et
-                        est. Ne usu fabellas sensibus, ut ferri petentium eos.
-                        Ut mei erant oporteat mandamus, utinam labores appareat
-                        eu has, cibo causae ex nam. Ipsum errem in pri, ea sit
-                        vero congue utinam, per aliquip tamquam an. Alii omnes
-                        splendide has no, vim in nostrud postulant. Per errem
-                        fabulas ne. Ei vel
-                      </Typography>
+                      <Typography variant="title">Description</Typography>
+                      <Typography variant="body1">{day.description}</Typography>
                     </Grid>
                     <Grid item>
                       <TagsList />
@@ -215,5 +217,9 @@ class DaySchedule extends React.Component {
     );
   }
 }
+
+DaySchedule.propTypes = {
+  day: ProptTypes.object.isRequired
+};
 
 export default withStyles(styles)(DaySchedule);

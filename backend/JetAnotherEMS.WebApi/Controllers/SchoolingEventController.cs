@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Core.Bus;
@@ -39,7 +40,21 @@ namespace JetAnotherEMS.WebApi.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return Response(await _schoolingEventService.GetById(id));
+            var featured = await _schoolingEventService.GetFeaturedById(id);
+            if (featured == null) return BadRequest();
+
+            return Response(featured);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("[action]/{id:guid}")]
+        public async Task<IActionResult> Schedule(Guid id)
+        {
+            var schedule = await _schoolingEventService.GetSchedule(id);
+            if (schedule == null) return BadRequest();
+
+            return Response(schedule);
         }
 
         [HttpPost]

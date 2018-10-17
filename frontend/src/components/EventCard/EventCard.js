@@ -22,6 +22,8 @@ import SchoolIcon from '@material-ui/icons/School';
 
 import EventImagesCarousel from '../EventImagesCarousel';
 
+import moment from 'moment';
+
 const styles = theme => ({
   image: {
     maxWidth: '100%',
@@ -144,6 +146,8 @@ class EventCard extends React.PureComponent {
   render() {
     const { classes, event } = this.props;
 
+    console.log(event);
+
     return (
       <Paper>
         <Grid container direction="row">
@@ -178,7 +182,7 @@ class EventCard extends React.PureComponent {
                   variant="display1"
                   color="primary"
                 >
-                  4
+                  {event.teacherNames.length}
                 </Typography>
 
                 <SchoolIcon />
@@ -202,7 +206,7 @@ class EventCard extends React.PureComponent {
                   variant="display1"
                   color="primary"
                 >
-                  55
+                  {event.scheduleDaysCount}
                 </Typography>
 
                 <CalendarToday />
@@ -220,37 +224,36 @@ class EventCard extends React.PureComponent {
             lg={6}
             className={classes.detailsContainer}
           >
-            <Tooltip title="In 2 days" placement="top">
+            <Tooltip
+              title={moment(event.startingDateTime).fromNow()}
+              placement="top"
+            >
               <Chip
                 avatar={<AccessTime />}
-                label="20/03/2018"
+                label={moment(event.startingDateTime).format('DD/MM/YYYY')}
                 className={classes.dateLeft}
               />
             </Tooltip>
 
             <Grid item>
               <Typography variant="title" gutterBottom>
-                Jak wytresowac smoka?
+                {event.title}
               </Typography>
               <Typography variant="subheading" color="textSecondary">
-                <PlaceIcon fontSize="inherit" />Wrocław, Reja 23/20
+                <PlaceIcon fontSize="inherit" />
+                {`${event.location.city}, ${event.location.street}`}
+                {event.loc}
               </Typography>
             </Grid>
 
             <Grid item className={classes.descriptionContainer}>
               <Typography variant="body1" className={classes.description}>
-                Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz
-                w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
-                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarzaw przemyśle poligraficznym. Został po w
-                przemyśle poligraficznym. Został po raz pierwszy użyty w XV w.
-                przez nieznanego drukarzaw przemyśle poligraficznym. Został po
+                {event.description}
               </Typography>
             </Grid>
 
             <Grid item>
-              <TagsList />
+              <TagsList tags={event.featuredTags} />
             </Grid>
           </Grid>
           <Grid

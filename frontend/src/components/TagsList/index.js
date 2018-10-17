@@ -17,17 +17,22 @@ const styles = theme => ({
 });
 
 function TagsList(props) {
-  const { classes } = props;
+  const { classes, tags } = props;
 
   return (
     <List className={classes.tagsContainer}>
-      {['C#', 'Docker', 'Angular', 'Linux', 'Windows'].map(r => (
-        <ListItem key={r} className={classes.tag}>
-          <Chip label={r} />
+      {tags.map(r => (
+        <ListItem key={r.id} className={classes.tag}>
+          <Chip label={r.value} />
         </ListItem>
       ))}
     </List>
   );
 }
+
+TagsList.defaultProps = {
+  tags: []
+};
+//TODO: add prop types
 
 export default withStyles(styles)(TagsList);

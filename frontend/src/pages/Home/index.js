@@ -61,13 +61,7 @@ class HomePage extends React.Component {
   };
 
   render() {
-    const {
-      classes,
-      getFeaturedEvents,
-      getFeaturedSchoolingEventsRequest
-    } = this.props;
-
-    console.log(getFeaturedEvents.length);
+    const { classes } = this.props;
 
     return (
       <DefaultLayout
@@ -83,14 +77,6 @@ class HomePage extends React.Component {
       >
         <Grid container>
           <EventCreatorOpenerButton mode="add" />
-
-          <div
-            onClick={() => {
-              getFeaturedSchoolingEventsRequest();
-            }}
-          >
-            Click me!
-          </div>
 
           <Grid
             container
@@ -129,20 +115,9 @@ class HomePage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  getFeaturedEvents: schoolingEventSelectors.featured(state)
-});
+const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({
-  getFeaturedSchoolingEventsRequest: () => {
-    dispatch(
-      schoolingEventActions.getFeaturedSchoolingEventsRequest.start({
-        page: 0,
-        pageSize: 10
-      })
-    );
-  }
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default withStyles(styles)(
   connect(

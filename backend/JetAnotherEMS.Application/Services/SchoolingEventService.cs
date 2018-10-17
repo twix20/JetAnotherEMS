@@ -40,11 +40,18 @@ namespace JetAnotherEMS.Application.Services
             return featuredEvents;
         }
 
-        public async Task<FeaturedSchoolingEventViewModel> GetById(Guid id)
+        public async Task<FeaturedSchoolingEventViewModel> GetFeaturedById(Guid id)
         {
             var entity = await _schoolingEventRepository.GetById(id);
 
             return Mapper.Map<FeaturedSchoolingEventViewModel>(entity);
+        }
+
+        public async Task<IEnumerable<SchoolingEventDayViewModel>> GetSchedule(Guid id)
+        {
+            var entity = await _schoolingEventRepository.GetById(id);
+
+            return entity.Schedule.Select(Mapper.Map<SchoolingEventDayViewModel>);
         }
 
         public async Task Create(FeaturedSchoolingEventViewModel viewModel)

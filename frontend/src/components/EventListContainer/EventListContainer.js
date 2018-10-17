@@ -4,6 +4,10 @@ import EventCard from '../EventCard/EventCard';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
+import { connect } from 'react-redux';
+import schoolingEventActions from '../../actions/schoolingEventActions';
+import { schoolingEventSelectors } from '../../reducers/selectors';
+
 class EventListContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -21,16 +25,21 @@ class EventListContainer extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getFeaturedSchoolingEventsRequest();
+  }
+
   render() {
     const n = 25;
 
+    const { featuredEvents } = this.props;
+
+    console.log(featuredEvents);
     return (
       <List>
-        {[...Array(n)].map((e, i) => (
+        {featuredEvents.map((e, i) => (
           <ListItem disableGutters key={i}>
-            <EventCard
-              event={this.state.events[i % this.state.events.length]}
-            />
+            <EventCard event={e} />
           </ListItem>
         ))}
       </List>
@@ -38,4 +47,22 @@ class EventListContainer extends React.Component {
   }
 }
 
-export default EventListContainer;
+const mapStateToProps = state => ({
+  featuredEvents: schoolingEventSelectors.featured(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  getFeaturedSchoolingEventsRequest: () => {
+    dispatch(
+      schoolingEventActions.getFeaturedSchoolingEventsRequest.start({
+        page: 0,
+        pageSize: 10
+      })
+    );
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EventListContainer);

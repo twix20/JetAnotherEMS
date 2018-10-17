@@ -92,7 +92,7 @@ class ScrollableTabsButtonForce extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, eventId } = this.props;
     const { value } = this.state;
 
     return (
@@ -112,7 +112,7 @@ class ScrollableTabsButtonForce extends React.Component {
         </AppBar>
 
         <div className={classes.tabContentContainer}>
-          {value === 0 && <DayScheduleCarousel />}
+          {value === 0 && <DayScheduleCarousel eventId={eventId} />}
           {value === 1 && (
             <TabContainer>
               <PeopleTable />
@@ -130,7 +130,8 @@ class ScrollableTabsButtonForce extends React.Component {
 }
 
 ScrollableTabsButtonForce.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  eventId: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(ScrollableTabsButtonForce);

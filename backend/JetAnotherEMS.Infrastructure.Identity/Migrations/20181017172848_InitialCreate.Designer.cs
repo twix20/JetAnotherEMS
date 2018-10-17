@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181016152527_InitialCreate")]
+    [Migration("20181017172848_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

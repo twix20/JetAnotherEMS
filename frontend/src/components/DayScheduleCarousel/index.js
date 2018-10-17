@@ -15,21 +15,10 @@ import times from 'lodash/times';
 import DaySchedule from '../DaySchedule';
 import Dots from './Dots';
 
-const tutorialSteps = [
-  {
-    label: 'How to be happy :)',
-    imgPath: '/static/images/steppers/1-happy.jpg'
-  },
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  },
-  ,
-  {
-    label: '1. Work with something that you like, like…',
-    imgPath: '/static/images/steppers/2-work.jpg'
-  }
-];
+import { connect } from 'react-redux';
+import schoolingEventActions from '../../actions/schoolingEventActions';
+import { scheduleSelectors } from '../../reducers/selectors';
+import groupBy from 'lodash/groupBy';
 
 const styles = theme => ({
   root: {},
@@ -66,6 +55,12 @@ class DayScheduleCarousel extends React.Component {
     activeStep: 0
   };
 
+  componentDidMount() {
+    const { eventId, fetchSchedule } = this.props;
+
+    fetchSchedule(eventId);
+  }
+
   handleDotClick = step => {
     this.setState({
       activeStep: step
@@ -89,11 +84,21 @@ class DayScheduleCarousel extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, eventId, scheduleForEvent } = this.props;
     const { activeStep } = this.state;
 
-    const maxSteps = tutorialSteps.length;
+    const schedule = scheduleForEvent(eventId);
 
+    if (!schedule || schedule.loading) return <div>Loading..</div>;
+
+    const scheduleDays = groupBy(schedule.schedule, d =>
+      moment(d.from)
+        .startOf('day')
+        .format()
+    );
+    console.log(scheduleDays);
+
+    const maxSteps = scheduleDays.length;
     return (
       <div className={classes.root}>
         <Grid container justify="center">
@@ -118,7 +123,7 @@ class DayScheduleCarousel extends React.Component {
           >
             <Dots
               item
-              steps={maxSteps}
+              steps={scheduleDays}
               activeStep={activeStep}
               onDotClick={this.handleDotClick}
             />
@@ -141,14 +146,18 @@ class DayScheduleCarousel extends React.Component {
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
         >
-          {times(maxSteps, i => {
+          {Object.keys(scheduleDays).map((dayDate, i) => {
+            const day = scheduleDays[dayDate];
             return (
               <div
                 key={i}
                 hidden={activeStep !== i}
                 className={classnames(classes.scheduleContainer)}
               >
-                {i === activeStep && times(5, i => <DaySchedule key={i} />)}
+                {i === activeStep &&
+                  day.map(dayActivity => (
+                    <DaySchedule day={dayActivity} key={dayActivity.id} />
+                  ))}
               </div>
             );
           })}
@@ -163,4 +172,21 @@ DayScheduleCarousel.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(DayScheduleCarousel);
+const mapStateToProps = state => ({
+  scheduleForEvent: eventId =>
+    scheduleSelectors.forSchoolingEvent(state, eventId)
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchEvent: id =>
+    dispatch(schoolingEventActions.getEventRequest.start({ id })),
+  fetchSchedule: id =>
+    dispatch(schoolingEventActions.getScheduleRequst.start({ id }))
+});
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DayScheduleCarousel)
+);

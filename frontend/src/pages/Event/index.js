@@ -13,15 +13,8 @@ const styles = theme => ({
 });
 
 class EventPage extends React.Component {
-  state = {
-    eventId: this.props.match.params.id,
-    event: {
-      id: this.props.match.params.id,
-      startDate: new Date(2018, 11, 24, 10, 33)
-    }
-  };
-
   render() {
+    const { id } = this.props.match.params;
     const { classes } = this.props;
 
     return (
@@ -29,9 +22,9 @@ class EventPage extends React.Component {
         <Grid container>
           <div className={classes.cardMargin}>
             <EventCreatorOpenerButton mode="edit" />
-            <EventDetailsCard />
+            <EventDetailsCard eventId={id} />
           </div>
-          <EventTabs />
+          <EventTabs eventId={id} />
         </Grid>
       </DefaultLayout>
     );

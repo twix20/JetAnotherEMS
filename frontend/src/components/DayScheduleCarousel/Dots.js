@@ -45,6 +45,9 @@ class Dots extends React.Component {
 
     const self = this;
 
+    console.log('steps');
+    console.log(steps);
+
     return (
       <Grid
         item
@@ -52,14 +55,15 @@ class Dots extends React.Component {
         wrap="nowrap"
         className={classes.dots}
         index={activeStep}
-        justify={steps > 6 ? '' : 'center'}
+        justify={steps.length > 6 ? '' : 'center'}
       >
-        {[...new Array(steps)].map((_, step) => {
-          const isActive = step === activeStep;
+        {Object.keys(steps).map((stepDate, i) => {
+          console.log(stepDate);
+          const isActive = i === activeStep;
           const dotColor = isActive ? 'secondary' : 'textSecondary';
           // eslint-disable-next-line react/no-array-index-key
 
-          const day = moment().add(step, 'days');
+          const day = moment(stepDate);
           return (
             <Grid
               ref={node => {
@@ -68,14 +72,11 @@ class Dots extends React.Component {
                 }
               }}
               item
-              id={`element_${step}`}
-              key={step}
-              onClick={() => onDotClick(step)}
+              id={`element_${i}`}
+              key={i}
+              onClick={() => onDotClick(i)}
               className={classes.button}
             >
-              {/* <Typography variant="caption" color={dotColor}>
-                <b>{day.format("MMMM")}</b>
-              </Typography> */}
               <Typography variant="display3" color={dotColor}>
                 <b>{day.format('DD')}</b>
               </Typography>

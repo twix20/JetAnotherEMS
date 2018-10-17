@@ -10,7 +10,9 @@ namespace JetAnotherEMS.Application.Interfaces
     {
         Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize);
 
-        Task<FeaturedSchoolingEventViewModel> GetById(Guid id);
+        Task<FeaturedSchoolingEventViewModel> GetFeaturedById(Guid id);
+
+        Task<IEnumerable<SchoolingEventDayViewModel>> GetSchedule(Guid id);
 
         Task Create(FeaturedSchoolingEventViewModel viewModel);
     }

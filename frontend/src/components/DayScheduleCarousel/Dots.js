@@ -45,9 +45,6 @@ class Dots extends React.Component {
 
     const self = this;
 
-    console.log('steps');
-    console.log(steps);
-
     return (
       <Grid
         item

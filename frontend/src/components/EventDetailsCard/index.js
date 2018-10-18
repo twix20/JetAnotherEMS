@@ -57,6 +57,8 @@ import EventTicketsOpenerButton from '../EventTicketsChooserDialog/EventTicketsO
 import { connect } from 'react-redux';
 import schoolingEventActions from '../../actions/schoolingEventActions';
 
+import { createLoadingSelector } from '../../reducers/selectors';
+
 const styles = theme => ({
   detailsContainer: {
     paddingTop: '0 !important',
@@ -131,11 +133,9 @@ class EventDetailsCard extends React.Component {
   };
 
   componentDidMount() {
-    const { eventId, fetchEvent, fetchSchedule } = this.props;
+    const { eventId, fetchEvent } = this.props;
 
     console.log(eventId);
-
-    fetchSchedule(eventId);
   }
 
   handleHeaderMenuClick = event => {
@@ -339,9 +339,7 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
   fetchEvent: id =>
-    dispatch(schoolingEventActions.getEventRequest.start({ id })),
-  fetchSchedule: id =>
-    dispatch(schoolingEventActions.getScheduleRequst.start({ id }))
+    dispatch(schoolingEventActions.getEventRequest.start({ id }))
 });
 
 export default withStyles(styles)(

@@ -2,47 +2,24 @@ import ActionTypes, {
   GET_SCHOOLING_EVENT_SCHEDULE_REQUEST
 } from '../constants/actionTypes';
 
+import schoolingEventActions from '../actions/schoolingEventActions';
+
 import { combineReducers } from 'redux';
 
 const initialState = {};
 
 const bySchoolingEventId = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.ASYNC_SUCCESS:
-      if (action.subtype === GET_SCHOOLING_EVENT_SCHEDULE_REQUEST) {
-        const { id } = action;
+    case schoolingEventActions.getScheduleRequst.types.success:
+      const { id } = action;
 
-        return {
-          ...state,
-          [id]: {
-            schedule: action.response.data.data,
-            loading: false
-          }
-        };
-      }
-    case ActionTypes.ASYNC_START:
-      if (action.subtype === GET_SCHOOLING_EVENT_SCHEDULE_REQUEST) {
-        const { id } = action;
-
-        return {
-          ...state,
-          [id]: {
-            loading: true
-          }
-        };
-      }
-    case ActionTypes.ASYNC_FAILURE:
-      if (action.subtype === GET_SCHOOLING_EVENT_SCHEDULE_REQUEST) {
-        const { id } = action;
-
-        return {
-          ...state,
-          [id]: {
-            ...state[id],
-            loading: false
-          }
-        };
-      }
+      return {
+        ...state,
+        [id]: {
+          schedule: action.response.data.data,
+          loading: false
+        }
+      };
     default:
       return state;
   }

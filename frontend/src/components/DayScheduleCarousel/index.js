@@ -17,7 +17,10 @@ import Dots from './Dots';
 
 import { connect } from 'react-redux';
 import schoolingEventActions from '../../actions/schoolingEventActions';
-import { scheduleSelectors } from '../../reducers/selectors';
+import {
+  scheduleSelectors,
+  createLoadingSelector
+} from '../../reducers/selectors';
 import groupBy from 'lodash/groupBy';
 
 const styles = theme => ({
@@ -84,21 +87,28 @@ class DayScheduleCarousel extends React.Component {
   };
 
   render() {
-    const { classes, theme, eventId, scheduleForEvent } = this.props;
+    const {
+      classes,
+      theme,
+      eventId,
+      scheduleForEvent,
+      loadingSchedule
+    } = this.props;
     const { activeStep } = this.state;
+
+    if (loadingSchedule) return <div>Loading</div>;
 
     const schedule = scheduleForEvent(eventId);
 
-    if (!schedule || schedule.loading) return <div>Loading..</div>;
+    if (!schedule) return <div>Loading............</div>;
 
     const scheduleDays = groupBy(schedule.schedule, d =>
       moment(d.from)
         .startOf('day')
         .format()
     );
-    console.log(scheduleDays);
 
-    const maxSteps = scheduleDays.length;
+    const maxSteps = Object.keys(scheduleDays).length;
     return (
       <div className={classes.root}>
         <Grid container justify="center">
@@ -174,12 +184,13 @@ DayScheduleCarousel.propTypes = {
 
 const mapStateToProps = state => ({
   scheduleForEvent: eventId =>
-    scheduleSelectors.forSchoolingEvent(state, eventId)
+    scheduleSelectors.forSchoolingEvent(state, eventId),
+  loadingSchedule: createLoadingSelector([
+    schoolingEventActions.getScheduleRequst.type
+  ])(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchEvent: id =>
-    dispatch(schoolingEventActions.getEventRequest.start({ id })),
   fetchSchedule: id =>
     dispatch(schoolingEventActions.getScheduleRequst.start({ id }))
 });

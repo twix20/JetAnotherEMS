@@ -3,11 +3,12 @@ import { instance } from './index';
 const URL_HOST = 'https://localhost:44364';
 //TODO: move url to config/env variable
 export default {
-  getFeaturedEvents: ({ page, pageSize }) =>
+  getFeaturedEvents: ({ page, pageSize, ...filter }) =>
     instance.get(`${URL_HOST}/api/SchoolingEvent/Featured`, {
       params: {
         page,
-        pageSize
+        pageSize,
+        ...filter
       }
     }),
   getEvent: ({ id }) => instance.get(`${URL_HOST}/api/SchoolingEvent/${id}`),

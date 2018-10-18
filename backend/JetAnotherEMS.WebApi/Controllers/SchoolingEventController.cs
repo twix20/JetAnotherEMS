@@ -28,9 +28,9 @@ namespace JetAnotherEMS.WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("[action]")]
-        public async Task<IActionResult> Featured(int page = 0, int pageSize = 10)
+        public async Task<IActionResult> Featured(SchoolingEventFilterViewModel filter, int page = 0, int pageSize = 10)
         {
-            var entities = await _schoolingEventService.GetFeaturedEvents(page, pageSize);
+            var entities = await _schoolingEventService.GetFeaturedEvents(filter, page, pageSize);
 
             return Response(entities);
         }

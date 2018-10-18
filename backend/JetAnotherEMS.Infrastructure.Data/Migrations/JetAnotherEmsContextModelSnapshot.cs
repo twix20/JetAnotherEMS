@@ -159,8 +159,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<int>("Status");
-
                     b.Property<long>("TotalQuantity");
 
                     b.HasKey("Id");
@@ -176,6 +174,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("SchoolingEventId");
+
+                    b.Property<int>("Status");
 
                     b.Property<Guid?>("TicketId");
 

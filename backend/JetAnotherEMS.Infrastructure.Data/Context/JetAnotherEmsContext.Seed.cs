@@ -34,7 +34,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                             LectureRoom = "C3 123",
                             Teacher = "Andrew Gol",
                             From = DateTime.Now.AddDays(1),
-                            To = DateTime.Now.AddDays(1.5),
+                            To = DateTime.Now.AddDays(1).AddHours(1),
                             Tags = new List<SchoolingEventDayTag>()
                             {
                                 new SchoolingEventDayTag()
@@ -43,6 +43,38 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                                     Description = "Web framework"
                                 }
                             }
+                        },
+                        new SchoolingEventDay()
+                        {
+                            Title = "Dummy title2",
+                            Description = "Dummy day description2",
+                            LectureRoom = "C3 1232",
+                            Teacher = "Andrew Gol2",
+                            From = DateTime.Now.AddDays(1).AddHours(2),
+                            To = DateTime.Now.AddDays(1).AddHours(3),
+                            Tags = new List<SchoolingEventDayTag>()
+                            {
+                                new SchoolingEventDayTag()
+                                {
+                                    Value = "Angular2",
+                                    Description = "Web framework2"
+                                }
+                            }
+                        }
+                    },
+                    AvailableTickets = new List<SchoolingEventTicket>()
+                    {
+                        new SchoolingEventTicket()
+                        {
+                            Name = "FREE",
+                            Price = 0,
+                            TotalQuantity = 100
+                        },
+                        new SchoolingEventTicket()
+                        {
+                            Name = "VIP",
+                            Price = 95,
+                            TotalQuantity = 13
                         }
                     }
                     

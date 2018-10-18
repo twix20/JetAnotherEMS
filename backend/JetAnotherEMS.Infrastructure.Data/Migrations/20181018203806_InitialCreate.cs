@@ -95,7 +95,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     TotalQuantity = table.Column<long>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
                     EventId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -164,6 +163,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     TicketId = table.Column<Guid>(nullable: true),
                     SchoolingEventId = table.Column<Guid>(nullable: true)
                 },

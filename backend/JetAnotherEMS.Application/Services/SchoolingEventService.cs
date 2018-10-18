@@ -26,18 +26,18 @@ namespace JetAnotherEMS.Application.Services
             _bus = bus;
         }
 
-        public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize)
+        public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, int page, int pageSize)
         {
-            //TODO: add pagination
-
-            var featuredEvents = await _schoolingEventRepository
+            var featuredEventsQuery = _schoolingEventRepository
                 .GetAll()
                 .Skip(page * pageSize)
-                .Take(pageSize)
-                .ProjectTo<FeaturedSchoolingEventViewModel>()
-                .ToListAsync();
+                .Take(pageSize);
 
-            return featuredEvents;
+            if (filter != null)
+                featuredEventsQuery = ApplyFilters(featuredEventsQuery, filter);
+
+            return await featuredEventsQuery.ProjectTo<FeaturedSchoolingEventViewModel>()
+                .ToListAsync();
         }
 
         public async Task<FeaturedSchoolingEventViewModel> GetFeaturedById(Guid id)
@@ -59,6 +59,40 @@ namespace JetAnotherEMS.Application.Services
             var command = Mapper.Map<CreateNewSchoolingEventCommand>(viewModel);
 
             await _bus.SendCommand(command);
+        }
+
+        private IQueryable<SchoolingEvent> ApplyFilters(IQueryable<SchoolingEvent> query,
+            SchoolingEventFilterViewModel filter)
+        {
+            // Date
+            if (filter.DateFrom.HasValue)
+            {
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Min(d => d.From) <= filter.DateFrom.Value);
+            }
+            if (filter.DateTo.HasValue)
+            {
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.To) <= filter.DateTo.Value);
+            }
+
+            // Price
+            if (filter.PriceFrom.HasValue)
+            {
+                query = query.Where(e => e.AvailableTickets.Any(t => t.Price >= filter.PriceFrom));
+            }
+            if (filter.PriceTo.HasValue)
+            {
+                query = query.Where(e => e.AvailableTickets.Any(t => t.Price <= filter.PriceTo));
+            }
+
+            // Only ongoing
+            if (filter.OnlyOngoing.HasValue)
+            {
+                var now = DateTime.UtcNow;
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.To) >= now && e.Schedule.Min(d => d.From) <= now);
+            }
+
+            //TODO: add only favorites
+            return query;
         }
     }
 }

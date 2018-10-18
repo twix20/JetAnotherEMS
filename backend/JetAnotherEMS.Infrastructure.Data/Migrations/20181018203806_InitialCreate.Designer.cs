@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JetAnotherEmsContext))]
-    [Migration("20181018191000_InitialCreate")]
+    [Migration("20181018203806_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,8 +161,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<int>("Status");
-
                     b.Property<long>("TotalQuantity");
 
                     b.HasKey("Id");
@@ -178,6 +176,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("SchoolingEventId");
+
+                    b.Property<int>("Status");
 
                     b.Property<Guid?>("TicketId");
 

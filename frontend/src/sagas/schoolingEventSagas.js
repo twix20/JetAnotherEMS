@@ -12,19 +12,25 @@ import schoolingEventActions from '../actions/schoolingEventActions';
 import { schoolingEventFilterSelectors } from '../reducers/selectors';
 
 export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
+  const filter = yield select(schoolingEventFilterSelectors.filter);
+
   //todo: save and take page from reducer
   const data = {
     page: 0,
-    pageSize: 20
+    pageSize: 20,
+    DateFrom: filter.date.from ? filter.date.from.format() : null,
+    DateTo: filter.date.to ? filter.date.to.format() : null,
+    PriceFrom: filter.price.from,
+    PriceTo: filter.price.to,
+    OnlyFavorites: filter.toggleable.onlyFavorites,
+    OnlyOngoing: filter.toggleable.onlyOngoing
   };
 
   yield put(
     schoolingEventActions.getFeaturedSchoolingEventsRequest.start(data)
   );
 
-  const filter = yield select(schoolingEventFilterSelectors.filter);
-
-  console.log(filter);
+  //TODO: apply filter
 
   const { response, error } = yield sagaRequestWrapper(
     schoolingEventActions.getFeaturedSchoolingEventsRequest,

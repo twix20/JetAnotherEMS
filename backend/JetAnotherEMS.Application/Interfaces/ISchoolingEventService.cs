@@ -8,7 +8,7 @@ namespace JetAnotherEMS.Application.Interfaces
 {
     public interface ISchoolingEventService
     {
-        Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(int page, int pageSize);
+        Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, int page, int pageSize);
 
         Task<FeaturedSchoolingEventViewModel> GetFeaturedById(Guid id);
 

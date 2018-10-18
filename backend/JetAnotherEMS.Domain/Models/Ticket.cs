@@ -12,15 +12,5 @@ namespace JetAnotherEMS.Domain.Models
         public decimal Price { get; set; }
 
         public uint TotalQuantity { get; set; }
-
-        public TicketStatus Status { get; set; }
-    }
-
-    public enum TicketStatus
-    {
-        Unknown,
-        AwaitingApproval,
-        Approved,
-        Rejected
     }
 }

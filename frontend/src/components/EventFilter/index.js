@@ -15,6 +15,10 @@ import HeartCheckobx from '../common/HeartCheckbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import schoolingEventFilterActions from '../../actions/schoolingEventFilterActions';
+import { connect } from 'react-redux';
+import { schoolingEventFilterSelectors } from '../../reducers/selectors';
+
 const styles = theme => ({
   section: {
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px `,
@@ -41,7 +45,6 @@ const styles = theme => ({
 
 class EventFilter extends React.Component {
   state = {
-    amount: [0, 100],
     date: {
       from: null,
       to: null
@@ -49,20 +52,18 @@ class EventFilter extends React.Component {
   };
 
   handlePriceChange = range => {
-    this.setState({ amount: range });
+    this.props.updateFilter('price', { from: range[0], to: range[1] });
   };
 
   handleDateChange = (newDate, name) => {
-    this.setState({
-      date: {
-        ...this.state.date,
-        [name]: newDate
-      }
-    });
+    let currentDate = this.props.filter.date;
+    currentDate[name] = newDate;
+
+    this.props.updateFilter('date', currentDate);
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, filter } = this.props;
 
     return (
       <Paper>
@@ -90,7 +91,7 @@ class EventFilter extends React.Component {
               autoOk
               label="From"
               clearable
-              value={this.state.date.from}
+              value={filter.date.from}
               onChange={date => this.handleDateChange(date, 'from')}
               animateYearScrolling={false}
             />
@@ -100,7 +101,7 @@ class EventFilter extends React.Component {
               autoOk
               label="To"
               clearable
-              value={this.state.date.to}
+              value={filter.date.to}
               onChange={date => this.handleDateChange(date, 'to')}
               animateYearScrolling={false}
             />
@@ -117,7 +118,7 @@ class EventFilter extends React.Component {
             <Grid container direction="column" justify="center">
               <Grid item>
                 <Typography variant="headline" align="center">
-                  ${this.state.amount[0]} - ${this.state.amount[1]}
+                  ${filter.price.from} - ${filter.price.to}
                 </Typography>
               </Grid>
 
@@ -145,6 +146,12 @@ class EventFilter extends React.Component {
               <FormControlLabel
                 control={<HeartCheckobx id="filterFavorite" />}
                 label="Favorites"
+                onChange={(event, checked) =>
+                  this.props.updateFilter('toggleable', {
+                    toggleableName: 'onlyFavorites',
+                    value: checked
+                  })
+                }
               />
             </Grid>
 
@@ -152,8 +159,12 @@ class EventFilter extends React.Component {
               <FormControlLabel
                 control={
                   <Checkbox
-                    // checked={this.state.checkedB}
-                    // onChange={this.handleChange("checkedB")}
+                    onChange={(event, checked) =>
+                      this.props.updateFilter('toggleable', {
+                        toggleableName: 'onlyOngoing',
+                        value: checked
+                      })
+                    }
                     value="checkedB"
                     color="primary"
                   />
@@ -168,4 +179,18 @@ class EventFilter extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(EventFilter);
+const mapStateToProps = state => ({
+  filter: schoolingEventFilterSelectors.filter(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateFilter: (name, data) =>
+    dispatch(schoolingEventFilterActions.updateFilter(name, data))
+});
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(EventFilter)
+);

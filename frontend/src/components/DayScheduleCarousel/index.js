@@ -102,7 +102,7 @@ class DayScheduleCarousel extends React.Component {
 
     if (!schedule) return <div>Loading............</div>;
 
-    const scheduleDays = groupBy(schedule.schedule, d =>
+    const scheduleDays = groupBy(schedule, d =>
       moment(d.from)
         .startOf('day')
         .format()

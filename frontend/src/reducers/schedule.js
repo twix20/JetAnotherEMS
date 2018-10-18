@@ -16,8 +16,7 @@ const bySchoolingEventId = (state = initialState, action) => {
       return {
         ...state,
         [id]: {
-          schedule: action.response.data.data,
-          loading: false
+          ...action.response.data.data
         }
       };
     default:

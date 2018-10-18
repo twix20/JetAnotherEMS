@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import ActionTypes, {
-  GET_FEATURED_SCHOOLING_EVENTS_REQUEST,
   GET_SCHOOLING_EVENT_REQUEST
 } from '../constants/actionTypes';
 
@@ -15,11 +14,17 @@ const featured = (state = featuredDefaultState, action) => {
     case schoolingEventActions.getFeaturedSchoolingEventsRequest.types.success:
       return {
         byId: {
+          ...state.byId,
+
           ...action.response.data.data.reduce((acc, e) => {
             acc[e.id] = e;
             return acc;
           }, state.byId)
         }
+      };
+    case ActionTypes.UPDATE_SCHOOLING_EVENT_FILTER:
+      return {
+        byId: {}
       };
     default:
       return state;

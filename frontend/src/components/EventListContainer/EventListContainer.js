@@ -6,7 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 
 import { connect } from 'react-redux';
 import schoolingEventActions from '../../actions/schoolingEventActions';
-import { schoolingEventSelectors } from '../../reducers/selectors';
+import {
+  schoolingEventSelectors,
+  createLoadingSelector
+} from '../../reducers/selectors';
 
 class EventListContainer extends React.Component {
   constructor(props) {
@@ -26,39 +29,40 @@ class EventListContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getFeaturedSchoolingEventsRequest();
+    this.props.getMoreFeaturedSchoolingEvents();
   }
 
   render() {
-    const n = 25;
-
-    const { featuredEvents } = this.props;
+    const { featuredEvents, loadingFeaturedEvents } = this.props;
 
     console.log(featuredEvents);
+    console.log(loadingFeaturedEvents);
     return (
-      <List>
-        {featuredEvents.map((e, i) => (
-          <ListItem disableGutters key={i}>
-            <EventCard event={e} />
-          </ListItem>
-        ))}
-      </List>
+      <React.Fragment>
+        <List>
+          {featuredEvents.map((e, i) => (
+            <ListItem disableGutters key={i}>
+              <EventCard event={e} />
+            </ListItem>
+          ))}
+        </List>
+
+        {loadingFeaturedEvents && <div>Loading loadingFeaturedEvents</div>}
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  featuredEvents: schoolingEventSelectors.featured(state)
+  featuredEvents: schoolingEventSelectors.featured(state),
+  loadingFeaturedEvents: createLoadingSelector([
+    schoolingEventActions.getFeaturedSchoolingEventsRequest.type
+  ])(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  getFeaturedSchoolingEventsRequest: () => {
-    dispatch(
-      schoolingEventActions.getFeaturedSchoolingEventsRequest.start({
-        page: 0,
-        pageSize: 10
-      })
-    );
+  getMoreFeaturedSchoolingEvents: () => {
+    dispatch(schoolingEventActions.getMoreFeaturedSchoolingEvents);
   }
 });
 

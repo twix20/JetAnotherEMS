@@ -61,7 +61,7 @@ class HomePage extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, featuredEvents } = this.props;
 
     return (
       <DefaultLayout
@@ -85,7 +85,9 @@ class HomePage extends React.Component {
             className={classes.listHeaderContainer}
           >
             <Grid item container justify="flex-end" direction="column">
-              <Typography variant="headline">23 Results Found</Typography>
+              <Typography variant="headline">
+                {featuredEvents.length} Results Found
+              </Typography>
             </Grid>
             <Grid item>
               <FormControl className={classes.formControl}>
@@ -115,7 +117,9 @@ class HomePage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  featuredEvents: schoolingEventSelectors.featured(state)
+});
 
 const mapDispatchToProps = dispatch => ({});
 

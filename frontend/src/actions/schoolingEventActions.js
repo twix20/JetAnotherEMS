@@ -1,16 +1,16 @@
-import { createActionTypes } from './common';
+import { createAsyncAction } from './common';
 import {
   GET_FEATURED_SCHOOLING_EVENTS_REQUEST,
   GET_SCHOOLING_EVENT_REQUEST,
   GET_SCHOOLING_EVENT_SCHEDULE_REQUEST
 } from '../constants/actionTypes';
 
-const getFeaturedSchoolingEventsRequest = createActionTypes(
+const getFeaturedSchoolingEventsRequest = createAsyncAction(
   GET_FEATURED_SCHOOLING_EVENTS_REQUEST
 );
 
-const getEventRequest = createActionTypes(GET_SCHOOLING_EVENT_REQUEST);
-const getScheduleRequst = createActionTypes(
+const getEventRequest = createAsyncAction(GET_SCHOOLING_EVENT_REQUEST);
+const getScheduleRequst = createAsyncAction(
   GET_SCHOOLING_EVENT_SCHEDULE_REQUEST
 );
 

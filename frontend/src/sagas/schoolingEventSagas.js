@@ -4,7 +4,7 @@ import ActionTypes, {
   GET_SCHOOLING_EVENT_REQUEST,
   GET_SCHOOLING_EVENT_SCHEDULE_REQUEST
 } from '../constants/actionTypes';
-import { sagaRequestWrapper, takeLatestRequestStart } from './common';
+import { sagaRequestWrapper } from './common';
 import api from '../services/api';
 import schoolingEventActions from '../actions/schoolingEventActions';
 
@@ -43,13 +43,16 @@ export function* fetchSchoolingEventSchedule(action) {
 
 export default function* root() {
   yield all([
-    takeLatestRequestStart(
-      GET_FEATURED_SCHOOLING_EVENTS_REQUEST,
+    takeLatest(
+      schoolingEventActions.getFeaturedSchoolingEventsRequest.types.start,
       fetchFeaturedEvents
     ),
-    takeLatestRequestStart(GET_SCHOOLING_EVENT_REQUEST, fetchSchoolingEvent),
-    takeLatestRequestStart(
-      GET_SCHOOLING_EVENT_SCHEDULE_REQUEST,
+    takeLatest(
+      schoolingEventActions.getEventRequest.types.start,
+      fetchSchoolingEvent
+    ),
+    takeLatest(
+      schoolingEventActions.getScheduleRequst.types.start,
       fetchSchoolingEventSchedule
     )
   ]);

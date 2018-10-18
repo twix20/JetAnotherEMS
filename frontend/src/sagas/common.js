@@ -11,10 +11,3 @@ export function* sagaRequestWrapper(requestActionTypes, apiCall, apiCallArgs) {
     return { error, apiCallArgs };
   }
 }
-
-export function* takeLatestRequestStart(subtype, worker) {
-  yield takeLatest(
-    a => a.type === ActionTypes.ASYNC_START && a.subtype === subtype,
-    worker
-  );
-}

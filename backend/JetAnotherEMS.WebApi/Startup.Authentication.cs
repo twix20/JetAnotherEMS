@@ -54,12 +54,14 @@ namespace JetAnotherEMS.WebApi
             // configure identity server with in-memory stores, keys, clients and scopes
             var path = Path.Combine(Path.GetFullPath("./Certificates"), "jetanotherems.pfx");
             services.AddIdentityServer()
-                .AddSigningCredential(new X509Certificate2(path))
+                //.AddSigningCredential(new X509Certificate2(path)) //TOOD: change in production
+                .AddDeveloperSigningCredential(true)
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                .AddProfileService<ProfileService>();
         }
     }
 }

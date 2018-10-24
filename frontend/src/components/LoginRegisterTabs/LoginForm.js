@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import authActions from '../../actions/authActions';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { POST_LOGIN_WITH_CREDENTIALS_REQUEST } from '../../constants/actionTypes';
 
 const styles = theme => ({});
 
@@ -33,6 +34,7 @@ class LoginForm extends React.Component {
 
   render() {
     const { email, password } = this.state;
+    const { isSubmiting } = this.props;
 
     return (
       <div>
@@ -41,6 +43,7 @@ class LoginForm extends React.Component {
           subTitle={'Log in to manage your events and buy tickets'}
           submitButtonText="Login"
           onSubmit={this.handleSubmit}
+          submitButtonIsLoading={isSubmiting}
         >
           <TextValidator
             label="Email"
@@ -67,7 +70,11 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  isSubmiting: createLoadingSelector([POST_LOGIN_WITH_CREDENTIALS_REQUEST])(
+    state
+  )
+});
 
 const mapDispatchToProps = dispatch => ({
   loginWithCredentials: (email, password, rememberMe) =>

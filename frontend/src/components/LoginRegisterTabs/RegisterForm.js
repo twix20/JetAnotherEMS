@@ -51,62 +51,60 @@ class RegisterForm extends React.Component {
     const { isSubmiting } = this.props;
 
     return (
-      <div>
-        <FormTemplate
-          title="Register now!"
-          subTitle={'Exclusive venues and discounts are at your fingertips'}
-          submitButtonText="Register"
-          submitButtonIsLoading={isSubmiting}
-          onSubmit={this.handleSubmit}
+      <FormTemplate
+        title="Register now!"
+        subTitle={'Exclusive venues and discounts are at your fingertips'}
+        submitButtonText="Register"
+        submitButtonIsLoading={isSubmiting}
+        onSubmit={this.handleSubmit}
+      >
+        <TextValidator
+          label="Email"
+          onChange={this.handleChange}
+          name="email"
+          value={email}
+          validators={['required', 'isEmail']}
+          errorMessages={['this field is required', 'email is not valid']}
+          fullWidth
+        />
+
+        <TextValidator
+          label="Password"
+          onChange={this.handleChange}
+          name="password"
+          type="password"
+          validators={['required']}
+          errorMessages={['this field is required']}
+          value={password}
+          fullWidth
+        />
+
+        <TextValidator
+          label="Confirm password"
+          onChange={this.handleChange}
+          name="confirmPassword"
+          type="password"
+          validators={['isPasswordMatch', 'required']}
+          errorMessages={['password mismatch', 'this field is required']}
+          value={confirmPassword}
+          fullWidth
+        />
+
+        <RadioGroup
+          row
+          name="account"
+          aria-label="account"
+          value={account}
+          onChange={this.handleChange}
         >
-          <TextValidator
-            label="Email"
-            onChange={this.handleChange}
-            name="email"
-            value={email}
-            validators={['required', 'isEmail']}
-            errorMessages={['this field is required', 'email is not valid']}
-            fullWidth
+          <FormControlLabel value="user" control={<Radio />} label="User" />
+          <FormControlLabel
+            value="company"
+            control={<Radio />}
+            label="Company"
           />
-
-          <TextValidator
-            label="Password"
-            onChange={this.handleChange}
-            name="password"
-            type="password"
-            validators={['required']}
-            errorMessages={['this field is required']}
-            value={password}
-            fullWidth
-          />
-
-          <TextValidator
-            label="Confirm password"
-            onChange={this.handleChange}
-            name="confirmPassword"
-            type="password"
-            validators={['isPasswordMatch', 'required']}
-            errorMessages={['password mismatch', 'this field is required']}
-            value={confirmPassword}
-            fullWidth
-          />
-
-          <RadioGroup
-            row
-            name="account"
-            aria-label="account"
-            value={account}
-            onChange={this.handleChange}
-          >
-            <FormControlLabel value="user" control={<Radio />} label="User" />
-            <FormControlLabel
-              value="company"
-              control={<Radio />}
-              label="Company"
-            />
-          </RadioGroup>
-        </FormTemplate>
-      </div>
+        </RadioGroup>
+      </FormTemplate>
     );
   }
 }

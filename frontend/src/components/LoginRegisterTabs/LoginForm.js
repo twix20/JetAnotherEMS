@@ -37,35 +37,33 @@ class LoginForm extends React.Component {
     const { isSubmiting } = this.props;
 
     return (
-      <div>
-        <FormTemplate
-          title="Welcome back!"
-          subTitle={'Log in to manage your events and buy tickets'}
-          submitButtonText="Login"
-          onSubmit={this.handleSubmit}
-          submitButtonIsLoading={isSubmiting}
-        >
-          <TextValidator
-            label="Email"
-            onChange={this.handleChange}
-            name="email"
-            value={email}
-            validators={['required', 'isEmail']}
-            errorMessages={['this field is required', 'email is not valid']}
-            fullWidth
-          />
+      <FormTemplate
+        title="Welcome back!"
+        subTitle={'Log in to manage your events and buy tickets'}
+        submitButtonText="Login"
+        onSubmit={this.handleSubmit}
+        submitButtonIsLoading={isSubmiting}
+      >
+        <TextValidator
+          label="Email"
+          onChange={this.handleChange}
+          name="email"
+          value={email}
+          validators={['required', 'isEmail']}
+          errorMessages={['this field is required', 'email is not valid']}
+          fullWidth
+        />
 
-          <TextValidator
-            label="Password"
-            onChange={this.handleChange}
-            name="password"
-            value={password}
-            validators={['required']}
-            errorMessages={['this field is required']}
-            fullWidth
-          />
-        </FormTemplate>
-      </div>
+        <TextValidator
+          label="Password"
+          onChange={this.handleChange}
+          name="password"
+          value={password}
+          validators={['required']}
+          errorMessages={['this field is required']}
+          fullWidth
+        />
+      </FormTemplate>
     );
   }
 }

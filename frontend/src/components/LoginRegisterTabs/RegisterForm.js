@@ -11,21 +11,24 @@ const styles = theme => ({});
 
 class RegisterForm extends React.Component {
   state = {
-    account: 'user'
+    account: 'user',
+    email: '',
+    password: '',
+    confirmPassword: ''
   };
 
-  handleChange = key => (event, value) => {
+  handleChange = (name, value) => {
     this.setState({
-      [key]: value
+      [name]: value
     });
   };
 
   onSubmitClicked = () => {
-    console.log('click');
+    console.log(this.state);
   };
 
   render() {
-    const { account } = this.state;
+    const { email, password, confirmPassword, account } = this.state;
 
     return (
       <div>
@@ -38,14 +41,16 @@ class RegisterForm extends React.Component {
           <TextField
             id="email"
             label="Email"
-            // value={this.state.email}
+            value={email}
+            onChange={e => this.handleChange('email', e.target.value)}
             margin="normal"
             fullWidth
           />
           <TextField
             id="password"
             label="Password"
-            // value={this.state.name}
+            value={password}
+            onChange={e => this.handleChange('password', e.target.value)}
             margin="normal"
             type="password"
             fullWidth
@@ -53,8 +58,10 @@ class RegisterForm extends React.Component {
           <TextField
             id="confirmPassword"
             label="Confirm password"
-            // value={this.state.name}
+            value={confirmPassword}
+            onChange={e => this.handleChange('confirmPassword', e.target.value)}
             margin="normal"
+            type="password"
             fullWidth
           />
 
@@ -63,7 +70,7 @@ class RegisterForm extends React.Component {
             name="account"
             aria-label="account"
             value={account}
-            onChange={this.handleChange('account')}
+            onChange={e => this.handleChange('account', e.target.value)}
           >
             <FormControlLabel value="user" control={<Radio />} label="User" />
             <FormControlLabel

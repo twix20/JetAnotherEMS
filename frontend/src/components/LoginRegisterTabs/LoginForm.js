@@ -5,6 +5,7 @@ import FormTemplate from './FormTemplate';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import authActions from '../../actions/authActions';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const styles = theme => ({});
 
@@ -37,22 +38,23 @@ class LoginForm extends React.Component {
           submitButtonText="Login"
           onSubmit={this.onSubmitClicked}
         >
-          <TextField
-            id="email"
+          <TextValidator
             label="Email"
-            value={email}
             onChange={e => this.handleInputChange('email', e)}
-            margin="normal"
+            name="email"
+            value={email}
+            validators={['required', 'isEmail']}
+            errorMessages={['this field is required', 'email is not valid']}
             fullWidth
           />
 
-          <TextField
-            id="password"
+          <TextValidator
             label="Password"
-            value={password}
             onChange={e => this.handleInputChange('password', e)}
-            type="password"
-            margin="normal"
+            name="password"
+            value={password}
+            validators={['required']}
+            errorMessages={['this field is required']}
             fullWidth
           />
         </FormTemplate>

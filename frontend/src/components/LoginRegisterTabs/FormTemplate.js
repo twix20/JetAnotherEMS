@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const styles = theme => ({
   submitBtn: {
@@ -25,7 +26,7 @@ class FormTemplate extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <ValidatorForm ref="form" onSubmit={onSubmit}>
         <Typography align="center" variant="title">
           {title}
         </Typography>
@@ -39,12 +40,13 @@ class FormTemplate extends React.Component {
           fullWidth
           color="primary"
           variant="contained"
+          type="submit"
           className={classes.submitBtn}
-          onClick={onSubmit}
+          // onClick={onSubmit}
         >
           {submitButtonText}
         </Button>
-      </div>
+      </ValidatorForm>
     );
   }
 }

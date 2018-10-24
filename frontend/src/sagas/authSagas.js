@@ -5,8 +5,6 @@ import api from '../services/api';
 import authActions from '../actions/authActions';
 
 export function* loginWithCredentials(action) {
-  console.log(action);
-
   const { email, password, rememberMe } = action;
 
   const { response, error } = yield sagaRequestWrapper(
@@ -25,11 +23,29 @@ export function* loginWithCredentials(action) {
   }
 }
 
+export function* registerWithCredentials(action) {
+  const { email, password, confirmPassword, account } = action;
+
+  const { response, error } = yield sagaRequestWrapper(
+    authActions.postRegisterWithCredentialsRequest,
+    api.account.postRegister,
+    { email, password, confirmPassword, account }
+  );
+
+  if (response) {
+    yield call(loginWithCredentials, { email, password, rememberMe: true });
+  }
+}
+
 export default function* root() {
   yield all([
     takeLatest(
       authActions.postLoginWithCredentialsRequest.types.start,
       loginWithCredentials
+    ),
+    takeLatest(
+      authActions.postRegisterWithCredentialsRequest.types.start,
+      registerWithCredentials
     )
   ]);
 }

@@ -16,15 +16,19 @@ class LoginForm extends React.Component {
     rememberMe: true
   };
 
-  onSubmitClicked = () => {
+  handleSubmit = () => {
     const { loginWithCredentials } = this.props;
     const { email, password, rememberMe } = this.state;
 
     loginWithCredentials(email, password, rememberMe);
   };
 
-  handleInputChange = (name, e) => {
-    this.setState({ [name]: e.target.value });
+  handleChange = event => {
+    const { name, value } = event.target;
+
+    this.setState({
+      [name]: value
+    });
   };
 
   render() {
@@ -36,11 +40,11 @@ class LoginForm extends React.Component {
           title="Welcome back!"
           subTitle={'Log in to manage your events and buy tickets'}
           submitButtonText="Login"
-          onSubmit={this.onSubmitClicked}
+          onSubmit={this.handleSubmit}
         >
           <TextValidator
             label="Email"
-            onChange={e => this.handleInputChange('email', e)}
+            onChange={this.handleChange}
             name="email"
             value={email}
             validators={['required', 'isEmail']}
@@ -50,7 +54,7 @@ class LoginForm extends React.Component {
 
           <TextValidator
             label="Password"
-            onChange={e => this.handleInputChange('password', e)}
+            onChange={this.handleChange}
             name="password"
             value={password}
             validators={['required']}

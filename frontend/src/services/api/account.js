@@ -9,5 +9,12 @@ export default {
       Email: email,
       Password: password,
       RememberMe: rememberMe
+    }),
+  postRegister: ({ email, password, confirmPassword, account }) =>
+    instance.post(`${URL_HOST}/api/Account/Register`, {
+      Email: email,
+      Password: password,
+      ConfirmPassword: confirmPassword,
+      Type: account
     })
 };

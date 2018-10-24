@@ -20,6 +20,10 @@ class RegisterForm extends React.Component {
     });
   };
 
+  onSubmitClicked = () => {
+    console.log('click');
+  };
+
   render() {
     const { account } = this.state;
 
@@ -29,6 +33,7 @@ class RegisterForm extends React.Component {
           title="Register now!"
           subTitle={'Exclusive venues and discounts are at your fingertips'}
           submitButtonText="Register"
+          onSubmit={this.onSubmitClicked}
         >
           <TextField
             id="email"
@@ -42,6 +47,7 @@ class RegisterForm extends React.Component {
             label="Password"
             // value={this.state.name}
             margin="normal"
+            type="password"
             fullWidth
           />
           <TextField

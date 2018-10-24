@@ -6,6 +6,7 @@ import rootSaga from './sagas';
 
 import { localStorageMiddleware } from './middleware';
 import reducer from './reducers';
+import authActions from './actions/authActions';
 
 import { routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
@@ -36,5 +37,11 @@ const getMiddleware = () => {
 };
 
 export const store = createStore(reducer, composeWithDevTools(getMiddleware()));
+// Load previous user token
+const jwtToken = localStorage.getItem('jwt');
+console.log(jwtToken);
+if (jwtToken) {
+  store.dispatch(authActions.login(jwtToken, 'Bearer'));
+}
 
 sagaMiddleware.run(rootSaga);

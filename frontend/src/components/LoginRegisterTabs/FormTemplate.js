@@ -15,7 +15,14 @@ const styles = theme => ({
 
 class FormTemplate extends React.Component {
   render() {
-    const { classes, children, title, subTitle, submitButtonText } = this.props;
+    const {
+      classes,
+      children,
+      title,
+      subTitle,
+      submitButtonText,
+      onSubmit
+    } = this.props;
 
     return (
       <div>
@@ -33,6 +40,7 @@ class FormTemplate extends React.Component {
           color="primary"
           variant="contained"
           className={classes.submitBtn}
+          onClick={onSubmit}
         >
           {submitButtonText}
         </Button>
@@ -46,7 +54,8 @@ FormTemplate.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,
-  submitButtonText: PropTypes.string.isRequired
+  submitButtonText: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(FormTemplate);

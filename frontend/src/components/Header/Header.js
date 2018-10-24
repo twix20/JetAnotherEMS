@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -17,6 +18,8 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Dialog from '@material-ui/core/Dialog';
 import LoginRegisterTabs from '../LoginRegisterTabs';
+import authActions from '../../actions/authActions';
+import { selectors as authSelectors } from '../../reducers/auth';
 
 const styles = theme => ({
   root: {
@@ -39,17 +42,21 @@ const styles = theme => ({
 
 class Header extends React.Component {
   state = {
-    auth: true,
+    auth: false,
     anchorEl: null,
     openLoginRegisterDialog: false
   };
 
+  componentDidMount() {
+    const { user } = this.props;
+
+    console.log(user);
+
+    this.setState({ auth: Boolean(user) });
+  }
+
   goToHome = () => {
     this.props.history.push('/');
-  };
-
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked });
   };
 
   handleMenu = event => {
@@ -58,6 +65,11 @@ class Header extends React.Component {
 
   handleClose = () => {
     this.setState({ anchorEl: null });
+  };
+
+  handleLogout = () => {
+    this.handleClose();
+    this.props.logout();
   };
 
   //Login/Register dialog
@@ -72,24 +84,12 @@ class Header extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
       <div className={classes.root}>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={auth}
-                onChange={this.handleChange}
-                aria-label="LoginSwitch"
-              />
-            }
-            label={auth ? 'Logout' : 'Login'}
-          />
-        </FormGroup>
         <AppBar position="static">
           <Toolbar>
             <IconButton
@@ -108,16 +108,16 @@ class Header extends React.Component {
                 color="inherit"
                 onClick={this.goToHome}
                 disableRipple
-                variant="flat"
+                variant="text"
               >
                 Event Managment System
               </Button>
             </Typography>
 
-            {auth ? (
+            {user ? (
               <React.Fragment>
                 <Typography component="div" variant="title" color="inherit">
-                  Janusz Kowalski
+                  {user.email}
                 </Typography>
 
                 <IconButton
@@ -142,7 +142,7 @@ class Header extends React.Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                  <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
               </React.Fragment>
             ) : (
@@ -170,4 +170,15 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(withRouter(Header));
+const mapStateToProps = state => ({
+  user: authSelectors.getUser(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(authActions.logout())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(withRouter(Header)));

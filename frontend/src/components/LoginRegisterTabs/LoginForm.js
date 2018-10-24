@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import authActions from '../../actions/authActions';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { createLoadingSelector } from '../../reducers/selectors';
 import { POST_LOGIN_WITH_CREDENTIALS_REQUEST } from '../../constants/actionTypes';
 
 const styles = theme => ({});

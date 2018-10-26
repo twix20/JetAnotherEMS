@@ -122,10 +122,10 @@ class DaySchedule extends React.Component {
             <School />
           </Avatar>
           <Typography variant="title">
-            {moment(day.from).format('HH:MM')}
+            {moment(day.start).format('HH:MM')}
           </Typography>
           <Typography align="justify">
-            {moment.duration(moment(day.to).diff(day.from)).asHours()}h
+            {moment.duration(moment(day.end).diff(day.start)).asHours()}h
           </Typography>
         </Grid>
 

@@ -6,6 +6,7 @@ import schedule from './schedule';
 import loadingReducer from './loadingReducer';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import { reducer as reduxFormReducer } from 'redux-form';
 
 export default combineReducers({
   auth,
@@ -13,6 +14,7 @@ export default combineReducers({
   schoolingEvent,
   schoolingEventFilter: schoolingEventFilterReducer,
   schedule,
+  form: reduxFormReducer,
   loading: loadingReducer,
   router: routerReducer
 });

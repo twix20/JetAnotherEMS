@@ -46,8 +46,8 @@ const styles = theme => ({
 class EventFilter extends React.Component {
   state = {
     date: {
-      from: null,
-      to: null
+      start: null,
+      end: null
     }
   };
 
@@ -91,8 +91,8 @@ class EventFilter extends React.Component {
               autoOk
               label="From"
               clearable
-              value={filter.date.from}
-              onChange={date => this.handleDateChange(date, 'from')}
+              value={filter.date.start}
+              onChange={date => this.handleDateChange(date, 'start')}
               animateYearScrolling={false}
             />
 
@@ -102,7 +102,7 @@ class EventFilter extends React.Component {
               label="To"
               clearable
               value={filter.date.to}
-              onChange={date => this.handleDateChange(date, 'to')}
+              onChange={date => this.handleDateChange(date, 'end')}
               animateYearScrolling={false}
             />
           </Grid>

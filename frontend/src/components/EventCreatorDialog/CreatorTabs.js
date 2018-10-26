@@ -6,21 +6,7 @@ import EventDetailsTab from './EventDetailsTab';
 import EventCalendar from './EventCalendar';
 import GalleryUploaderTab from './GalleryUploaderTab';
 import GenericTabs from './GenericTabs';
-
-const tabs = [
-  {
-    label: 'Event details',
-    content: () => <EventDetailsTab />
-  },
-  {
-    label: 'Schedule',
-    content: () => <EventCalendar />
-  },
-  {
-    label: 'Gallery',
-    content: () => <GalleryUploaderTab />
-  }
-];
+import { Field, FieldArray, reduxForm } from 'redux-form';
 
 const styles = theme => ({
   root: {
@@ -31,10 +17,40 @@ const styles = theme => ({
 });
 
 class CreatorTabs extends React.Component {
+  state = {};
+
+  getTabs = () => {
+    return [
+      {
+        label: 'Event details',
+        content: () => <EventDetailsTab />
+      },
+      {
+        label: 'Schedule',
+        content: () => {
+          const renderCalendar = props => {
+            return <EventCalendar {...props} />;
+          };
+
+          return <FieldArray name="calendar" component={renderCalendar} />;
+        }
+      },
+      {
+        label: 'Gallery',
+        content: () => <GalleryUploaderTab />
+      }
+    ];
+  };
+
+  handleCreateEvent = event => {
+    console.log('handleCreateEvent');
+    console.log(event);
+  };
+
   render() {
     const { onTabChange } = this.props;
 
-    return <GenericTabs onTabChange={onTabChange} tabs={tabs} />;
+    return <GenericTabs onTabChange={onTabChange} tabs={this.getTabs()} />;
   }
 }
 

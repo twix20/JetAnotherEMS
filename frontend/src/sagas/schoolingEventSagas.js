@@ -18,9 +18,9 @@ export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   const data = {
     page: 0,
     pageSize: 20,
-    DateFrom: filter.date.from ? filter.date.from.format() : null,
+    DateFrom: filter.date.start ? filter.date.start.format() : null,
     DateTo: filter.date.to ? filter.date.to.format() : null,
-    PriceFrom: filter.price.from,
+    PriceFrom: filter.price.start,
     PriceTo: filter.price.to,
     OnlyFavorites: filter.toggleable.onlyFavorites,
     OnlyOngoing: filter.toggleable.onlyOngoing

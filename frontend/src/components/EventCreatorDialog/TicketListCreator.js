@@ -1,12 +1,19 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
-import TextField from '@material-ui/core/TextField';
-import TicketList from '../TicketList';
 import green from '@material-ui/core/colors/green';
+
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import { Field, FieldArray, reduxForm } from 'redux-form';
+import { renderTextField } from '../forms';
+import TicketListForm from './TicketListForm';
 
 const styles = theme => ({
   root: {
@@ -117,90 +124,22 @@ class TicketListCreator extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { tickets, newTicket } = this.state;
+    const ren = props => (
+      <TicketListForm
+        {...props}
+        onSubmit={v => {
+          const newTicket = {
+            left: 10,
+            currency: 'PLN',
+            ...v
+          };
 
-    const ticketListActions = props => {
-      // const { classes } = props;
-      const { total, name } = props;
-      return (
-        <TextField
-          id="outlined-number"
-          label="Total"
-          className={classes.totalTickets}
-          value={total}
-          onChange={this.handleTotalChange(name)}
-          type="number"
-          InputLabelProps={{
-            shrink: true
-          }}
-          margin="normal"
-        />
-      );
-    };
-
-    return (
-      <div className={classes.root}>
-        <div>
-          <Typography variant="title" className={classes.title}>
-            Available tickets
-          </Typography>
-        </div>
-        <div className={classes.demo}>
-          <TicketList
-            handleListItemClick={this.handleListItemClick}
-            tickets={tickets}
-            actions={ticketListActions}
-          />
-          <Grid container justify="center">
-            <Grid item className={classes.inline}>
-              <TextField
-                label="Name"
-                id="margin-normal"
-                value={newTicket.name}
-                onChange={this.handleNewTicketInputChange('name')}
-                margin="normal"
-                fullWidth
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-            </Grid>
-            <Grid item className={classes.inline}>
-              <TextField
-                id="new-price"
-                label="Price"
-                className={classes.numberInput}
-                value={newTicket.price}
-                onChange={this.handleNewTicketInputChange('price')}
-                type="number"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                margin="normal"
-              />
-            </Grid>
-
-            <Grid
-              className={classes.addContainer}
-              item
-              container
-              direction="column"
-              justify="center"
-            >
-              <IconButton
-                aria-label="Add"
-                color="green"
-                color="primary"
-                onClick={this.handleAddTicket}
-              >
-                <AddIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </div>
-      </div>
+          props.fields.push(newTicket);
+        }}
+      />
     );
+
+    return <FieldArray name="ticketss" component={ren} />;
   }
 }
 

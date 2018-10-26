@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import { reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -53,7 +56,15 @@ class EventCreatorDialog extends React.Component {
   };
 
   render() {
-    const { classes, open, handleClose } = this.props;
+    const {
+      classes,
+      open,
+      handleClose,
+      handleSubmit,
+      pristine,
+      reset,
+      submitting
+    } = this.props;
     const { tabSelected } = this.state;
 
     return (
@@ -64,49 +75,56 @@ class EventCreatorDialog extends React.Component {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                onClick={handleClose}
-                aria-label="Close"
-              >
-                <CloseIcon />
-              </IconButton>
-              <Typography
-                variant="title"
-                color="inherit"
-                className={classes.flex}
-              >
-                Event creator
-              </Typography>
-              <Button color="inherit" onClick={handleClose}>
-                save
-              </Button>
-            </Toolbar>
-          </AppBar>
+          <form onSubmit={handleSubmit}>
+            <AppBar className={classes.appBar}>
+              <Toolbar>
+                <IconButton
+                  color="inherit"
+                  onClick={handleClose}
+                  aria-label="Close"
+                >
+                  <CloseIcon />
+                </IconButton>
+                <Typography
+                  variant="title"
+                  color="inherit"
+                  className={classes.flex}
+                >
+                  Event creator
+                </Typography>
+                <Button
+                  type="submit"
+                  disabled={pristine || submitting}
+                  color="inherit"
+                  // onClick={handleClose}
+                >
+                  save
+                </Button>
+              </Toolbar>
+            </AppBar>
 
-          <Grid
-            container
-            direction="column"
-            className={classes.contentContainer}
-          >
-            {/* <Grid item>DODAJ TYTUŁ</Grid> */}
+            <Grid
+              container
+              direction="column"
+              className={classes.contentContainer}
+            >
+              {/* <Grid item>DODAJ TYTUŁ</Grid> */}
 
-            <Grid item container className={classes.flex}>
-              <Grid
-                item
-                className={classnames(classes.flex, {
-                  [classes.flexedCalendar]: tabSelected === 1
-                })}
-              >
-                <CreatorTabs onTabChange={this.handleTabChange} />
-              </Grid>
-              <Grid item className={classes.flex}>
-                <TicketTabs />
+              <Grid item container className={classes.flex}>
+                <Grid
+                  item
+                  className={classnames(classes.flex, {
+                    [classes.flexedCalendar]: tabSelected === 1
+                  })}
+                >
+                  <CreatorTabs onTabChange={this.handleTabChange} />
+                </Grid>
+                <Grid item className={classes.flex}>
+                  <TicketTabs />
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          </form>
         </Dialog>
       </div>
     );
@@ -119,4 +137,25 @@ EventCreatorDialog.propTypes = {
   handleClose: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(EventCreatorDialog);
+const validate = values => {
+  let errors = {};
+  const requiredFields = ['eventTitle', 'location'];
+
+  console.log('validate');
+  console.log(values);
+
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+
+  return errors;
+};
+
+EventCreatorDialog = withStyles(styles)(EventCreatorDialog);
+
+export default reduxForm({
+  form: 'eventCreatorFrom', // a unique identifier for this form
+  validate
+})(EventCreatorDialog);

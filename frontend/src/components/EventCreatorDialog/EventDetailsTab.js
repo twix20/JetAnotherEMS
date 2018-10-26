@@ -4,6 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 
+import { Field, reduxForm } from 'redux-form';
+import { renderTextField } from '../forms';
+
 import TextField from '@material-ui/core/TextField';
 import TitleIcon from '@material-ui/icons/Title';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -80,11 +83,21 @@ class EventDetailsTab extends React.Component {
     return (
       <Grid container direction="column" className={classes.root}>
         <IconInputTemplate Icon={TitleIcon}>
-          <TextField className={classes.field} label="Event title" />
+          <Field
+            className={classes.field}
+            name="eventTitle"
+            component={renderTextField}
+            label="Event Title"
+          />
         </IconInputTemplate>
 
         <IconInputTemplate Icon={LocationOnIcon}>
-          <TextField className={classes.field} label="Location" />
+          <Field
+            className={classes.field}
+            name="location"
+            component={renderTextField}
+            label="Location"
+          />
         </IconInputTemplate>
 
         <IconInputTemplate

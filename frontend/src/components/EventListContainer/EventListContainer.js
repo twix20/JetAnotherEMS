@@ -35,8 +35,6 @@ class EventListContainer extends React.Component {
   render() {
     const { featuredEvents, loadingFeaturedEvents } = this.props;
 
-    console.log(featuredEvents);
-    console.log(loadingFeaturedEvents);
     return (
       <React.Fragment>
         <List>

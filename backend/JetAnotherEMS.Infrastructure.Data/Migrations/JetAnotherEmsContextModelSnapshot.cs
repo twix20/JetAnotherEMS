@@ -28,12 +28,20 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<string>("Country");
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
                     b.Property<string>("State");
 
                     b.Property<string>("Street");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
 
                     b.Property<string>("ZipCode");
 
@@ -49,11 +57,19 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
+
                     b.Property<string>("Description");
 
                     b.Property<Guid?>("LocationId");
 
                     b.Property<string>("Title");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
 
                     b.HasKey("Id");
 
@@ -66,6 +82,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
 
                     b.Property<string>("Description");
 
@@ -81,6 +101,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("To");
 
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
@@ -95,6 +119,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<byte[]>("Content");
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
+
                     b.Property<string>("Extension");
 
                     b.Property<string>("NameOriginal");
@@ -104,6 +132,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid?>("SchoolingEventDayId");
 
                     b.Property<Guid?>("SchoolingEventId");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
 
                     b.HasKey("Id");
 
@@ -119,9 +151,17 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
+
                     b.Property<string>("Description");
 
                     b.Property<Guid?>("SchoolingEventDayId");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
 
                     b.Property<string>("Value");
 
@@ -137,7 +177,15 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
+
                     b.Property<Guid?>("EventId");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
 
                     b.Property<Guid>("UserId");
 
@@ -153,13 +201,25 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
+
                     b.Property<Guid?>("EventId");
 
                     b.Property<string>("Name");
 
                     b.Property<decimal>("Price");
 
+                    b.Property<int>("Status");
+
                     b.Property<long>("TotalQuantity");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
+
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -173,11 +233,19 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedByUserId");
+
                     b.Property<Guid?>("SchoolingEventId");
 
                     b.Property<int>("Status");
 
                     b.Property<Guid?>("TicketId");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
 
                     b.Property<Guid>("UserId");
 

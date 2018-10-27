@@ -55,12 +55,14 @@ class EventTicketsOpenerButton extends React.Component {
 
   render() {
     const { selectedTicket } = this.state;
+    const { usersTicket } = this.props;
 
     console.log(selectedTicket);
+    console.log(usersTicket);
 
     return (
       <div>
-        {selectedTicket === null ? (
+        {usersTicket === null ? (
           <Button
             variant="extendedFab"
             aria-label="Delete"
@@ -70,7 +72,7 @@ class EventTicketsOpenerButton extends React.Component {
             Buy a ticket now!
           </Button>
         ) : (
-          <TicketCard ticket={selectedTicket} status="awaitingAproval" />
+          <TicketCard ticket={usersTicket} />
         )}
 
         <EventTicketsChooserDialog

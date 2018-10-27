@@ -97,7 +97,7 @@ class EventDetailsTab extends React.Component {
           <Field
             className={classes.field}
             name="location"
-            component={renderTextField}
+            component={renderTextField} //TODO: M ake renderGooleLocationSelect
             label="Location"
             validate={[required()]}
           />

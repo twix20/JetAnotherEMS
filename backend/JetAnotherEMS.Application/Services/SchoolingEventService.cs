@@ -54,9 +54,16 @@ namespace JetAnotherEMS.Application.Services
             return entity.Schedule.Select(Mapper.Map<SchoolingEventDayViewModel>);
         }
 
-        public async Task Create(FeaturedSchoolingEventViewModel viewModel)
+        public async Task Create(CreateSchoolingEventViewModel viewModel)
         {
             var command = Mapper.Map<CreateNewSchoolingEventCommand>(viewModel);
+
+            await _bus.SendCommand(command);
+        }
+
+        public async Task Update(UpdateSchoolingEventViewModel viewModel)
+        {
+            var command = Mapper.Map<UpdateSchoolingEventCommand>(viewModel);
 
             await _bus.SendCommand(command);
         }

@@ -12,9 +12,15 @@ namespace JetAnotherEMS.Domain.CommandHandlers
 {
     public class SchoolingEventCommandHandler : CommandHandler,
         IRequestHandler<CreateNewSchoolingEventCommand>,
-        IRequestHandler<ChangeFollowSchoolingEventCommand>
+        IRequestHandler<UpdateSchoolingEventCommand>,
+        IRequestHandler<ChangeFollowSchoolingEventCommand>,
+        IRequestHandler<BuyEventTicketCommand>
     {
-        public SchoolingEventCommandHandler(IUnitOfWork uow, IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IValidationService validationService) : base(uow, bus, notifications, validationService)
+        public SchoolingEventCommandHandler(
+            IUnitOfWork uow, 
+            IMediatorHandler bus, 
+            INotificationHandler<DomainNotification> notifications, 
+            IValidationService validationService) : base(uow, bus, notifications, validationService)
         {
         }
 
@@ -25,6 +31,16 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         }
 
         public Task<Unit> Handle(ChangeFollowSchoolingEventCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Unit> Handle(BuyEventTicketCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Unit> Handle(UpdateSchoolingEventCommand request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

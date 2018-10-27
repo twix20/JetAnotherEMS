@@ -42,7 +42,7 @@ const jwtToken = localStorage.getItem('jwt');
 console.log(jwtToken);
 if (jwtToken) {
   store.dispatch(
-    authActions.login({
+    authActions.login.success({
       accessToken: jwtToken,
       tokenType: 'Bearer'
     })

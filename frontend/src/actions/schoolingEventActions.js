@@ -1,9 +1,13 @@
 import { createAsyncAction, createAction } from './common';
+import { createFormAction } from 'redux-form-saga';
 import {
   GET_FEATURED_SCHOOLING_EVENTS_REQUEST,
   GET_SCHOOLING_EVENT_REQUEST,
   GET_SCHOOLING_EVENT_SCHEDULE_REQUEST,
-  GET_MORE_SCHOOLING_EVENTS
+  GET_MORE_SCHOOLING_EVENTS,
+  CREATE_OR_UPDATE_SCHOOLING_EVENT,
+  POST_CREATE_SCHOOLING_EVENT_REQUEST,
+  PATCH_CREATE_SCHOOLING_EVENT_REQUEST
 } from '../constants/actionTypes';
 
 const getMoreFeaturedSchoolingEvents = createAction(GET_MORE_SCHOOLING_EVENTS);
@@ -17,9 +21,23 @@ const getScheduleRequst = createAsyncAction(
   GET_SCHOOLING_EVENT_SCHEDULE_REQUEST
 );
 
+const createOrUpdateSchoolingEvent = createFormAction(
+  CREATE_OR_UPDATE_SCHOOLING_EVENT
+);
+
+const createSchoolingEventRequest = createAsyncAction(
+  POST_CREATE_SCHOOLING_EVENT_REQUEST
+);
+const updateSchoolingEventRequest = createAsyncAction(
+  PATCH_CREATE_SCHOOLING_EVENT_REQUEST
+);
+
 export default {
   getFeaturedSchoolingEventsRequest,
   getEventRequest,
   getScheduleRequst,
-  getMoreFeaturedSchoolingEvents
+  getMoreFeaturedSchoolingEvents,
+  createOrUpdateSchoolingEvent,
+  createSchoolingEventRequest,
+  updateSchoolingEventRequest
 };

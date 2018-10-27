@@ -24,6 +24,8 @@ import Tab from '@material-ui/core/Tab';
 import CreatorTabs from './CreatorTabs';
 import TicketTabs from './TicketTabs';
 
+import schoolingEventActions from '../../actions/schoolingEventActions';
+
 import 'react-big-calendar-like-google/lib/css/react-big-calendar.css';
 
 const styles = {
@@ -68,6 +70,10 @@ class EventCreatorDialog extends React.Component {
     } = this.props;
     const { tabSelected } = this.state;
 
+    const submit = handleSubmit(
+      schoolingEventActions.createOrUpdateSchoolingEvent
+    );
+
     return (
       <div>
         <Dialog
@@ -76,7 +82,7 @@ class EventCreatorDialog extends React.Component {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={submit}>
             <AppBar className={classes.appBar}>
               <Toolbar>
                 <IconButton

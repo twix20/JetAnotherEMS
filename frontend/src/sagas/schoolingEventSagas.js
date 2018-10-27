@@ -1,4 +1,11 @@
-import { all, call, put, takeLatest, select } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  put,
+  takeLatest,
+  select,
+  takeEvery
+} from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import ActionTypes, {
   GET_FEATURED_SCHOOLING_EVENTS_REQUEST,
@@ -68,6 +75,35 @@ export function* fetchSchoolingEventSchedule(action) {
   console.log(response);
 }
 
+export function* handleCreateOrUpdateSchoolingEvent(action) {
+  const {
+    id,
+    eventTitle: title,
+    description,
+    location,
+    calendar,
+    tickets
+  } = action.payload;
+
+  const shouldCreate = !id;
+  const request = shouldCreate
+    ? schoolingEventActions.createSchoolingEventRequest
+    : schoolingEventActions.updateSchoolingEventRequest;
+  const apiAction = shouldCreate
+    ? api.schoolingEvent.create
+    : api.schoolingEvent.update;
+
+  const { response, error } = yield sagaRequestWrapper(request, apiAction, {
+    id,
+    title,
+    description,
+    location
+  });
+
+  console.log('handleCreateOrUpdateSchoolingEvent');
+  console.log(response);
+}
+
 export default function* root() {
   yield all([
     takeLatest(
@@ -85,6 +121,10 @@ export default function* root() {
     takeLatest(
       ActionTypes.UPDATE_SCHOOLING_EVENT_FILTER,
       debouncedFetchFeaturedEventsWithAppliedFilter
+    ),
+    takeEvery(
+      schoolingEventActions.createOrUpdateSchoolingEvent.REQUEST,
+      handleCreateOrUpdateSchoolingEvent
     )
   ]);
 }

@@ -14,6 +14,8 @@ namespace JetAnotherEMS.Application.Interfaces
 
         Task<IEnumerable<SchoolingEventDayViewModel>> GetSchedule(Guid id);
 
-        Task Create(FeaturedSchoolingEventViewModel viewModel);
+        Task Create(CreateSchoolingEventViewModel viewModel);
+
+        Task Update(UpdateSchoolingEventViewModel viewModel);
     }
 }

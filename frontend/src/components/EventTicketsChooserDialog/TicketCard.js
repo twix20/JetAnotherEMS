@@ -29,8 +29,8 @@ const styles = {
 };
 
 class TicketCard extends React.Component {
-  render() {
-    const { classes, status } = this.props;
+  getCardModeFromTicketStatus = () => {
+    const { ticket } = this.props;
 
     const cardModes = {
       approved: {
@@ -51,7 +51,14 @@ class TicketCard extends React.Component {
       }
     };
 
-    const cardMode = cardModes[status];
+    //TODO:
+    return cardModes['awaitingAproval'];
+  };
+
+  render() {
+    const { classes, ticket } = this.props;
+
+    const cardMode = this.getCardModeFromTicketStatus();
 
     return (
       <Card className={classes.card}>
@@ -87,9 +94,7 @@ class TicketCard extends React.Component {
 }
 
 TicketCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  status: PropTypes.oneOf(['approved', 'awaitingAproval', 'rejected'])
-    .isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(TicketCard);

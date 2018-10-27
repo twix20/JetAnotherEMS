@@ -58,8 +58,9 @@ namespace JetAnotherEMS.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "CanCreateSchoolingEvent")]
-        public async Task<IActionResult> Post([FromBody]FeaturedSchoolingEventViewModel viewModel)
+        [AllowAnonymous]
+        //[Authorize(Policy = "CanCreateSchoolingEvent")]
+        public async Task<IActionResult> Post([FromBody]CreateSchoolingEventViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -68,6 +69,22 @@ namespace JetAnotherEMS.WebApi.Controllers
             }
 
             await _schoolingEventService.Create(viewModel);
+
+            return Response(viewModel);
+        }
+
+        [HttpPatch]
+        [AllowAnonymous]
+        //[Authorize(Policy = "CanUpdateSchoolingEvent")]
+        public async Task<IActionResult> Patch([FromBody]UpdateSchoolingEventViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(viewModel);
+            }
+
+            await _schoolingEventService.Update(viewModel);
 
             return Response(viewModel);
         }

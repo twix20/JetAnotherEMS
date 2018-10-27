@@ -12,7 +12,7 @@ const styles = theme => {};
 
 class EventCreatorOpenerButton extends React.Component {
   state = {
-    eventCreatorOpen: true
+    eventCreatorOpen: false
   };
 
   handleFabClick = () => {
@@ -40,7 +40,6 @@ class EventCreatorOpenerButton extends React.Component {
         <EventCreatorDialog
           open={eventCreatorOpen}
           handleClose={this.handleEventCreatorClose}
-          onSubmit={this.handleSubmit}
           initialValues={{
             calendar: [
               {

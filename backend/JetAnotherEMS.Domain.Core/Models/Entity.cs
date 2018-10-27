@@ -6,6 +6,14 @@ namespace JetAnotherEMS.Domain.Core.Models
     {
         public Guid Id { get; set; }
 
+        public Guid CreatedByUserId { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public Guid UpdatedByUserId { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
+
         public override bool Equals(object obj)
         {
             var compareTo = obj as Entity;

@@ -12,6 +12,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     Street = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
@@ -29,6 +33,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     LocationId = table.Column<Guid>(nullable: true)
@@ -49,6 +57,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     From = table.Column<DateTime>(nullable: false),
                     To = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
@@ -73,6 +85,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     EventId = table.Column<Guid>(nullable: true)
                 },
@@ -92,9 +108,15 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     TotalQuantity = table.Column<long>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     EventId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -113,6 +135,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     NameToStore = table.Column<string>(nullable: true),
                     NameOriginal = table.Column<string>(nullable: true),
                     Extension = table.Column<string>(nullable: true),
@@ -142,6 +168,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     SchoolingEventDayId = table.Column<Guid>(nullable: true)
@@ -162,6 +192,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     TicketId = table.Column<Guid>(nullable: true),

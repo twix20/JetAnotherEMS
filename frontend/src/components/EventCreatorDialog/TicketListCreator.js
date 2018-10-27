@@ -139,7 +139,7 @@ class TicketListCreator extends React.Component {
       />
     );
 
-    return <FieldArray name="ticketss" component={ren} />;
+    return <FieldArray name="tickets" component={ren} />;
   }
 }
 

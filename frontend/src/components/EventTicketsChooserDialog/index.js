@@ -1,24 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
-import AddIcon from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
 
-import NoteIcon from '@material-ui/icons/Note';
+import ticketActions from '../../actions/ticketActions';
+
+import { connect } from 'react-redux';
 
 import TicketList from '../TicketList';
 
-const styles = theme => ({
+const styles = () => ({
   avatar: {
     backgroundColor: blue[100],
     color: blue[600]
@@ -31,6 +24,10 @@ class EventTicketsChooserDialog extends React.Component {
   };
 
   handleListItemClick = value => {
+    const ticketId = value.id;
+
+    this.props.buyTicket(ticketId);
+
     this.props.onClose(value);
   };
   render() {
@@ -70,4 +67,14 @@ EventTicketsChooserDialog.propTypes = {
   tickets: PropTypes.arrayOf(ticketShape).isRequired
 };
 
-export default withStyles(styles)(EventTicketsChooserDialog);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  buyTicket: ticketId =>
+    dispatch(ticketActions.buyTicketForEventRequest.start({ ticketId }))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(EventTicketsChooserDialog));

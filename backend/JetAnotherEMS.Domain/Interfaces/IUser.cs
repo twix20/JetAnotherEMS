@@ -7,6 +7,7 @@ namespace JetAnotherEMS.Domain.Interfaces
 {
     public interface IUser
     {
+        Guid Id { get; }
         string Name { get; }
         bool IsAuthenticated();
         IEnumerable<Claim> GetClaimsIdentity();

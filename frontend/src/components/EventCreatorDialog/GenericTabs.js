@@ -65,7 +65,9 @@ class GenericTabs extends React.Component {
             onChange={this.handleChange}
             indicatorColor="secondary"
           >
-            {tabs.map((t, i) => <Tab key={i} label={t.label} />)}
+            {tabs.map((t, i) => (
+              <Tab key={i} label={t.label} />
+            ))}
           </Tabs>
         </Paper>
 

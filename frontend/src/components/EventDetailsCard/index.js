@@ -56,8 +56,12 @@ import EventTicketsOpenerButton from '../EventTicketsChooserDialog/EventTicketsO
 
 import { connect } from 'react-redux';
 import schoolingEventActions from '../../actions/schoolingEventActions';
+import ticketActions from '../../actions/ticketActions';
 
-import { createLoadingSelector } from '../../reducers/selectors';
+import {
+  createLoadingSelector,
+  userTicketsSelectors
+} from '../../reducers/selectors';
 
 const styles = theme => ({
   detailsContainer: {
@@ -133,7 +137,10 @@ class EventDetailsCard extends React.Component {
   };
 
   componentDidMount() {
-    const { eventId, fetchEvent } = this.props;
+    const { eventId, fetchEvent, fetchUsersTicket } = this.props;
+
+    fetchEvent(eventId);
+    fetchUsersTicket(eventId);
 
     console.log(eventId);
   }
@@ -151,10 +158,12 @@ class EventDetailsCard extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, eventId } = this.props;
     const { headerMenuEl, expanded, detailsItems } = this.state;
 
     const ExpandIcon = expanded ? ExpandLessIcon : ExpandMoreIcon;
+
+    const usersTicket = this.props.getUsersTicketForEvent(eventId);
 
     return (
       <div>
@@ -233,20 +242,16 @@ class EventDetailsCard extends React.Component {
                   <Grid container>
                     <Grid item lg={6}>
                       <List>
-                        {detailsItems
-                          .slice(0, 2)
-                          .map((prop, i) => (
-                            <DetailsListItem key={i} {...prop} />
-                          ))}
+                        {detailsItems.slice(0, 2).map((prop, i) => (
+                          <DetailsListItem key={i} {...prop} />
+                        ))}
                       </List>
                     </Grid>
                     <Grid item lg={6}>
                       <List>
-                        {detailsItems
-                          .slice(2, 4)
-                          .map((prop, i) => (
-                            <DetailsListItem key={i} {...prop} />
-                          ))}
+                        {detailsItems.slice(2, 4).map((prop, i) => (
+                          <DetailsListItem key={i} {...prop} />
+                        ))}
                       </List>
                     </Grid>
                     <Grid item md={12} container justify="center">
@@ -300,7 +305,7 @@ class EventDetailsCard extends React.Component {
               </Grid>
 
               <Grid item container className={classes.buyTicketContainer}>
-                <EventTicketsOpenerButton />
+                <EventTicketsOpenerButton usersTicket={usersTicket} />
               </Grid>
 
               <Grid item>
@@ -335,11 +340,16 @@ EventDetailsCard.propTypes = {
   eventId: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  getUsersTicketForEvent: eventId =>
+    userTicketsSelectors.forEvent(state, eventId)
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchEvent: id =>
-    dispatch(schoolingEventActions.getEventRequest.start({ id }))
+    dispatch(schoolingEventActions.getEventRequest.start({ id })),
+  fetchUsersTicket: eventId =>
+    dispatch(ticketActions.getTicketForEventRequest.start({ eventId }))
 });
 
 export default withStyles(styles)(

@@ -265,8 +265,11 @@ class EventCard extends React.PureComponent {
             container
           >
             <Grid item>
-              <Typography variant="display1">$12,300</Typography>
-              <Typography>21 tickets left</Typography>
+              <Typography variant="caption">Tickets from</Typography>
+              <Typography variant="display1">
+                ${event.minTicketPrice}
+              </Typography>
+              <Typography>{event.ticketsLeftCount} tickets left</Typography>
             </Grid>
 
             <Grid item className={classes.priceButtonContainer}>

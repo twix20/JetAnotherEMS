@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 export { selectors as schoolingEventSelectors } from './schoolingEvent';
 export { selectors as scheduleSelectors } from './schedule';
+export { selectors as userTicketsSelectors } from './userTicketsReducer';
 export {
   selectors as schoolingEventFilterSelectors
 } from './schoolingEventFilterReducer';

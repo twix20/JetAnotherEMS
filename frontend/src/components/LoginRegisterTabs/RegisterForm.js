@@ -12,6 +12,7 @@ import authActions from '../../actions/authActions';
 import { connect } from 'react-redux';
 import { createLoadingSelector } from '../../reducers/selectors';
 import { POST_REGISTER_WITH_CREDENTIALS_REQUEST } from '../../constants/actionTypes';
+import { required, email } from 'redux-form-validators';
 
 const styles = theme => ({});
 
@@ -36,6 +37,7 @@ class RegisterForm extends React.Component {
           name="email"
           fullWidth
           component={renderTextField}
+          validate={[required(), email()]}
         />
 
         <Field
@@ -43,6 +45,7 @@ class RegisterForm extends React.Component {
           name="password"
           fullWidth
           component={renderTextField}
+          validate={[required()]}
           inputProps={{
             type: 'password'
           }}
@@ -53,20 +56,20 @@ class RegisterForm extends React.Component {
           name="confirmPassword"
           fullWidth
           component={renderTextField}
+          validate={[required()]}
           inputProps={{
             type: 'password'
           }}
         />
-
-        <Field name="account" component={renderRadioGroup} />
 
         <Field
           name="account"
           component={renderRadioGroup}
           row
           aria-label="account"
+          validate={[required()]}
         >
-          {renderRadio({ value: 'user', label: 'User', checked: true })}
+          {renderRadio({ value: 'user', label: 'User' })}
           {renderRadio({ value: 'company', label: 'Company' })}
         </Field>
       </FormTemplate>

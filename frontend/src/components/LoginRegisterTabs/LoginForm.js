@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import authActions from '../../actions/authActions';
 import { createLoadingSelector } from '../../reducers/selectors';
 import { POST_LOGIN_WITH_CREDENTIALS_REQUEST } from '../../constants/actionTypes';
+import { required, email } from 'redux-form-validators';
 
 const styles = theme => ({});
 
@@ -33,6 +34,7 @@ class LoginForm extends React.Component {
           name="email"
           fullWidth
           component={renderTextField}
+          validate={[required(), email()]}
         />
 
         <Field
@@ -40,6 +42,7 @@ class LoginForm extends React.Component {
           name="password"
           fullWidth
           component={renderTextField}
+          validate={[required()]}
           inputProps={{
             type: 'password'
           }}

@@ -25,6 +25,7 @@ import AttachmentsUploader from '../../AttachmentsUploader';
 
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { renderTextField, renderTimePicker } from '../../forms';
+import { required, email } from 'redux-form-validators';
 
 const styles = theme => ({
   paper: {
@@ -136,6 +137,7 @@ class EventDayCreatorDialog extends React.Component {
                 name="start"
                 component={renderTimePicker}
                 onChange={newDate => this.handleDateChange(newDate, 'start')}
+                validate={[required()]}
               />
               <Field
                 className={classes.timePicker}
@@ -143,6 +145,7 @@ class EventDayCreatorDialog extends React.Component {
                 name="end"
                 component={renderTimePicker}
                 onChange={newDate => this.handleDateChange(newDate, 'end')}
+                validate={[required()]}
               />
             </React.Fragment>
           );
@@ -153,7 +156,8 @@ class EventDayCreatorDialog extends React.Component {
         label: 'Title',
         name: 'title',
         custom: {
-          fullWidth: true
+          fullWidth: true,
+          validate: [required()]
         }
       },
       {
@@ -161,7 +165,8 @@ class EventDayCreatorDialog extends React.Component {
         label: 'Teacher',
         name: 'teacher',
         custom: {
-          fullWidth: true
+          fullWidth: true,
+          validate: [required()]
         }
       },
       {
@@ -169,7 +174,8 @@ class EventDayCreatorDialog extends React.Component {
         label: 'Lecture room',
         name: 'lectureRoom',
         custom: {
-          fullWidth: true
+          fullWidth: true,
+          validate: [required()]
         }
       },
       {
@@ -189,7 +195,8 @@ class EventDayCreatorDialog extends React.Component {
           rows: 4
         },
         custom: {
-          fullWidth: true
+          fullWidth: true,
+          validate: [required()]
         }
       },
       {
@@ -265,23 +272,6 @@ class EventDayCreatorDialog extends React.Component {
 }
 const validate = values => {
   let errors = {};
-  const requiredFields = [
-    'start',
-    'end',
-    'title',
-    'location',
-    'teacher',
-    'lectureRoom'
-  ];
-
-  console.log('validate EventDayCreatorDialog');
-  console.log(values);
-
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
 
   if (values.start && values.end) {
     if (values.start.isAfter(values.end)) {

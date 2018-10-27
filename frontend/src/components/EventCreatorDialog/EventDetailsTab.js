@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 
 import { Field, reduxForm } from 'redux-form';
 import { renderTextField } from '../forms';
+import { required, email } from 'redux-form-validators';
 
 import TextField from '@material-ui/core/TextField';
 import TitleIcon from '@material-ui/icons/Title';
@@ -88,6 +89,7 @@ class EventDetailsTab extends React.Component {
             name="eventTitle"
             component={renderTextField}
             label="Event Title"
+            validate={[required()]}
           />
         </IconInputTemplate>
 
@@ -97,6 +99,7 @@ class EventDetailsTab extends React.Component {
             name="location"
             component={renderTextField}
             label="Location"
+            validate={[required()]}
           />
         </IconInputTemplate>
 

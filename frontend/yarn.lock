@@ -7958,6 +7958,10 @@ redux-form-saga@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/redux-form-saga/-/redux-form-saga-0.2.0.tgz#a9d3df4f5183fab3327ec82ebbc4af8a8d7f207f"
 
+redux-form-validators@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/redux-form-validators/-/redux-form-validators-2.7.2.tgz#43d6581bf61eabfd4f17bdb41b955710afd10f77"
+
 redux-form@^7.4.2:
   version "7.4.2"
   resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-7.4.2.tgz#d6061088fb682eb9fc5fb9749bd8b102f03154b0"

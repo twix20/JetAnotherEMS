@@ -139,16 +139,6 @@ EventCreatorDialog.propTypes = {
 
 const validate = values => {
   let errors = {};
-  const requiredFields = ['eventTitle', 'location'];
-
-  console.log('validate');
-  console.log(values);
-
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
 
   return errors;
 };

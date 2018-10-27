@@ -16,6 +16,7 @@ import { renderTextField } from '../forms';
 import NoteIcon from '@material-ui/icons/Note';
 import TextField from '@material-ui/core/TextField';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import { required, email } from 'redux-form-validators';
 
 const styles = theme => ({
   root: {
@@ -104,6 +105,7 @@ class TicketListForm extends React.Component {
               name="name"
               label="Name"
               component={renderTextField}
+              validate={[required()]}
               labelProps={{
                 shrink: true
               }}
@@ -116,6 +118,7 @@ class TicketListForm extends React.Component {
               type="number"
               className={classes.numberInput}
               component={renderTextField}
+              validate={[required()]}
               inputProps={{ type: 'number' }}
               labelProps={{
                 shrink: true

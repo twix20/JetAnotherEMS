@@ -75,11 +75,11 @@ export default function* root() {
       fetchMoreFeaturedEventsWithAppliedFilter
     ),
     takeLatest(
-      schoolingEventActions.getEventRequest.types.start,
+      schoolingEventActions.getEventRequest.START,
       fetchSchoolingEvent
     ),
     takeLatest(
-      schoolingEventActions.getScheduleRequst.types.start,
+      schoolingEventActions.getScheduleRequst.START,
       fetchSchoolingEventSchedule
     ),
     takeLatest(

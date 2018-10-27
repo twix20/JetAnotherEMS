@@ -10,7 +10,7 @@ const initialState = {};
 
 const bySchoolingEventId = (state = initialState, action) => {
   switch (action.type) {
-    case schoolingEventActions.getScheduleRequst.types.success:
+    case schoolingEventActions.getScheduleRequst.SUCCESS:
       const { id } = action;
 
       return {

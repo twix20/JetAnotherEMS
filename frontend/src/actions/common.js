@@ -8,11 +8,10 @@ export const createAsyncAction = actionType =>
     { name: 'success', value: ActionTypes.ASYNC_SUCCESS },
     { name: 'failure', value: ActionTypes.ASYNC_FAILURE }
   ].reduce((acc, type) => {
-    acc.types = acc.types || {};
-
     const fullType = `${actionType}_${type.value}`;
+
     acc[type.name] = data => createAction(fullType, data);
-    acc.types[type.name] = fullType;
+    acc[type.name.toUpperCase()] = fullType;
     acc.type = actionType;
 
     return acc;

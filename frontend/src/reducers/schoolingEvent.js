@@ -11,7 +11,7 @@ const featuredDefaultState = {
 
 const featured = (state = featuredDefaultState, action) => {
   switch (action.type) {
-    case schoolingEventActions.getFeaturedSchoolingEventsRequest.types.success:
+    case schoolingEventActions.getFeaturedSchoolingEventsRequest.SUCCESS:
       return {
         byId: {
           ...state.byId,

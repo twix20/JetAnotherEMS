@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 
 import MenuItem from '@material-ui/core/MenuItem';
 
 import Typography from '@material-ui/core/Typography';
+
+import { change as changeFieldValue } from 'redux-form';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import Chip from '@material-ui/core/Chip';
@@ -231,14 +234,41 @@ class TagsPicker extends React.Component {
     multi: null
   };
 
+  componentDidMount() {
+    console.log('componentDidMount');
+    console.log(this.props);
+
+    if (this.props.input) this.setState({ multi: this.props.input.value });
+  }
+
   handleChange = name => value => {
-    this.setState({
-      [name]: value
-    });
+    this.setState(
+      {
+        [name]: value
+      },
+      () => {
+        if (changeFieldValue) {
+          const selectedOptions = this.state.multi;
+
+          console.log('changed');
+          console.log(selectedOptions);
+          console.log(this.props);
+          console.log(this.props.dispatch);
+
+          this.props.dispatch(
+            changeFieldValue(
+              this.props.meta.form,
+              this.props.name,
+              selectedOptions
+            )
+          );
+        }
+      }
+    );
   };
 
   render() {
-    const { classes, theme, canCreate } = this.props;
+    const { classes, theme, canCreate, name } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -295,4 +325,15 @@ TagsPicker.defaultProps = {
   canCreate: false
 };
 
-export default withStyles(styles, { withTheme: true })(TagsPicker);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  dispatch
+});
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TagsPicker)
+);

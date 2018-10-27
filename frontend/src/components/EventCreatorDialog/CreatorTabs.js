@@ -20,6 +20,7 @@ class CreatorTabs extends React.Component {
   state = {};
 
   getTabs = () => {
+    const { events } = this.props;
     return [
       {
         label: 'Event details',
@@ -29,7 +30,7 @@ class CreatorTabs extends React.Component {
         label: 'Schedule',
         content: () => {
           const renderCalendar = props => {
-            return <EventCalendar {...props} />;
+            return <EventCalendar events={events} {...props} />;
           };
 
           return <FieldArray name="calendar" component={renderCalendar} />;

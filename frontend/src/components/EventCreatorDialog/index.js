@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm } from 'redux-form';
+import { reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
@@ -58,6 +58,7 @@ class EventCreatorDialog extends React.Component {
   render() {
     const {
       classes,
+      events,
       open,
       handleClose,
       handleSubmit,
@@ -117,7 +118,10 @@ class EventCreatorDialog extends React.Component {
                     [classes.flexedCalendar]: tabSelected === 1
                   })}
                 >
-                  <CreatorTabs onTabChange={this.handleTabChange} />
+                  <CreatorTabs
+                    events={events}
+                    onTabChange={this.handleTabChange}
+                  />
                 </Grid>
                 <Grid item className={classes.flex}>
                   <TicketTabs />
@@ -137,15 +141,28 @@ EventCreatorDialog.propTypes = {
   handleClose: PropTypes.func.isRequired
 };
 
-const validate = values => {
-  let errors = {};
+const selector = formValueSelector('eventCreatorFrom');
 
-  return errors;
-};
+const mapStateToProps = state => ({
+  events: selector(state, 'calendar')
+    ? selector(state, 'calendar').map(e => {
+        e.bgColor = '#ff7f50';
+        return e;
+      })
+    : []
+});
+
+const mapDispatchToProps = dispatch => ({});
 
 EventCreatorDialog = withStyles(styles)(EventCreatorDialog);
 
-export default reduxForm({
-  form: 'eventCreatorFrom', // a unique identifier for this form
-  validate
+EventCreatorDialog = reduxForm({
+  form: 'eventCreatorFrom' // a unique identifier for this form
 })(EventCreatorDialog);
+
+EventCreatorDialog = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EventCreatorDialog);
+
+export default EventCreatorDialog;

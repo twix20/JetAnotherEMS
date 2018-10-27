@@ -183,7 +183,14 @@ class EventDayCreatorDialog extends React.Component {
         name: 'tagsPicker',
         label: 'Tags',
         children: () => {
-          return <TagsPicker canCreate />;
+          return (
+            <Field
+              name="tagsPicker"
+              component={props => (
+                <TagsPicker {...props} name="tagsPicker" canCreate />
+              )}
+            />
+          );
         }
       },
       {

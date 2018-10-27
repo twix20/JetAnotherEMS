@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { change as changleFieldValue } from 'redux-form';
 import BigCalendar from 'react-big-calendar-like-google';
 import moment from 'moment';
 import { createRandomGuid } from '../../services/randomService';
@@ -44,10 +46,11 @@ class EventCalendar extends React.Component {
 
   handleDelete = dayId => {
     console.log('Id like to delete');
+    console.log(dayId);
 
-    const events = this.props.fields.getAll().filter(x => x.id !== dayId);
+    let allEvents = this.props.fields.getAll();
+    const events = allEvents.filter(x => x.id !== dayId);
     this.props.fields.removeAll();
-
     events.forEach(e => this.props.fields.push(e));
 
     this.closeDayCreator();
@@ -59,29 +62,31 @@ class EventCalendar extends React.Component {
 
     const newEvent = {
       ...values,
-      id: createRandomGuid(),
+      id: values.id || createRandomGuid(),
       end: values.end.toDate(),
       start: values.start.toDate()
     };
 
-    this.props.fields.push(newEvent);
+    const dayId = newEvent.id;
+    let allEvents = this.props.fields.getAll();
+    let events = allEvents.filter(x => x.id !== dayId);
+    events.push(newEvent);
+
+    console.log(events);
+    console.log(this.props);
+
+    this.props.dispatch(
+      changleFieldValue(this.props.meta.form, 'calendar', events)
+    );
 
     this.closeDayCreator();
   };
 
   render() {
     const { dayCreator } = this.state;
-    const { classes } = this.props;
+    const { classes, events } = this.props;
 
     const { handleSubmit, pristine, reset, submitting, fields } = this.props;
-
-    const events = fields.getAll().map(f => ({
-      ...f,
-      bgColor: '#ff7f50'
-    }));
-
-    console.log('BigCalendar');
-    console.log(events);
 
     return (
       <div {...this.props}>
@@ -147,4 +152,4 @@ EventCalendar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(EventCalendar);
+export default withStyles(styles)(connect()(EventCalendar));

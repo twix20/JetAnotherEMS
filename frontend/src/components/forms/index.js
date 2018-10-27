@@ -13,6 +13,10 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { TimePicker } from 'material-ui-pickers';
 
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 export const renderTextField = ({
   input,
   inputProps,
@@ -53,13 +57,19 @@ export const renderCheckbox = ({ input, label }) => (
   />
 );
 
-export const renderRadioGroup = ({ input, ...rest }) => (
-  <RadioButtonGroup
+export const renderRadioGroup = ({ input, children, ...rest }) => (
+  <RadioGroup
     {...input}
     {...rest}
     valueSelected={input.value}
     onChange={(event, value) => input.onChange(value)}
-  />
+  >
+    {children}
+  </RadioGroup>
+);
+
+export const renderRadio = ({ value, label, ...rest }) => (
+  <FormControlLabel control={<Radio />} value={value} label={label} {...rest} />
 );
 
 export const renderSelectField = ({

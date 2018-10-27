@@ -21,9 +21,9 @@ class EventCreatorOpenerButton extends React.Component {
     });
   };
   handleEventCreatorClose = () => {
-    // this.setState({
-    //   eventCreatorOpen: false
-    // });
+    this.setState({
+      eventCreatorOpen: false
+    });
   };
 
   handleSubmit = values => {

@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { reduxForm, Field } from 'redux-form';
 
 const styles = theme => ({
   submitBtn: {
@@ -28,11 +29,12 @@ class FormTemplate extends React.Component {
       subTitle,
       submitButtonText,
       onSubmit,
-      submitButtonIsLoading
+      submitButtonProps,
+      submitting
     } = this.props;
 
     return (
-      <ValidatorForm ref="form" onSubmit={onSubmit}>
+      <form onSubmit={onSubmit}>
         <Typography align="center" variant="title">
           {title}
         </Typography>
@@ -43,7 +45,7 @@ class FormTemplate extends React.Component {
         {children}
 
         <div className={classes.actionContainer}>
-          {submitButtonIsLoading ? (
+          {submitting ? (
             <CircularProgress />
           ) : (
             <Button
@@ -52,18 +54,20 @@ class FormTemplate extends React.Component {
               variant="contained"
               type="submit"
               className={classes.submitBtn}
+              {...submitButtonProps}
             >
               {submitButtonText}
             </Button>
           )}
         </div>
-      </ValidatorForm>
+      </form>
     );
   }
 }
 
 FormTemplate.defaultProps = {
-  submitButtonIsLoading: false
+  submitButtonProps: {},
+  submitting: false
 };
 
 FormTemplate.propTypes = {

@@ -41,7 +41,12 @@ export const store = createStore(reducer, composeWithDevTools(getMiddleware()));
 const jwtToken = localStorage.getItem('jwt');
 console.log(jwtToken);
 if (jwtToken) {
-  store.dispatch(authActions.login(jwtToken, 'Bearer'));
+  store.dispatch(
+    authActions.login({
+      accessToken: jwtToken,
+      tokenType: 'Bearer'
+    })
+  );
 }
 
 sagaMiddleware.run(rootSaga);

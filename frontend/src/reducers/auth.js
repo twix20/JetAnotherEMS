@@ -2,6 +2,8 @@ import jwtDecode from 'jwt-decode';
 
 import { LOGIN, LOGOUT } from '../constants/actionTypes';
 
+import authActions from '../actions/authActions';
+
 const initialState = {
   token: null,
   email: null,
@@ -11,8 +13,8 @@ const initialState = {
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case LOGIN: {
-      const { accessToken } = action;
+    case authActions.login.SUCCESS: {
+      const { accessToken } = action.payload;
 
       const decoded = jwtDecode(accessToken);
       console.log(decoded);

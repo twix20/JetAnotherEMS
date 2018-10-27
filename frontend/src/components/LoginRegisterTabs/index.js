@@ -68,7 +68,7 @@ class LoginRegisterTabs extends React.Component {
         )}
         {value === 1 && (
           <TabContainer>
-            <RegisterForm />
+            <RegisterForm initialValues={{ account: 'user' }} />
           </TabContainer>
         )}
       </div>

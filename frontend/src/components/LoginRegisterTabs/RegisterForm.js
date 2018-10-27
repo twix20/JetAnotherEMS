@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { reduxForm, Field } from 'redux-form';
+import { renderTextField, renderRadioGroup, renderRadio } from '../forms';
+
 import FormTemplate from './FormTemplate';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -14,96 +17,59 @@ import { POST_REGISTER_WITH_CREDENTIALS_REQUEST } from '../../constants/actionTy
 const styles = theme => ({});
 
 class RegisterForm extends React.Component {
-  state = {
-    account: 'user',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  };
-
-  componentWillMount() {
-    // custom rule will have name 'isPasswordMatch'
-    ValidatorForm.addValidationRule('isPasswordMatch', value => {
-      if (value !== this.state.password) {
-        return false;
-      }
-      return true;
-    });
-  }
-
-  handleChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value
-    });
-  };
-
-  handleSubmit = () => {
-    const { email, password, confirmPassword, account } = this.state;
-
-    this.props.register(email, password, confirmPassword, account);
-  };
-
   render() {
-    const { email, password, confirmPassword, account } = this.state;
-
-    const { isSubmiting } = this.props;
+    const { handleSubmit, submitting, pristine } = this.props;
+    const submit = handleSubmit(authActions.registerWithCredentials);
 
     return (
       <FormTemplate
         title="Register now!"
         subTitle={'Exclusive venues and discounts are at your fingertips'}
         submitButtonText="Register"
-        submitButtonIsLoading={isSubmiting}
-        onSubmit={this.handleSubmit}
+        onSubmit={submit}
+        submitting={submitting}
+        submitButtonProps={{
+          disabled: pristine || submitting
+        }}
       >
-        <TextValidator
+        <Field
           label="Email"
-          onChange={this.handleChange}
           name="email"
-          value={email}
-          validators={['required', 'isEmail']}
-          errorMessages={['this field is required', 'email is not valid']}
           fullWidth
+          component={renderTextField}
         />
 
-        <TextValidator
+        <Field
           label="Password"
-          onChange={this.handleChange}
           name="password"
-          type="password"
-          validators={['required']}
-          errorMessages={['this field is required']}
-          value={password}
           fullWidth
+          component={renderTextField}
+          inputProps={{
+            type: 'password'
+          }}
         />
 
-        <TextValidator
+        <Field
           label="Confirm password"
-          onChange={this.handleChange}
           name="confirmPassword"
-          type="password"
-          validators={['isPasswordMatch', 'required']}
-          errorMessages={['password mismatch', 'this field is required']}
-          value={confirmPassword}
           fullWidth
+          component={renderTextField}
+          inputProps={{
+            type: 'password'
+          }}
         />
 
-        <RadioGroup
-          row
+        <Field name="account" component={renderRadioGroup} />
+
+        <Field
           name="account"
+          component={renderRadioGroup}
+          row
           aria-label="account"
-          value={account}
-          onChange={this.handleChange}
         >
-          <FormControlLabel value="user" control={<Radio />} label="User" />
-          <FormControlLabel
-            value="company"
-            control={<Radio />}
-            label="Company"
-          />
-        </RadioGroup>
+          {renderRadio({ value: 'user', label: 'User', checked: true })}
+          {renderRadio({ value: 'company', label: 'Company' })}
+        </Field>
       </FormTemplate>
     );
   }
@@ -127,7 +93,13 @@ const mapDispatchToProps = dispatch => ({
     )
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(RegisterForm));
+RegisterForm = withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(RegisterForm)
+);
+
+export default reduxForm({
+  form: 'register'
+})(RegisterForm);

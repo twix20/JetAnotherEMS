@@ -8,7 +8,6 @@ import FormTemplate from './FormTemplate';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import authActions from '../../actions/authActions';
 import { connect } from 'react-redux';
 import { createLoadingSelector } from '../../reducers/selectors';

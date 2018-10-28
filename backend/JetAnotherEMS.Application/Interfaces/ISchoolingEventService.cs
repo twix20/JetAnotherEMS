@@ -17,5 +17,7 @@ namespace JetAnotherEMS.Application.Interfaces
         Task Create(CreateSchoolingEventViewModel viewModel);
 
         Task Update(UpdateSchoolingEventViewModel viewModel);
+
+        Task<IEnumerable<SchoolingEventParticipantViewModel>> GetParticipants(Guid id);
     }
 }

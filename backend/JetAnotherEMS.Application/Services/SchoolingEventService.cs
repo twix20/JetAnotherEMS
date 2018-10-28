@@ -11,6 +11,9 @@ using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
+using JetAnotherEMS.Infrastructure.Identity.Data;
+using JetAnotherEMS.Infrastructure.Identity.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace JetAnotherEMS.Application.Services
@@ -18,12 +21,17 @@ namespace JetAnotherEMS.Application.Services
     public class SchoolingEventService : ISchoolingEventService
     {
         private readonly IMediatorHandler _bus;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ISchoolingEventRepository _schoolingEventRepository;
 
-        public SchoolingEventService(ISchoolingEventRepository schoolingEventRepository, IMediatorHandler bus)
+        public SchoolingEventService(
+            ISchoolingEventRepository schoolingEventRepository, 
+            IMediatorHandler bus,
+            UserManager<ApplicationUser> userManager)
         {
             this._schoolingEventRepository = schoolingEventRepository;
             _bus = bus;
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, int page, int pageSize)
@@ -66,6 +74,28 @@ namespace JetAnotherEMS.Application.Services
             var command = Mapper.Map<UpdateSchoolingEventCommand>(viewModel);
 
             await _bus.SendCommand(command);
+        }
+
+        public async Task<IEnumerable<SchoolingEventParticipantViewModel>> GetParticipants(Guid id)
+        {
+            var entity = await _schoolingEventRepository.GetById(id);
+            if (entity == null)
+                return null;
+
+            //TODO: refactor?
+
+            var participantViewModels = entity.ParticipantsTickets.Select(p =>
+            {
+                var vm = Mapper.Map<SchoolingEventParticipantViewModel>(p);
+
+                var user = _userManager.Users.First(u => u.Id == vm.UserId.ToString());
+
+                Mapper.Map(user, vm);
+
+                return vm;
+            });
+
+            return participantViewModels;
         }
 
         private IQueryable<SchoolingEvent> ApplyFilters(IQueryable<SchoolingEvent> query,

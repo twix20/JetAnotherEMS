@@ -33,8 +33,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                             Description = "Dummy day description",
                             LectureRoom = "C3 123",
                             Teacher = "Andrew Gol",
-                            From = DateTime.Now.AddDays(1),
-                            To = DateTime.Now.AddDays(1).AddHours(1),
+                            From = DateTime.Now,
+                            To = DateTime.Now.AddHours(1),
                             Tags = new List<SchoolingEventDayTag>()
                             {
                                 new SchoolingEventDayTag()
@@ -50,8 +50,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                             Description = "Dummy day description2",
                             LectureRoom = "C3 1232",
                             Teacher = "Andrew Gol2",
-                            From = DateTime.Now.AddDays(1).AddHours(2),
-                            To = DateTime.Now.AddDays(1).AddHours(3),
+                            From = DateTime.Now.AddHours(2),
+                            To = DateTime.Now.AddHours(3),
                             Tags = new List<SchoolingEventDayTag>()
                             {
                                 new SchoolingEventDayTag()

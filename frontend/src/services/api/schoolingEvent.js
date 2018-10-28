@@ -13,7 +13,9 @@ export default {
     }),
   getEvent: ({ id }) => instance.get(`${URL_HOST}/api/SchoolingEvent/${id}`),
   getSchedule: ({ id }) =>
-    instance.get(`${URL_HOST}/api/SchoolingEvent/Schedule/${id}`),
+    instance.get(`${URL_HOST}/api/SchoolingEvent/${id}/Schedule`),
+  getParticipants: ({ id }) =>
+    instance.get(`${URL_HOST}/api/SchoolingEvent/${id}/Participants`),
   create: payload => instance.post(`${URL_HOST}/api/SchoolingEvent`, payload),
   update: payload => instance.patch(`${URL_HOST}/api/SchoolingEvent`, payload)
 };

@@ -30,6 +30,9 @@ namespace JetAnotherEMS.Application.AutoMapper
 
 
                 cfg.CreateMap<BuyEventTicketViewModel, BuyEventTicketCommand>();
+
+
+                cfg.CreateMap<UserSchoolingEventTicket, SchoolingEventParticipantViewModel>();
             });
         }
     }

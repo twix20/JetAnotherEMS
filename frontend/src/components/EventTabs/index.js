@@ -73,7 +73,7 @@ const LocationMap = props => {
   return (
     <div style={{ height: '45vh', width: '100%' }}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyC0g5z6TrUV9gh7xDT2PwK6HqRsf1PZu7s' }}
+        bootstrapURLKeys={{ key: 'AIzaSyAm_B9x-hZcSwq2rB97ZtU3NmKz_bQ6GZA' }}
         defaultCenter={props.center}
         defaultZoom={props.zoom}
         onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}

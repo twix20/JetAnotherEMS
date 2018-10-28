@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 
 import { Field, reduxForm } from 'redux-form';
-import { renderTextField } from '../forms';
+import { renderTextField, renderMUIPlacesAutocomplete } from '../forms';
 import { required, email } from 'redux-form-validators';
 
 import TextField from '@material-ui/core/TextField';
@@ -94,12 +94,20 @@ class EventDetailsTab extends React.Component {
         </IconInputTemplate>
 
         <IconInputTemplate Icon={LocationOnIcon}>
-          <Field
+          {/* <Field
             className={classes.field}
             name="location"
             component={renderTextField} //TODO: M ake renderGooleLocationSelect
             label="Location"
             validate={[required()]}
+          /> */}
+
+          <Field
+            fullWidth
+            name="location"
+            autoFocus={false}
+            placeholder="Search for a place"
+            component={renderMUIPlacesAutocomplete}
           />
         </IconInputTemplate>
 

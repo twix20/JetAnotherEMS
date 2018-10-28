@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Field, reduxForm } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Checkbox from '@material-ui/core/Checkbox';
 import SelectField from '@material-ui/core/Select';
@@ -17,6 +18,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import MUIPlacesAutocomplete from 'mui-places-autocomplete';
+
 export const renderTextField = ({
   input,
   inputProps,
@@ -31,6 +34,16 @@ export const renderTextField = ({
       <Input {...input} {...inputProps} />
       {touched && error ? <FormHelperText>{error}</FormHelperText> : null}
     </FormControl>
+  );
+};
+
+export const renderMUIPlacesAutocomplete = ({ input, ...other }) => {
+  return (
+    <MUIPlacesAutocomplete
+      onSuggestionSelected={sugestion => input.onChange(sugestion)}
+      renderTarget={() => <div />}
+      textFieldProps={{ ...other }}
+    />
   );
 };
 

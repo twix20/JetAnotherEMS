@@ -35,9 +35,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
             return DbSet;
         }
 
-        public virtual Task Update(TEntity obj)
+        public virtual void Update(TEntity obj)
         {
-            return Task.FromResult(DbSet.Update(obj));
+            DbSet.Update(obj);
         }
 
         public virtual async Task Remove(Guid id)

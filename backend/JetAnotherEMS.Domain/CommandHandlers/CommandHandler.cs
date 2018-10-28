@@ -14,7 +14,11 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         public DomainNotificationHandler Notifications { get; }
         public IValidationService ValidationService { get; }
 
-        public CommandHandler(IUnitOfWork uow, IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IValidationService validationService)
+        public CommandHandler(
+            IUnitOfWork uow, 
+            IMediatorHandler bus, 
+            INotificationHandler<DomainNotification> notifications, 
+            IValidationService validationService)
         {
             Uow = uow;
             Notifications = (DomainNotificationHandler)notifications;

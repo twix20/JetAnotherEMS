@@ -41,29 +41,30 @@ namespace JetAnotherEMS.WebApi
                 c.SwaggerDoc("v1", new Info { Title = "JetAnotherEMS API", Version = "v1" });
             });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();
 
             AddAutoMapperSetup(services);
             AddAuthorization(services);
             AddAuthentication(services);
 
             var builder = new ContainerBuilder();
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
+            builder.RegisterType<ClaimsRequirementHandler>().As<IAuthorizationHandler>();
+
             builder.Populate(services);
             AutofacBootStrapper.RegisterServices(builder);
 
             // DB Contexts
             builder.RegisterType<ApplicationContextDbFactory>().AsSelf().AsImplementedInterfaces();
 
-            builder.RegisterType<EventStoreSQLContext>();
-            builder.RegisterType<JetAnotherEmsContext>();
+            builder.RegisterType<EventStoreSQLContext>().InstancePerLifetimeScope();
+            builder.RegisterType<JetAnotherEmsContext>().InstancePerLifetimeScope();
 
             builder.RegisterType<ApplicationContextDbFactory>().AsSelf().AsImplementedInterfaces();
             builder.Register<ApplicationDbContext>(ctx =>
             {
                 var factory = ctx.Resolve<IDesignTimeDbContextFactory<ApplicationDbContext>>();
                 return factory.CreateDbContext(new string[] { });
-            });
+            }).InstancePerLifetimeScope();
 
             ApplicationContainer = builder.Build();
 
@@ -111,13 +112,14 @@ namespace JetAnotherEMS.WebApi
             });
 
 
+            using (var scope = ApplicationContainer.BeginLifetimeScope("AutofacWebRequest"))
+            {
+                CreateRoles(scope);
 
-
-            CreateRoles(serviceProvider);
-
-            // DUMMY SEED
-            var ctx = serviceProvider.GetService<JetAnotherEmsContext>();
-            ctx.Seed();
+                // DUMMY SEED
+                var ctx = scope.Resolve<JetAnotherEmsContext>();
+                ctx.Seed();
+            }
         }
     }
 }

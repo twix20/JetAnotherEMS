@@ -1,5 +1,7 @@
-﻿using JetAnotherEMS.Domain.Interfaces;
+﻿using System;
+using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace JetAnotherEMS.Infrastructure.Data.UnitOfWork
 {

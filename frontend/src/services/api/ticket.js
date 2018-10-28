@@ -8,8 +8,6 @@ export default {
     instance.get(`${URL_HOST}/api/Ticket/ByEvent/${eventId}`),
   buyTicket: ({ ticketId }) =>
     instance.post(`${URL_HOST}/api/Ticket/Buy`, {
-      payload: {
-        ticketId
-      }
+      TicketId: ticketId
     })
 };

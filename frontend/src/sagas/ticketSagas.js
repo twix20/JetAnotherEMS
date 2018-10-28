@@ -11,7 +11,9 @@ export function* fetchTicketForEvent(action) {
   const { response, error } = yield sagaRequestWrapper(
     ticketActions.getTicketForEventRequest,
     api.ticket.getByEvent,
-    { eventId }
+    {
+      eventId
+    }
   );
   console.log(response);
 }
@@ -22,7 +24,9 @@ export function* buyTicketForEventSaga(action) {
   const { response, error } = yield sagaRequestWrapper(
     ticketActions.buyTicketForEventRequest,
     api.ticket.buyTicket,
-    { eventId }
+    {
+      ticketId
+    }
   );
 
   console.log(response);

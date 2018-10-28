@@ -13,7 +13,11 @@ namespace JetAnotherEMS.Domain.CommandHandlers
     public class UserCommandHandler : CommandHandler,
         IRequestHandler<RegisterNewUserCommand>
     {
-        public UserCommandHandler(IUnitOfWork uow, IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IValidationService validationService) : base(uow, bus, notifications, validationService)
+        public UserCommandHandler(
+            IUnitOfWork uow, 
+            IMediatorHandler bus, 
+            INotificationHandler<DomainNotification> notifications, 
+            IValidationService validationService) : base(uow, bus, notifications, validationService)
         {
         }
 

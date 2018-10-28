@@ -14,10 +14,6 @@ namespace JetAnotherEMS.Infrastructure.IoC.AutofacModules
             builder.RegisterAssemblyTypes(typeof(ISchoolingEventService).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces();
-
-            // Validation
-            builder.RegisterType<FluentValidationService>().As<IValidationService>().InstancePerRequest();
-            builder.RegisterType<AutofacValidatorFactory>().As<IValidatorFactory>().InstancePerRequest();
         }
     }
 }

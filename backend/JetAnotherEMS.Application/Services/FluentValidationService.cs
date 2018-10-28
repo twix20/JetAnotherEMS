@@ -15,7 +15,7 @@ namespace JetAnotherEMS.Application.Services
 
         public ValidationResult Validate<T>(T entity)
         {
-            var validator = _validatorFactory.GetValidator<T>();
+            var validator = _validatorFactory.GetValidator(entity.GetType());
             var result = validator.Validate(entity);
 
             return result;

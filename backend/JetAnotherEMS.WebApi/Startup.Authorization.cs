@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Autofac;
 using JetAnotherEMS.Infrastructure.Identity.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,19 +26,19 @@ namespace JetAnotherEMS.WebApi
             });
         }
 
-        public void CreateRoles(IServiceProvider serviceProvider)
+        public void CreateRoles(ILifetimeScope scope)
         {
             string[] roleNames = {"User", "Company"};
 
             foreach (var roleName in roleNames)
             {
-                CreateRole(serviceProvider, roleName);
+                CreateRole(scope, roleName);
             }
         }
 
-        private void CreateRole(IServiceProvider serviceProvider, string roleName)
+        private void CreateRole(ILifetimeScope scope, string roleName)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = scope.Resolve<RoleManager<IdentityRole>>();
 
             var roleExists = roleManager.RoleExistsAsync(roleName);
             roleExists.Wait();
@@ -48,5 +49,6 @@ namespace JetAnotherEMS.WebApi
                 roleResult.Wait();
             }
         }
+        
     }
 }

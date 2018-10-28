@@ -11,7 +11,7 @@ namespace JetAnotherEMS.Domain.Interfaces
         Task Add(TEntity obj);
         Task<TEntity> GetById(Guid id);
         IQueryable<TEntity> GetAll();
-        Task Update(TEntity obj);
+        void Update(TEntity obj);
         Task Remove(Guid id);
         Task<int> SaveChanges();
     }

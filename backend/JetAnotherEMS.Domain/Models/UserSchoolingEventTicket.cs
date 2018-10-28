@@ -5,6 +5,9 @@ namespace JetAnotherEMS.Domain.Models
 {
     public class UserSchoolingEventTicket : Entity
     {
+        /// <summary>
+        /// User that bought a ticket
+        /// </summary>
         public Guid UserId { get; set; }
 
         public TicketStatus Status { get; set; }

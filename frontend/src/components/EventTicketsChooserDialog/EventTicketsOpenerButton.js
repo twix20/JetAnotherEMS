@@ -20,7 +20,7 @@ import TicketCard from './TicketCard';
 
 const availableTickets = [
   {
-    id: 'fdeeca12-c708-476d-81b5-a8554bfff8b3',
+    id: 'A8F6137C-3DCD-4C44-1B29-08D63CC54056',
     name: 'REGULAR',
     bought: 2,
     left: 30,
@@ -50,7 +50,10 @@ class EventTicketsOpenerButton extends React.Component {
   };
 
   handleClose = value => {
-    this.setState({ selectedTicket: value, open: false });
+    this.setState({
+      selectedTicket: value,
+      open: false
+    });
   };
 
   render() {
@@ -65,7 +68,7 @@ class EventTicketsOpenerButton extends React.Component {
         {usersTicket === null ? (
           <Button
             variant="extendedFab"
-            aria-label="Delete"
+            ariaLabel="Delete"
             onClick={this.handleClickOpen}
           >
             <NavigationIcon />
@@ -74,7 +77,6 @@ class EventTicketsOpenerButton extends React.Component {
         ) : (
           <TicketCard ticket={usersTicket} />
         )}
-
         <EventTicketsChooserDialog
           tickets={availableTickets}
           selectedValue={this.state.selectedTicket}

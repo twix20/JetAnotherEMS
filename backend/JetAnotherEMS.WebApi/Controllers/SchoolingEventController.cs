@@ -37,13 +37,12 @@ namespace JetAnotherEMS.WebApi.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        [Route("{id:guid}/[action]")]
+        public async Task<IActionResult> Tickets(Guid id)
         {
-            var featured = await _schoolingEventService.GetFeaturedById(id);
-            if (featured == null) return BadRequest();
+            var tickets = await _schoolingEventService.GetTickets(id);
 
-            return Response(featured);
+            return Response(tickets);
         }
 
         [HttpGet]
@@ -52,7 +51,6 @@ namespace JetAnotherEMS.WebApi.Controllers
         public async Task<IActionResult> Schedule(Guid id)
         {
             var schedule = await _schoolingEventService.GetSchedule(id);
-            if (schedule == null) return BadRequest();
 
             return Response(schedule);
         }
@@ -64,7 +62,6 @@ namespace JetAnotherEMS.WebApi.Controllers
         {
             //TODO: only creator of an event can see participiants
             var participants = await _schoolingEventService.GetParticipants(id);
-            if (participants == null) return BadRequest();
 
             return Response(participants);
         }

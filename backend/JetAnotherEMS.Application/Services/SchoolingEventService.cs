@@ -9,6 +9,7 @@ using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Core.Bus;
+using JetAnotherEMS.Domain.Core.Notifications;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
 using JetAnotherEMS.Infrastructure.Identity.Data;
@@ -18,6 +19,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JetAnotherEMS.Application.Services
 {
+
+    //TODO: add DomainNotifications when something goes wrong
     public class SchoolingEventService : ISchoolingEventService
     {
         private readonly IMediatorHandler _bus;
@@ -48,16 +51,26 @@ namespace JetAnotherEMS.Application.Services
                 .ToListAsync();
         }
 
-        public async Task<FeaturedSchoolingEventViewModel> GetFeaturedById(Guid id)
+        public async Task<IEnumerable<SchoolingEventTicketViewModel>> GetTickets(Guid id)
         {
             var entity = await _schoolingEventRepository.GetById(id);
+            if (entity == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("GetTickets", $"Event with id {id} doesn't exist"));
+                return null;
+            }
 
-            return Mapper.Map<FeaturedSchoolingEventViewModel>(entity);
+            return entity.AvailableTickets.Select(Mapper.Map<SchoolingEventTicketViewModel>);
         }
 
         public async Task<IEnumerable<SchoolingEventDayViewModel>> GetSchedule(Guid id)
         {
             var entity = await _schoolingEventRepository.GetById(id);
+            if (entity == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("GetSchedule", $"Event with id {id} doesn't exist"));
+                return null;
+            }
 
             return entity.Schedule.Select(Mapper.Map<SchoolingEventDayViewModel>);
         }
@@ -80,10 +93,12 @@ namespace JetAnotherEMS.Application.Services
         {
             var entity = await _schoolingEventRepository.GetById(id);
             if (entity == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("GetParticipants", $"Event with id {id} doesn't exist"));
                 return null;
+            }
 
             //TODO: refactor?
-
             var participantViewModels = entity.ParticipantsTickets.Select(p =>
             {
                 var vm = Mapper.Map<SchoolingEventParticipantViewModel>(p);

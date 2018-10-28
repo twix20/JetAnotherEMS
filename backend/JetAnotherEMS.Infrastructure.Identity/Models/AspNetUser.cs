@@ -18,7 +18,7 @@ namespace JetAnotherEMS.Infrastructure.Identity.Models
 
         public string Name => _accessor.HttpContext.User.Identity.Name;
 
-        public Guid Id => Guid.NewGuid();
+        public Guid Id => Guid.Parse(Name);
 
         public bool IsAuthenticated()
         {

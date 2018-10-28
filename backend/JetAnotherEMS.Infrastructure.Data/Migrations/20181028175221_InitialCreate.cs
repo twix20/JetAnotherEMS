@@ -112,12 +112,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedByUserId = table.Column<Guid>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
                     TotalQuantity = table.Column<long>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    EventId = table.Column<Guid>(nullable: true)
+                    Currency = table.Column<string>(nullable: false),
+                    EventId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -127,7 +126,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         column: x => x.EventId,
                         principalTable: "SchoolingEvents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

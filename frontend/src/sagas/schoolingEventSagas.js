@@ -75,6 +75,18 @@ export function* fetchSchoolingEventSchedule(action) {
   console.log(response);
 }
 
+export function* fetchEventAvailableTicketsSaga(action) {
+  const { id } = action;
+
+  const { response, error } = yield sagaRequestWrapper(
+    schoolingEventActions.getEventAvailableTicketsRequest,
+    api.schoolingEvent.getAvailableTickets,
+    { id }
+  );
+
+  console.log(response);
+}
+
 export function* handleCreateOrUpdateSchoolingEvent(action) {
   const {
     id,
@@ -121,6 +133,10 @@ export default function* root() {
     takeLatest(
       ActionTypes.UPDATE_SCHOOLING_EVENT_FILTER,
       debouncedFetchFeaturedEventsWithAppliedFilter
+    ),
+    takeLatest(
+      schoolingEventActions.getEventAvailableTicketsRequest.START,
+      fetchEventAvailableTicketsSaga
     ),
     takeEvery(
       schoolingEventActions.createOrUpdateSchoolingEvent.REQUEST,

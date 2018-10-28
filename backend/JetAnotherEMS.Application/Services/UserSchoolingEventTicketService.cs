@@ -7,6 +7,7 @@ using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Core.Bus;
+using JetAnotherEMS.Domain.Core.Notifications;
 using JetAnotherEMS.Domain.Interfaces;
 
 namespace JetAnotherEMS.Application.Services
@@ -22,11 +23,17 @@ namespace JetAnotherEMS.Application.Services
             _userSchoolingEventTicketRepository = userSchoolingEventTicketRepository;
         }
 
-        public async Task<SchoolingEventTicketViewModel> GetEventTicketForUser(Guid userId, Guid eventId)
+        public async Task<UserSchoolingEventTicketViewModel> GetEventTicketForUser(Guid userId, Guid eventId)
         {
             var ticket = await _userSchoolingEventTicketRepository.GetEventTicketForUser(userId, eventId);
+            if (ticket == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification(nameof(UserSchoolingEventTicketService),
+                    $"User {userId} doesn't have ticket for event {eventId}"));
+                return null;
+            }
 
-            return Mapper.Map<SchoolingEventTicketViewModel>(ticket);
+            return Mapper.Map<UserSchoolingEventTicketViewModel>(ticket);
         }
 
         public async Task BuyTicket(BuyEventTicketViewModel viewModel)

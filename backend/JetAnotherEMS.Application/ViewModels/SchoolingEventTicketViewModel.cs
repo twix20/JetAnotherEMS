@@ -10,5 +10,7 @@ namespace JetAnotherEMS.Application.ViewModels
         public decimal Price { get; set; }
 
         public uint TotalQuantity { get; set; }
+
+        public string Currency { get; set; }
     }
 }

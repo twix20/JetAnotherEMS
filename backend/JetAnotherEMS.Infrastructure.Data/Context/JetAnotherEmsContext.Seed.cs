@@ -68,13 +68,15 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                         {
                             Name = "FREE",
                             Price = 0,
-                            TotalQuantity = 100
+                            TotalQuantity = 100,
+                            Currency = "PLN"
                         },
                         new SchoolingEventTicket()
                         {
                             Name = "VIP",
                             Price = 95,
-                            TotalQuantity = 13
+                            TotalQuantity = 20,
+                            Currency = "PLN"
                         }
                     }
                     

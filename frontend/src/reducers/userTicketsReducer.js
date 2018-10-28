@@ -5,7 +5,7 @@ import ticketActions from '../actions/ticketActions';
 const byEventId = (state = {}, action) => {
   switch (action.type) {
     case ticketActions.getTicketForEventRequest.SUCCESS: {
-      const eventId = action.response.data.data.EventId;
+      const { eventId } = action;
 
       return {
         ...state,

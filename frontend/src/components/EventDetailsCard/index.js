@@ -60,7 +60,8 @@ import ticketActions from '../../actions/ticketActions';
 
 import {
   createLoadingSelector,
-  userTicketsSelectors
+  userTicketsSelectors,
+  schoolingEventSelectors
 } from '../../reducers/selectors';
 
 const styles = theme => ({
@@ -137,10 +138,16 @@ class EventDetailsCard extends React.Component {
   };
 
   componentDidMount() {
-    const { eventId, fetchEvent, fetchUsersTicket } = this.props;
+    const {
+      eventId,
+      fetchEvent,
+      fetchUsersTicket,
+      fetchAvailableTickets
+    } = this.props;
 
     fetchEvent(eventId);
     fetchUsersTicket(eventId);
+    fetchAvailableTickets(eventId);
 
     console.log(eventId);
   }
@@ -164,6 +171,7 @@ class EventDetailsCard extends React.Component {
     const ExpandIcon = expanded ? ExpandLessIcon : ExpandMoreIcon;
 
     const usersTicket = this.props.getUsersTicketForEvent(eventId);
+    const availableTickets = this.props.getEventAvailableTickets(eventId);
 
     return (
       <div>
@@ -305,7 +313,11 @@ class EventDetailsCard extends React.Component {
               </Grid>
 
               <Grid item container className={classes.buyTicketContainer}>
-                <EventTicketsOpenerButton usersTicket={usersTicket} />
+                <EventTicketsOpenerButton
+                  eventId={eventId}
+                  usersTicket={usersTicket}
+                  availableTickets={availableTickets}
+                />
               </Grid>
 
               <Grid item>
@@ -342,14 +354,21 @@ EventDetailsCard.propTypes = {
 
 const mapStateToProps = state => ({
   getUsersTicketForEvent: eventId =>
-    userTicketsSelectors.forEvent(state, eventId)
+    userTicketsSelectors.forEvent(state, eventId),
+  getEventAvailableTickets: eventId =>
+    schoolingEventSelectors.availableTickets(state, eventId)
 });
 
+//TODO: add more actions and dispatch requests only in sagas
 const mapDispatchToProps = dispatch => ({
   fetchEvent: id =>
     dispatch(schoolingEventActions.getEventRequest.start({ id })),
   fetchUsersTicket: eventId =>
-    dispatch(ticketActions.getTicketForEventRequest.start({ eventId }))
+    dispatch(ticketActions.getTicketForEventRequest.start({ eventId })),
+  fetchAvailableTickets: id =>
+    dispatch(
+      schoolingEventActions.getEventAvailableTicketsRequest.start({ id })
+    )
 });
 
 export default withStyles(styles)(

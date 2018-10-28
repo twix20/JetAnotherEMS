@@ -31,56 +31,33 @@ const featured = (state = featuredDefaultState, action) => {
   }
 };
 
-const eventsInitialState = { byId: {} };
-const events = (state = eventsInitialState, action) => {
+const availableTicketsDefaultState = {
+  byEventId: {}
+};
+const availableTickets = (state = availableTicketsDefaultState, action) => {
   switch (action.type) {
-    case ActionTypes.ASYNC_SUCCESS:
-      if (action.subtype === GET_SCHOOLING_EVENT_REQUEST) {
-        const { id, event } = action;
-        return {
-          byId: {
-            ...state.byId,
-            [id]: {
-              ...event,
-              loading: false
-            }
-          }
-        };
-      }
-    case ActionTypes.ASYNC_START:
-      if (action.subtype === GET_SCHOOLING_EVENT_REQUEST) {
-        const { id } = action;
-        return {
-          byId: {
-            ...state.byId,
-            [id]: {
-              loading: true
-            }
-          }
-        };
-      }
-    case ActionTypes.ASYNC_FAILURE:
-      if (action.subtype === GET_SCHOOLING_EVENT_REQUEST) {
-        const { id } = action;
-        return {
-          byId: {
-            ...state.byId,
-            [id]: {
-              loading: false
-            }
-          }
-        };
-      }
+    case schoolingEventActions.getEventAvailableTicketsRequest.SUCCESS:
+      const { id } = action;
+      const availableTickets = action.response.data.data;
+
+      return {
+        byEventId: {
+          ...state.byEventId,
+          [id]: availableTickets
+        }
+      };
     default:
       return state;
   }
 };
 
 export const selectors = {
-  featured: state => Object.values(state.schoolingEvent.featured.byId) || []
+  featured: state => Object.values(state.schoolingEvent.featured.byId) || [],
+  availableTickets: (state, eventId) =>
+    state.schoolingEvent.availableTickets.byEventId[eventId] || []
 };
 
 export default combineReducers({
   featured,
-  events
+  availableTickets
 });

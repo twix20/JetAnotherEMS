@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JetAnotherEmsContext))]
-    [Migration("20181028110345_InitialCreate")]
+    [Migration("20181028175221_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,21 +207,21 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<Guid>("CreatedByUserId");
 
-                    b.Property<Guid?>("EventId");
+                    b.Property<string>("Currency")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<Guid>("EventId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<decimal>("Price");
-
-                    b.Property<int>("Status");
 
                     b.Property<long>("TotalQuantity");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<Guid>("UpdatedByUserId");
-
-                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -313,7 +313,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
                         .WithMany("AvailableTickets")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.UserSchoolingEventTicket", b =>

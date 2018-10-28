@@ -26,7 +26,9 @@ class EventTicketsChooserDialog extends React.Component {
   handleListItemClick = value => {
     const ticketId = value.id;
 
-    this.props.buyTicket(ticketId);
+    const { eventId } = this.props;
+
+    this.props.buyTicket(ticketId, eventId);
 
     this.props.onClose(value);
   };
@@ -70,8 +72,10 @@ EventTicketsChooserDialog.propTypes = {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  buyTicket: ticketId =>
-    dispatch(ticketActions.buyTicketForEventRequest.start({ ticketId }))
+  buyTicket: (ticketId, eventId) =>
+    dispatch(
+      ticketActions.buyTicketForEventRequest.start({ ticketId, eventId })
+    )
 });
 
 export default connect(

@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import green from '@material-ui/core/colors/green';
 
+import { TicketStatus, enumPropFromValue } from '../../constants/enums';
+
 const styles = {
   card: {
     minWidth: 345
@@ -33,11 +35,11 @@ class TicketCard extends React.Component {
     const { ticket } = this.props;
 
     const cardModes = {
-      approved: {
+      [TicketStatus.Approved]: {
         content: null,
         actions: null
       },
-      awaitingAproval: {
+      [TicketStatus.AwaitingApproval]: {
         content: 'Awaiting aproval',
         actions: (
           <Button fullWidth size="small" color="primary" variant="contained">
@@ -45,20 +47,23 @@ class TicketCard extends React.Component {
           </Button>
         )
       },
-      rejected: {
+      [TicketStatus.Rejected]: {
         content: 'Your ticket request has been rejected',
         actions: null
       }
     };
 
-    //TODO:
-    return cardModes['awaitingAproval'];
+    return cardModes[ticket.status];
   };
 
   render() {
     const { classes, ticket } = this.props;
 
     const cardMode = this.getCardModeFromTicketStatus();
+
+    const cardSubHeaderText = `${ticket.ticket.name} - ${ticket.ticket.price}${
+      ticket.ticket.currency
+    }`;
 
     return (
       <Card className={classes.card}>
@@ -70,7 +75,7 @@ class TicketCard extends React.Component {
             justify="center"
             direction="column"
           >
-            <CardHeader title="Ticket" subheader="VIP - 200PLN" />
+            <CardHeader title="Ticket" subheader={cardSubHeaderText} />
           </Grid>
           <Grid item xs={6}>
             {cardMode.content && (

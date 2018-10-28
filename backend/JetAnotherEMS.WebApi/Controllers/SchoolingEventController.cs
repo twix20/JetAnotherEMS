@@ -25,6 +25,7 @@ namespace JetAnotherEMS.WebApi.Controllers
             _schoolingEventService = schoolingEventService;
         }
 
+
         [HttpGet]
         [AllowAnonymous]
         [Route("[action]")]

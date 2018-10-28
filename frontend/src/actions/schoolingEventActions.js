@@ -7,7 +7,8 @@ import {
   GET_MORE_SCHOOLING_EVENTS,
   CREATE_OR_UPDATE_SCHOOLING_EVENT,
   POST_CREATE_SCHOOLING_EVENT_REQUEST,
-  PATCH_CREATE_SCHOOLING_EVENT_REQUEST
+  PATCH_CREATE_SCHOOLING_EVENT_REQUEST,
+  GET_EVENT_AVAILABLE_TICKETS_REQUEST
 } from '../constants/actionTypes';
 
 const getMoreFeaturedSchoolingEvents = createAction(GET_MORE_SCHOOLING_EVENTS);
@@ -17,6 +18,9 @@ const getFeaturedSchoolingEventsRequest = createAsyncAction(
 );
 
 const getEventRequest = createAsyncAction(GET_SCHOOLING_EVENT_REQUEST);
+const getEventAvailableTicketsRequest = createAsyncAction(
+  GET_EVENT_AVAILABLE_TICKETS_REQUEST
+);
 const getScheduleRequst = createAsyncAction(
   GET_SCHOOLING_EVENT_SCHEDULE_REQUEST
 );
@@ -36,6 +40,7 @@ export default {
   getFeaturedSchoolingEventsRequest,
   getEventRequest,
   getScheduleRequst,
+  getEventAvailableTicketsRequest,
   getMoreFeaturedSchoolingEvents,
   createOrUpdateSchoolingEvent,
   createSchoolingEventRequest,

@@ -36,7 +36,6 @@ namespace JetAnotherEMS.WebApi.Controllers
         public async Task<IActionResult> ByEvent(Guid eventId)
         {
             var usersTicket = await _userSchoolingEventTicketService.GetEventTicketForUser(_user.Id, eventId);
-            if (usersTicket == null) return BadRequest();
 
             return Response(usersTicket);
         }

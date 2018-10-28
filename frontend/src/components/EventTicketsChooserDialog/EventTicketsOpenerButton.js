@@ -18,25 +18,6 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import EventTicketsChooserDialog from './index';
 import TicketCard from './TicketCard';
 
-const availableTickets = [
-  {
-    id: 'A8F6137C-3DCD-4C44-1B29-08D63CC54056',
-    name: 'REGULAR',
-    bought: 2,
-    left: 30,
-    price: 10.0,
-    currency: 'PLN'
-  },
-  {
-    id: '41c25bfd-b2b4-4e14-b23c-9f39c7f72cf4',
-    name: 'VIP',
-    bought: 1,
-    left: 10,
-    price: 0.0,
-    currency: 'PLN'
-  }
-];
-
 class EventTicketsOpenerButton extends React.Component {
   state = {
     open: false,
@@ -58,7 +39,7 @@ class EventTicketsOpenerButton extends React.Component {
 
   render() {
     const { selectedTicket } = this.state;
-    const { usersTicket } = this.props;
+    const { usersTicket, availableTickets, eventId } = this.props;
 
     console.log(selectedTicket);
     console.log(usersTicket);
@@ -78,6 +59,7 @@ class EventTicketsOpenerButton extends React.Component {
           <TicketCard ticket={usersTicket} />
         )}
         <EventTicketsChooserDialog
+          eventId={eventId}
           tickets={availableTickets}
           selectedValue={this.state.selectedTicket}
           open={this.state.open}

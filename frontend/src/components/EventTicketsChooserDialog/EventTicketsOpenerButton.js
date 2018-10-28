@@ -39,7 +39,12 @@ class EventTicketsOpenerButton extends React.Component {
 
   render() {
     const { selectedTicket } = this.state;
-    const { usersTicket, availableTickets, eventId } = this.props;
+    const {
+      usersTicket,
+      availableTickets,
+      eventId,
+      handleTicketCancel
+    } = this.props;
 
     console.log(selectedTicket);
     console.log(usersTicket);
@@ -56,7 +61,10 @@ class EventTicketsOpenerButton extends React.Component {
             Buy a ticket now!
           </Button>
         ) : (
-          <TicketCard ticket={usersTicket} />
+          <TicketCard
+            ticket={usersTicket}
+            handleTicketCancel={handleTicketCancel}
+          />
         )}
         <EventTicketsChooserDialog
           eventId={eventId}

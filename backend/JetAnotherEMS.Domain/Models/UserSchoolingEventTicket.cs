@@ -20,6 +20,7 @@ namespace JetAnotherEMS.Domain.Models
         Unknown,
         AwaitingApproval,
         Approved,
-        Rejected
+        Rejected,
+        Canceled
     }
 }

@@ -164,6 +164,11 @@ class EventDetailsCard extends React.Component {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
+  handleTicketCancel = userEventTicketId => {
+    const { cancelTicket, eventId } = this.props;
+    cancelTicket(userEventTicketId, eventId);
+  };
+
   render() {
     const { classes, eventId } = this.props;
     const { headerMenuEl, expanded, detailsItems } = this.state;
@@ -317,6 +322,7 @@ class EventDetailsCard extends React.Component {
                   eventId={eventId}
                   usersTicket={usersTicket}
                   availableTickets={availableTickets}
+                  handleTicketCancel={this.handleTicketCancel}
                 />
               </Grid>
 
@@ -368,7 +374,9 @@ const mapDispatchToProps = dispatch => ({
   fetchAvailableTickets: id =>
     dispatch(
       schoolingEventActions.getEventAvailableTicketsRequest.start({ id })
-    )
+    ),
+  cancelTicket: (id, eventId) =>
+    dispatch(ticketActions.cancelTicketForEventRequest.start({ id, eventId }))
 });
 
 export default withStyles(styles)(

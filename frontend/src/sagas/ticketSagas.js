@@ -1,4 +1,11 @@
-import { all, call, put, takeLatest, select } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  put,
+  takeLatest,
+  select,
+  takeEvery
+} from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
 import { sagaRequestWrapper } from './common';
@@ -36,15 +43,34 @@ export function* buyTicketForEventSaga(action) {
   console.log(response);
 }
 
+export function* cancelEventTicketSaga(action) {
+  const { id, eventId } = action;
+
+  const { response, error } = yield sagaRequestWrapper(
+    ticketActions.cancelTicketForEventRequest,
+    api.ticket.cancelTicket,
+    {
+      id,
+      eventId
+    }
+  );
+
+  console.log(response);
+}
+
 export default function* root() {
   yield all([
     takeLatest(
       ticketActions.getTicketForEventRequest.START,
       fetchTicketForEvent
     ),
-    takeLatest(
+    takeEvery(
       ticketActions.buyTicketForEventRequest.START,
       buyTicketForEventSaga
+    ),
+    takeEvery(
+      ticketActions.cancelTicketForEventRequest.START,
+      cancelEventTicketSaga
     )
   ]);
 }

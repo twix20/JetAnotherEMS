@@ -56,5 +56,22 @@ namespace JetAnotherEMS.WebApi.Controllers
 
             return Response(new {});
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Cancel([FromBody]CancelEventTicketViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(viewModel);
+            }
+
+            viewModel.UserId = _user.Id;
+
+            await _userSchoolingEventTicketService.CancelTicket(viewModel);
+
+            return Response(new { });
+        }
     }
 }

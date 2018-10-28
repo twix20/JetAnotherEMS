@@ -16,20 +16,24 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         IRequestHandler<CreateNewSchoolingEventCommand>,
         IRequestHandler<UpdateSchoolingEventCommand>,
         IRequestHandler<ChangeFollowSchoolingEventCommand>,
-        IRequestHandler<BuyEventTicketCommand>
+        IRequestHandler<BuyEventTicketCommand>, //TODO: move to another handler
+        IRequestHandler<CancelEventTicketCommand> //TODO: move to another handler
     {
         private readonly ISchoolingEventRepository _schoolingEventRepository;
         private readonly ISchoolingEventTicketRepository _schoolingEventTicketRepository;
+        private readonly IUserSchoolingEventTicketRepository _userSchoolingEventTicketRepository;
         public SchoolingEventCommandHandler(
             IUnitOfWork uow, 
             IMediatorHandler bus, 
             INotificationHandler<DomainNotification> notifications, 
             IValidationService validationService, 
             ISchoolingEventRepository schoolingEventRepository, 
-            ISchoolingEventTicketRepository schoolingEventTicketRepository) : base(uow, bus, notifications, validationService)
+            ISchoolingEventTicketRepository schoolingEventTicketRepository, 
+            IUserSchoolingEventTicketRepository userSchoolingEventTicketRepository) : base(uow, bus, notifications, validationService)
         {
             _schoolingEventRepository = schoolingEventRepository;
             _schoolingEventTicketRepository = schoolingEventTicketRepository;
+            _userSchoolingEventTicketRepository = userSchoolingEventTicketRepository;
         }
 
         public Task<Unit> Handle(CreateNewSchoolingEventCommand request, CancellationToken cancellationToken)
@@ -68,6 +72,26 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             if (Commit())
             {
                 await Bus.RaiseEvent(new UserBoughtEventTicket(ticket.Event.Id, message.UserId, ticket.Name, ticket.Price));
+            }
+
+            return Unit.Value;
+        }
+
+        public async Task<Unit> Handle(CancelEventTicketCommand message, CancellationToken cancellationToken)
+        {
+            //TODO: validation
+            //if (!message.IsValid(ValidationService))
+            //{
+            //    NotifyValidationErrors(message);
+            //    return Unit.Value;
+            //}
+
+            await _userSchoolingEventTicketRepository.Remove(message.UserEventTicketId);
+
+            if (Commit())
+            {
+                //TODO: rise user canceled ticket event
+                //await Bus.RaiseEvent(new UserBoughtEventTicket(ticket.Event.Id, message.UserId, ticket.Name, ticket.Price));
             }
 
             return Unit.Value;

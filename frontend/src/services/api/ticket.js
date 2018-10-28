@@ -9,5 +9,9 @@ export default {
   buyTicket: ({ ticketId }) =>
     instance.post(`${URL_HOST}/api/Ticket/Buy`, {
       TicketId: ticketId
+    }),
+  cancelTicket: ({ id }) =>
+    instance.post(`${URL_HOST}/api/Ticket/Cancel`, {
+      UserEventTicketId: id
     })
 };

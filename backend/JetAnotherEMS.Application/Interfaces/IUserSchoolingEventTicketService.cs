@@ -8,7 +8,11 @@ namespace JetAnotherEMS.Application.Interfaces
 {
     public interface IUserSchoolingEventTicketService
     {
+        Task<UserSchoolingEventTicketViewModel> GetById(Guid id);
+
         Task<UserSchoolingEventTicketViewModel> GetEventTicketForUser(Guid userId, Guid eventId);
         Task BuyTicket(BuyEventTicketViewModel viewModel);
+
+        Task CancelTicket(CancelEventTicketViewModel viewModel);
     }
 }

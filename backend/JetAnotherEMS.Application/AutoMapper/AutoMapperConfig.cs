@@ -37,6 +37,7 @@ namespace JetAnotherEMS.Application.AutoMapper
                         opts => opts.MapFrom(determinateFeaturedTagsFromSchedule)); // Take 5 most reused tags in the schedule
 
                 cfg.CreateMap<BuyEventTicketViewModel, BuyEventTicketCommand>();
+                cfg.CreateMap<CancelEventTicketViewModel, CancelEventTicketCommand>();
 
                 cfg.CreateMap<UserSchoolingEventTicket, SchoolingEventParticipantViewModel>();
 

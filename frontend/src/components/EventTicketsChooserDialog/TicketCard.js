@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -13,6 +14,8 @@ import Grid from '@material-ui/core/Grid';
 import green from '@material-ui/core/colors/green';
 
 import { TicketStatus, enumPropFromValue } from '../../constants/enums';
+import { createLoadingSelector } from './../../reducers/selectors';
+import { CANCEL_TICKET_FOR_EVENT_REQUEST } from '../../constants/actionTypes';
 
 const styles = {
   card: {
@@ -32,7 +35,7 @@ const styles = {
 
 class TicketCard extends React.Component {
   getCardModeFromTicketStatus = () => {
-    const { ticket } = this.props;
+    const { ticket, handleTicketCancel } = this.props;
 
     const cardModes = {
       [TicketStatus.Approved]: {
@@ -42,7 +45,13 @@ class TicketCard extends React.Component {
       [TicketStatus.AwaitingApproval]: {
         content: 'Awaiting aproval',
         actions: (
-          <Button fullWidth size="small" color="primary" variant="contained">
+          <Button
+            fullWidth
+            size="small"
+            color="primary"
+            variant="contained"
+            onClick={() => handleTicketCancel(ticket.id)}
+          >
             Cancel
           </Button>
         )
@@ -57,13 +66,15 @@ class TicketCard extends React.Component {
   };
 
   render() {
-    const { classes, ticket } = this.props;
+    const { classes, ticket, isCanceling } = this.props;
 
     const cardMode = this.getCardModeFromTicketStatus();
 
     const cardSubHeaderText = `${ticket.ticket.name} - ${ticket.ticket.price}${
       ticket.ticket.currency
     }`;
+
+    if (isCanceling) return <div>Canceling...</div>;
 
     return (
       <Card className={classes.card}>
@@ -102,4 +113,13 @@ TicketCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(TicketCard);
+const mapStateToProps = state => ({
+  isCanceling: createLoadingSelector([CANCEL_TICKET_FOR_EVENT_REQUEST])(state)
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(TicketCard));

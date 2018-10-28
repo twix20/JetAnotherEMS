@@ -4,11 +4,9 @@ using System.Text;
 
 namespace JetAnotherEMS.Application.ViewModels
 {
-    public class BuyEventTicketViewModel 
+    public class CancelEventTicketViewModel
     {
-        public Guid EventId { get; set; }
-
-        public Guid TicketId { get; set; }
+        public Guid UserEventTicketId { get; set; }
 
         public Guid UserId { get; set; }
     }

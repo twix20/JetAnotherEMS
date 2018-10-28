@@ -23,6 +23,13 @@ namespace JetAnotherEMS.Application.Services
             _userSchoolingEventTicketRepository = userSchoolingEventTicketRepository;
         }
 
+        public async Task<UserSchoolingEventTicketViewModel> GetById(Guid id)
+        {
+            var entity = await _userSchoolingEventTicketRepository.GetById(id);
+
+            return Mapper.Map<UserSchoolingEventTicketViewModel>(entity);
+        }
+
         public async Task<UserSchoolingEventTicketViewModel> GetEventTicketForUser(Guid userId, Guid eventId)
         {
             var ticket = await _userSchoolingEventTicketRepository.GetEventTicketForUser(userId, eventId);
@@ -39,6 +46,13 @@ namespace JetAnotherEMS.Application.Services
         public async Task BuyTicket(BuyEventTicketViewModel viewModel)
         {
             var command = Mapper.Map<BuyEventTicketCommand>(viewModel);
+
+            await _bus.SendCommand(command);
+        }
+
+        public async Task CancelTicket(CancelEventTicketViewModel viewModel)
+        {
+            var command = Mapper.Map<CancelEventTicketCommand>(viewModel);
 
             await _bus.SendCommand(command);
         }

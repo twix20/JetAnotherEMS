@@ -12,6 +12,16 @@ const byEventId = (state = {}, action) => {
         [eventId]: action.response.data.data
       };
     }
+    case ticketActions.cancelTicketForEventRequest.SUCCESS: {
+      const { eventId } = action;
+
+      delete state[eventId];
+
+      return {
+        ...state
+      };
+    }
+
     case LOGOUT: {
       return {};
     }

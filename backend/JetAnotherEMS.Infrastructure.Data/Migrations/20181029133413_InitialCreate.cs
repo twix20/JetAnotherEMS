@@ -130,39 +130,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SchoolingEventDayAttachments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedByUserId = table.Column<Guid>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedByUserId = table.Column<Guid>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false),
-                    NameToStore = table.Column<string>(nullable: true),
-                    NameOriginal = table.Column<string>(nullable: true),
-                    Extension = table.Column<string>(nullable: true),
-                    Content = table.Column<byte[]>(nullable: true),
-                    SchoolingEventDayId = table.Column<Guid>(nullable: true),
-                    SchoolingEventId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SchoolingEventDayAttachments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SchoolingEventDayAttachments_SchoolingEventDays_SchoolingEventDayId",
-                        column: x => x.SchoolingEventDayId,
-                        principalTable: "SchoolingEventDays",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SchoolingEventDayAttachments_SchoolingEvents_SchoolingEventId",
-                        column: x => x.SchoolingEventId,
-                        principalTable: "SchoolingEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SchoolingEventDayTags",
                 columns: table => new
                 {
@@ -182,6 +149,41 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         name: "FK_SchoolingEventDayTags_SchoolingEventDays_SchoolingEventDayId",
                         column: x => x.SchoolingEventDayId,
                         principalTable: "SchoolingEventDays",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UploadedFiles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
+                    FileName = table.Column<string>(nullable: true),
+                    OriginalName = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    LocationOnDisk = table.Column<string>(nullable: true),
+                    Length = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    SchoolingEventDayId = table.Column<Guid>(nullable: true),
+                    SchoolingEventId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UploadedFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UploadedFiles_SchoolingEventDays_SchoolingEventDayId",
+                        column: x => x.SchoolingEventDayId,
+                        principalTable: "SchoolingEventDays",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UploadedFiles_SchoolingEvents_SchoolingEventId",
+                        column: x => x.SchoolingEventId,
+                        principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -218,16 +220,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventDayAttachments_SchoolingEventDayId",
-                table: "SchoolingEventDayAttachments",
-                column: "SchoolingEventDayId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventDayAttachments_SchoolingEventId",
-                table: "SchoolingEventDayAttachments",
-                column: "SchoolingEventId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SchoolingEventDays_EventId",
                 table: "SchoolingEventDays",
                 column: "EventId");
@@ -253,6 +245,16 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UploadedFiles_SchoolingEventDayId",
+                table: "UploadedFiles",
+                column: "SchoolingEventDayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadedFiles_SchoolingEventId",
+                table: "UploadedFiles",
+                column: "SchoolingEventId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserSchoolingEventTickets_SchoolingEventId",
                 table: "UserSchoolingEventTickets",
                 column: "SchoolingEventId");
@@ -266,13 +268,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SchoolingEventDayAttachments");
-
-            migrationBuilder.DropTable(
                 name: "SchoolingEventDayTags");
 
             migrationBuilder.DropTable(
                 name: "SchoolingEventFollowers");
+
+            migrationBuilder.DropTable(
+                name: "UploadedFiles");
 
             migrationBuilder.DropTable(
                 name: "UserSchoolingEventTickets");

@@ -17,6 +17,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         public DbSet<SchoolingEventTicket> SchoolingEventTickets { get; set; }
         public DbSet<UserSchoolingEventTicket> UserSchoolingEventTickets { get; set; }
         public DbSet<GoogleMapsAddress> GoogleMapsAddresses { get; set; }
+        public DbSet<UploadedFile> UploadedFiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

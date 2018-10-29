@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
@@ -7,6 +8,7 @@ using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Models;
 using JetAnotherEMS.Infrastructure.Identity.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace JetAnotherEMS.Application.AutoMapper
 {
@@ -43,7 +45,40 @@ namespace JetAnotherEMS.Application.AutoMapper
 
                 cfg.CreateMap<ApplicationUser, SchoolingEventParticipantViewModel>()
                     .ForMember(dest => dest.UserEmail, opts => opts.MapFrom(src => src.Email));
+
+
+                cfg.CreateMap<IFormFile, UploadedFileViewModel>()
+                    .ForMember(dest => dest.Type, opts => opts.ResolveUsing(f => MapExtension(f.FileName)))
+                    .ForMember(dest => dest.OriginalName, opts => opts.MapFrom(src => src.FileName));
+ 
+
+                cfg.CreateMap<UploadedFileViewModel, UploadedFile>()
+                    .ForMember(dest => dest.FileName, opts => opts.MapFrom(src => src.FileName))
+                    .ForMember(dest => dest.Type, opts => opts.MapFrom(src => src.Type))
+                    .ForMember(dest => dest.LocationOnDisk, opts => opts.MapFrom(src => src.LocationOnDisk))
+                    .ForMember(dest => dest.OriginalName, opts => opts.MapFrom(src => src.OriginalName))
+                    .ForMember(dest => dest.Length, opts => opts.MapFrom(src => src.Length))
+                    .ForAllOtherMembers(opts => opts.Ignore());
             });
+        }
+
+        public static UploadedFileType MapExtension(string fileName)
+        {
+            var extension = Path.GetExtension(fileName)?.ToLower();
+
+            switch (extension)
+            {
+                case ".jpg":
+                    return UploadedFileType.Jpg;
+                case ".png":
+                    return UploadedFileType.Png;
+                case ".pdf":
+                    return UploadedFileType.Pdf;
+                case ".zip":
+                    return UploadedFileType.Zip;
+                default:
+                    return UploadedFileType.Unknown;
+            }
         }
     }
 }

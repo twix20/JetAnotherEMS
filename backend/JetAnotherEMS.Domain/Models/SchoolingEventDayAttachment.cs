@@ -1,6 +1,7 @@
 ﻿namespace JetAnotherEMS.Domain.Models
 {
-    public class SchoolingEventDayAttachment : Attachment
+    public class SchoolingEventDayAttachment : UploadedFile
     {
+        public virtual SchoolingEventDay SchoolingEventDay { get; set; }
     }
 }

@@ -4,10 +4,15 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import BigCalendar from 'react-big-calendar-like-google';
+import NotificationsSystem from 'reapop';
 import moment from 'moment';
 
 import HomePage from './pages/Home';
 import EventPage from './pages/Event';
+
+import reapopTheme from 'reapop-theme-wybo';
+import 'babel-polyfill';
+import '!style-loader!css-loader!font-awesome/css/font-awesome.min.css';
 
 const theme = createMuiTheme({
   palette: {
@@ -31,6 +36,7 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
+          <NotificationsSystem theme={reapopTheme} />
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/event/:id" component={EventPage} />

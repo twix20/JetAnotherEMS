@@ -5,7 +5,11 @@ import classnames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 
 import { Field, reduxForm } from 'redux-form';
-import { renderTextField, renderMUIPlacesAutocomplete } from '../forms';
+import {
+  renderTextField,
+  renderMUIPlacesAutocomplete,
+  renderAceEditor
+} from '../forms';
 import { required, email } from 'redux-form-validators';
 
 import TextField from '@material-ui/core/TextField';
@@ -94,21 +98,27 @@ class EventDetailsTab extends React.Component {
         </IconInputTemplate>
 
         <IconInputTemplate Icon={LocationOnIcon}>
-          {/* <Field
+          <Field
             className={classes.field}
             name="location"
             component={renderTextField} //TODO: M ake renderGooleLocationSelect
             label="Location"
             validate={[required()]}
-          /> */}
+          />
 
-          <Field
+          {/* <Field
             fullWidth
             name="location"
             autoFocus={false}
             placeholder="Search for a place"
             component={renderMUIPlacesAutocomplete}
-          />
+            createAutocompleteRequest={inputValue => {
+              return {
+                input: inputValue,
+                types: ["address"]
+              };
+            }}
+          /> */}
         </IconInputTemplate>
 
         <IconInputTemplate
@@ -116,13 +126,22 @@ class EventDetailsTab extends React.Component {
           className={classes.exp}
           alignItems="baseline"
         >
-          <ReactQuill
+          <Field
+            className={classes.quillContainer}
+            name="description"
+            component={renderAceEditor} //TODO: M ake renderGooleLocationSelect
+            label="Description"
+            mode="html"
+            theme="github"
+          />
+
+          {/* <ReactQuill
             theme="snow"
-            placeholder={'Description'}
+            placeholder={"Description"}
             className={classes.quillContainer}
             value={this.state.text}
             onChange={this.handleChange}
-          />
+          /> */}
         </IconInputTemplate>
       </Grid>
     );

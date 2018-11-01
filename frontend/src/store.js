@@ -11,6 +11,9 @@ import authActions from './actions/authActions';
 import { routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
+import thunk from 'redux-thunk';
+import { reducer as notificationsReducer } from 'reapop';
+
 export const history = createHistory();
 
 // Build the middleware for intercepting and dispatching navigation actions
@@ -23,7 +26,8 @@ const getMiddleware = () => {
     return applyMiddleware(
       sagaMiddleware,
       myRouterMiddleware,
-      localStorageMiddleware
+      localStorageMiddleware,
+      thunk
     );
   } else {
     // Enable additional logging in non-production environments.
@@ -31,6 +35,7 @@ const getMiddleware = () => {
       sagaMiddleware,
       myRouterMiddleware,
       localStorageMiddleware,
+      thunk,
       createLogger()
     );
   }

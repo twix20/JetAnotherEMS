@@ -24,15 +24,17 @@ import TagsPicker from '../../TagsPicker/TagsPicker';
 import AttachmentsUploader from '../../AttachmentsUploader';
 
 import { connect } from 'react-redux';
+import { change as changleFieldValue } from 'redux-form';
 import {
-  Field,
-  FieldArray,
-  reduxForm,
-  change as changleFieldValue
-} from 'redux-form';
-import { renderTextField, renderTimePicker } from '../../forms';
-import { required, email } from 'redux-form-validators';
-import schoolingEventActions from '../../../actions/schoolingEventActions';
+  renderTextField,
+  renderTimePicker,
+  renderFileUploader
+} from '../../forms';
+import { Form, Field } from 'react-final-form';
+
+import { required } from '../../forms/validators';
+
+import 'filepond/dist/filepond.min.css';
 
 const styles = theme => ({
   paper: {
@@ -97,41 +99,18 @@ FormItem.propTypes = {
   icon: PropTypes.func.isRequired
 };
 
+//TODO: change this dialog to -> react-material-ui-form-validator
 class EventDayCreatorDialog extends React.Component {
-  state = {
-    date: {
-      start: null,
-      end: null
-    }
-  };
-
   handleEntering = () => {};
-
-  handleDateChange = (newDate, name) => {
-    this.setState({
-      date: {
-        ...this.state.date,
-        [name]: newDate
-      }
-    });
-  };
-
-  handleAttachmentComplete = attachmentId => {
-    console.log('handleAttachmentComplete');
-  };
 
   render() {
     const {
       classes,
       open,
       onCancel,
-      slotInfo,
-      handleSubmit,
       onDelete,
-      pristine,
-      reset,
-      submitting,
-      initialValues: { start, id, attachments }
+      onSubmit,
+      initialValues: { dateStart, id, attachments }
     } = this.props;
 
     const formItems = [
@@ -143,20 +122,21 @@ class EventDayCreatorDialog extends React.Component {
           return (
             <React.Fragment>
               <Field
-                className={classes.timePicker}
+                name="dateStart"
                 label="From"
-                name="start"
                 component={renderTimePicker}
-                onChange={newDate => this.handleDateChange(newDate, 'start')}
-                validate={[required()]}
-              />
-              <Field
+                type="text"
                 className={classes.timePicker}
+                validate={required}
+              />
+
+              <Field
+                name="dateEnd"
                 label="To"
-                name="end"
                 component={renderTimePicker}
-                onChange={newDate => this.handleDateChange(newDate, 'end')}
-                validate={[required()]}
+                type="text"
+                className={classes.timePicker}
+                validate={required}
               />
             </React.Fragment>
           );
@@ -168,7 +148,7 @@ class EventDayCreatorDialog extends React.Component {
         name: 'title',
         custom: {
           fullWidth: true,
-          validate: [required()]
+          validate: required
         }
       },
       {
@@ -177,7 +157,7 @@ class EventDayCreatorDialog extends React.Component {
         name: 'teacher',
         custom: {
           fullWidth: true,
-          validate: [required()]
+          validate: required
         }
       },
       {
@@ -186,7 +166,7 @@ class EventDayCreatorDialog extends React.Component {
         name: 'lectureRoom',
         custom: {
           fullWidth: true,
-          validate: [required()]
+          validate: required
         }
       },
       {
@@ -194,27 +174,18 @@ class EventDayCreatorDialog extends React.Component {
         name: 'tagsPicker',
         label: 'Tags',
         children: () => {
-          return (
-            <Field
-              name="tagsPicker"
-              component={props => (
-                <TagsPicker {...props} name="tagsPicker" canCreate />
-              )}
-            />
-          );
+          return <TagsPicker name="tagsPicker" canCreate />;
         }
       },
       {
         icon: SubjectIcon,
         label: 'Description',
         name: 'description',
-        inputProps: {
-          multiline: true,
-          rows: 4
-        },
         custom: {
+          multiline: true,
+          rows: 4,
           fullWidth: true,
-          validate: [required()]
+          validate: required
         }
       },
       {
@@ -222,27 +193,24 @@ class EventDayCreatorDialog extends React.Component {
         name: 'attachments',
         label: 'Attachments',
         children: () => {
-          const renderFileUploader = props => {
-            return (
-              <AttachmentsUploader
-                onUpdateFiles={files => {
-                  console.log('onUpdateFiles');
-                  console.log(files);
-
-                  // props.fields.removeAll();
-                  // files.forEach(f => props.fields.push(f));
-                }}
-                initialFiles={attachments}
-                {...props}
-              />
-            );
-          };
-
           return (
-            <FieldArray name="attachments" component={renderFileUploader} />
+            <Field
+              name="attachments"
+              component={renderFileUploader}
+              initialFiles={attachments}
+              allowMultiple={true}
+              maxFiles={3}
+              server={{
+                url: 'https://localhost:44364/api/File/',
+                process: {
+                  url: 'Upload'
+                  // headers: {
+                  //   "Access-Control-Allow-Origin": "*"
+                  // }
+                }
+              }}
+            />
           );
-
-          //return <AttachmentsUploader />;
         }
       }
     ];
@@ -261,48 +229,68 @@ class EventDayCreatorDialog extends React.Component {
         open={open}
       >
         <DialogTitle id="confirmation-dialog-title">
-          Day {start.format('DD/MM')}
+          Day {dateStart && dateStart.format('DD/MM')}
         </DialogTitle>
-        <DialogContent className={classes.dialogContent}>
-          <Grid container>
-            {formItems.map((t, index) => (
-              <FormItem key={index} {...t}>
-                {t.children ? (
-                  t.children()
-                ) : (
-                  <Field
-                    name={t.name}
-                    label={t.label}
-                    component={renderTextField}
-                    inputProps={t.inputProps}
-                    {...t.custom}
-                  />
-                )}
-              </FormItem>
-            ))}
-          </Grid>
-          <DialogActions>
-            <Grid container justify="space-between">
-              <Grid item>
-                {id && <Button onClick={() => onDelete(id)}>Delete</Button>}
-              </Grid>
-              <Grid item>
-                <Button onClick={onCancel} color="primary">
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  type="button"
-                  onClick={handleSubmit}
-                  disabled={pristine || submitting}
-                >
-                  Save
-                </Button>
-              </Grid>
-            </Grid>
-          </DialogActions>
-        </DialogContent>
+        <Form
+          validate={validate}
+          initialValues={this.props.initialValues}
+          onSubmit={onSubmit}
+          render={({
+            handleSubmit,
+            form,
+            reset,
+            submitting,
+            pristine,
+            values
+          }) => (
+            <div>
+              <DialogContent className={classes.dialogContent}>
+                <Grid container>
+                  {formItems.map((t, index) => (
+                    <FormItem key={index} {...t}>
+                      {t.children ? (
+                        t.children()
+                      ) : (
+                        <Field
+                          name={t.name}
+                          label={t.label}
+                          component={renderTextField}
+                          type="text"
+                          {...t.custom}
+                        />
+                      )}
+                    </FormItem>
+                  ))}
+                </Grid>
+                <DialogActions>
+                  <Grid container justify="space-between">
+                    <Grid item>
+                      {id && (
+                        <Button onClick={() => onDelete(id)}>Delete</Button>
+                      )}
+                    </Grid>
+                    <Grid item>
+                      <Button onClick={onCancel} color="primary">
+                        Cancel
+                      </Button>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        type="button"
+                        onClick={() => {
+                          form.submit();
+                        }}
+                        disabled={submitting || pristine}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </DialogActions>
+              </DialogContent>
+            </div>
+          )}
+        />
       </Dialog>
     );
   }
@@ -310,10 +298,10 @@ class EventDayCreatorDialog extends React.Component {
 const validate = values => {
   let errors = {};
 
-  if (values.start && values.end) {
-    if (values.start.isAfter(values.end)) {
-      errors.start = 'Starting time must be earlier than ending date';
-      errors.end = ' ';
+  if (values.dateStart && values.dateEnd) {
+    if (values.dateStart.isAfter(values.dateEnd)) {
+      errors.dateStart = 'Starting time must be earlier than ending date';
+      errors.dateEnd = ' ';
     }
   }
 
@@ -328,10 +316,5 @@ EventDayCreatorDialog.propTypes = {
 };
 
 EventDayCreatorDialog = withStyles(styles)(EventDayCreatorDialog);
-
 EventDayCreatorDialog = connect()(EventDayCreatorDialog);
-
-export default reduxForm({
-  form: 'eventDayCreator', //Form name is same
-  validate
-})(EventDayCreatorDialog);
+export default EventDayCreatorDialog;

@@ -19,59 +19,108 @@ import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AttachmentsUploader from '../AttachmentsUploader';
 
-import MUIPlacesAutocomplete from 'mui-places-autocomplete';
+import MUIPlacesAutocomplete, {
+  geocodeBySuggestion
+} from 'mui-places-autocomplete';
+import { classNames } from 'classnames';
+
+import { FilePond, File, registerPlugin } from 'react-filepond';
+import AceEditor from 'react-ace';
 
 export const renderTextField = ({
-  input,
-  inputProps,
-  label,
-  labelProps,
-  meta: { touched, error },
-  ...custom
-}) => {
-  return (
-    <FormControl error={Boolean(touched && error)} {...custom}>
-      <InputLabel {...labelProps}>{label}</InputLabel>
-      <Input {...input} {...inputProps} />
-      {touched && error ? <FormHelperText>{error}</FormHelperText> : null}
-    </FormControl>
-  );
-};
+  input: { name, onChange, value, ...restInput },
+  meta,
+  ...rest
+}) => (
+  <TextField
+    {...rest}
+    name={name}
+    helperText={meta.touched ? meta.error : undefined}
+    error={meta.error && meta.touched}
+    inputProps={restInput}
+    onChange={onChange}
+    value={value}
+  />
+);
 
-export const renderMUIPlacesAutocomplete = ({ input, ...other }) => {
-  return <div />;
-  //TODO: fix
-  return (
-    <MUIPlacesAutocomplete
-      onSuggestionSelected={sugestion => input.onChange(sugestion)}
-      renderTarget={() => <div />}
-      textFieldProps={{ ...other }}
-    />
-  );
-};
+export const renderCheckBox = ({
+  input: { checked, name, onChange, ...restInput },
+  meta,
+  ...rest
+}) => (
+  <Checkbox
+    {...rest}
+    name={name}
+    InputProps={restInput}
+    onChange={onChange}
+    checked={!!checked}
+  />
+);
 
 export const renderTimePicker = ({
-  input: { onChange, value },
+  input: { checked, name, onChange, value, ...restInput },
+  meta,
   label,
-  meta: { error },
-  ...custom
+  ...rest
 }) => {
+  const error = meta.error && meta.touched;
   return (
-    <FormControl error={Boolean(error)} {...custom}>
+    <FormControl error={Boolean(error)} {...rest}>
       <InputLabel shrink={true}>{label}</InputLabel>
-      <TimePicker onChange={onChange} value={!value ? null : new Date(value)} />
+      <TimePicker
+        onChange={onChange}
+        value={!value ? null : new Date(value)}
+        {...restInput}
+      />
       {error ? <FormHelperText>{error}</FormHelperText> : null}
     </FormControl>
   );
 };
 
-export const renderCheckbox = ({ input, label }) => (
-  <Checkbox
-    label={label}
-    checked={input.value ? true : false}
-    onCheck={input.onChange}
-  />
-);
+export const renderFileUploader = ({
+  input: { onChange, ...restInput },
+  meta,
+  initialFiles,
+  name,
+  ...rest
+}) => {
+  const error = meta.error && meta.touched;
+  return (
+    <div style={{ width: '100%' }} name={name}>
+      {error && <div>{error}</div>}
+      <FilePond onupdatefiles={fileItems => onChange(fileItems)} {...rest}>
+        {initialFiles &&
+          initialFiles.map(({ serverId, ...restFile }, index) => (
+            <File key={index} src={serverId} {...restFile} />
+          ))}
+      </FilePond>
+    </div>
+  );
+};
+
+export const renderMUIPlacesAutocomplete = ({ input, ...other }) => {
+  return (
+    <MUIPlacesAutocomplete
+      onSuggestionSelected={suggestion => {
+        geocodeBySuggestion(suggestion).then(results => {
+          if (results.length < 1) {
+            return;
+          }
+
+          // Just use the first result in the list to get the geometry coordinates
+          const { geometry } = results[0];
+
+          suggestion.lat = geometry.location.lat();
+          suggestion.lng = geometry.location.lng();
+
+          input.onChange(suggestion);
+        });
+      }}
+      renderTarget={() => <div />}
+      {...other}
+    />
+  );
+};
 
 export const renderRadioGroup = ({ input, children, ...rest }) => (
   <RadioGroup
@@ -103,3 +152,13 @@ export const renderSelectField = ({
     {...custom}
   />
 );
+
+export const renderAceEditor = ({ input, ...custom }) => {
+  return (
+    <AceEditor
+      value={input.value}
+      {...custom}
+      onChange={value => input.onChange(value)}
+    />
+  );
+};

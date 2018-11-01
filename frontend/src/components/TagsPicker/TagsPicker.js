@@ -239,29 +239,15 @@ class TagsPicker extends React.Component {
   }
 
   handleChange = name => value => {
-    this.setState(
-      {
-        [name]: value
-      },
-      () => {
-        if (changeFieldValue) {
-          const selectedOptions = this.state.multi;
+    const { onChange } = this.props;
 
-          console.log('changed');
-          console.log(selectedOptions);
-          console.log(this.props);
-          console.log(this.props.dispatch);
+    if (onChange) {
+      onChange(value);
+    }
 
-          this.props.dispatch(
-            changeFieldValue(
-              this.props.meta.form,
-              this.props.name,
-              selectedOptions
-            )
-          );
-        }
-      }
-    );
+    this.setState({
+      [name]: value
+    });
   };
 
   render() {

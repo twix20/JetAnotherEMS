@@ -32,48 +32,8 @@ const styles = theme => ({
 });
 
 class AttachmentsUploader extends React.Component {
-  getCurrentFiles = () => this.props.fields.getAll() || [];
-
-  handleRemove = file => {
-    return;
-    const currentFiles = this.getCurrentFiles();
-    const newFileList = currentFiles.filter(f => f.serverId !== file.serverId);
-
-    this.props.updateCurrentFiles(newFileList);
-  };
-
-  handleComplete = (error, file) => {
-    console.log('Id like to create attachment ');
-    console.log(file);
-    console.log(file.ge);
-
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    const x = this.pond.getFiles();
-    if (x) {
-      console.log(x);
-    }
-
-    if (this.props.fields) {
-      const currentFiles = this.getCurrentFiles();
-      const newFileList = [
-        ...currentFiles,
-        {
-          lastModified: file.file.lastModified,
-          lastModifiedDate: file.file.lastModifiedDate,
-          name: file.file.name,
-          size: file.file.size,
-          type: file.file.type,
-          status: file.status,
-          serverId: file.serverId
-        }
-      ];
-
-      this.props.updateCurrentFiles(newFileList);
-    }
+  state = {
+    files: []
   };
 
   handleInit() {
@@ -81,18 +41,18 @@ class AttachmentsUploader extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Uploader mount');
+    const { initialFiles } = this.props;
+
+    this.setState({ files: initialFiles || [] });
   }
 
   render() {
-    const { classes, onUpdateFiles, initialFiles } = this.props;
-
-    const currentFiles = this.props.fields.getAll() || [];
+    const { classes, filePondRef } = this.props;
 
     return (
       <div className={classes.root}>
         <FilePond
-          ref={ref => (this.pond = ref)}
+          ref={ref => filePondRef(ref)}
           allowMultiple={true}
           maxFiles={3}
           server={{
@@ -106,10 +66,10 @@ class AttachmentsUploader extends React.Component {
           }}
           oninit={() => this.handleInit()}
           onprocessfile={(error, file) => {
-            this.handleComplete(error, file);
+            //this.handleComplete(error, file);
           }}
           onremovefile={file => {
-            this.handleRemove(file);
+            //this.handleRemove(file);
           }}
           onupdatefiles={fileItems => {
             //console.log(fileItems);
@@ -128,19 +88,12 @@ class AttachmentsUploader extends React.Component {
 
             console.dir(updatedItems);
 
-            //TODO: TO PIERDOLIISAIDSAIDSA
-            // this.props.dispatch(
-            //   changleFieldValue(
-            //     this.props.meta.form,
-            //     this.props.fields.name,
-            //     updatedItems
-            //   )
-            // );
+            this.setState({ files: updatedItems });
 
             //onUpdateFiles(fileItems);
           }}
         >
-          {currentFiles.map((file, i) => {
+          {this.state.files.map((file, i) => {
             console.log('I want to render');
             console.log(file);
 
@@ -174,12 +127,7 @@ AttachmentsUploader.propTypes = {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateCurrentFiles: newFileList =>
-    dispatch(
-      changleFieldValue(ownProps.meta.form, ownProps.fields.name, newFileList)
-    )
-});
+const mapDispatchToProps = (dispatch, ownProps) => ({});
 
 export default withStyles(styles)(
   connect(

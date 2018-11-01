@@ -20,6 +20,7 @@ import Dialog from '@material-ui/core/Dialog';
 import LoginRegisterTabs from '../LoginRegisterTabs';
 import authActions from '../../actions/authActions';
 import { selectors as authSelectors } from '../../reducers/auth';
+import Hidden from '@material-ui/core/Hidden';
 
 const styles = theme => ({
   root: {
@@ -104,14 +105,16 @@ class Header extends React.Component {
               color="inherit"
               className={classes.flex}
             >
-              <Button
-                color="inherit"
-                onClick={this.goToHome}
-                disableRipple
-                variant="text"
-              >
-                Event Managment System
-              </Button>
+              <Hidden xsDown>
+                <Button
+                  color="inherit"
+                  onClick={this.goToHome}
+                  disableRipple
+                  variant="text"
+                >
+                  Event Managment System
+                </Button>
+              </Hidden>
             </Typography>
 
             {user ? (

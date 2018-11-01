@@ -64,8 +64,17 @@ class EventCalendar extends React.Component {
     const newEvent = {
       ...values,
       id: values.id || createRandomGuid(),
-      end: values.end.toDate(),
-      start: values.start.toDate()
+      end: values.dateEnd.toDate(),
+      start: values.dateStart.toDate(),
+      attachments: values.attachments.map(a => {
+        return {
+          serverId: a.serverId,
+          name: a.file.name,
+          size: a.file.size,
+          type: a.file.type,
+          origin: 'local'
+        };
+      })
     };
 
     const dayId = newEvent.id;
@@ -86,8 +95,6 @@ class EventCalendar extends React.Component {
   render() {
     const { dayCreator } = this.state;
     const { classes, events } = this.props;
-
-    const { handleSubmit, pristine, reset, submitting, fields } = this.props;
 
     return (
       <div {...this.props}>
@@ -136,8 +143,8 @@ class EventCalendar extends React.Component {
                 open={dayCreator.open}
                 initialValues={{
                   ...dayCreator.slotInfo,
-                  start: moment(dayCreator.slotInfo.start),
-                  end: moment(dayCreator.slotInfo.end),
+                  dateStart: moment(dayCreator.slotInfo.start),
+                  dateEnd: moment(dayCreator.slotInfo.end),
                   bgColor: '#ff7f50'
                 }}
                 onDelete={this.handleDelete}

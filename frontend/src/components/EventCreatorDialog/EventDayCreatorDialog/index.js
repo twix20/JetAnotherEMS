@@ -23,7 +23,13 @@ import Grid from '@material-ui/core/Grid';
 import TagsPicker from '../../TagsPicker/TagsPicker';
 import AttachmentsUploader from '../../AttachmentsUploader';
 
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import {
+  Field,
+  FieldArray,
+  reduxForm,
+  change as changleFieldValue
+} from 'redux-form';
 import { renderTextField, renderTimePicker } from '../../forms';
 import { required, email } from 'redux-form-validators';
 
@@ -109,6 +115,10 @@ class EventDayCreatorDialog extends React.Component {
     });
   };
 
+  handleAttachmentComplete = attachmentId => {
+    console.log('handleAttachmentComplete');
+  };
+
   render() {
     const {
       classes,
@@ -120,8 +130,11 @@ class EventDayCreatorDialog extends React.Component {
       pristine,
       reset,
       submitting,
-      initialValues: { start, id }
+      initialValues: { start, id, attachments }
     } = this.props;
+
+    console.log('attachments');
+    console.log(attachments);
 
     const formItems = [
       {
@@ -210,9 +223,28 @@ class EventDayCreatorDialog extends React.Component {
         icon: AttachmentIcon,
         name: 'attachments',
         label: 'Attachments',
-        alignItems: 'start',
         children: () => {
-          return <AttachmentsUploader />;
+          const renderFileUploader = props => {
+            return (
+              <AttachmentsUploader
+                onUpdateFiles={files => {
+                  console.log('onUpdateFiles');
+                  console.log(files);
+
+                  // props.fields.removeAll();
+                  // files.forEach(f => props.fields.push(f));
+                }}
+                initialFiles={attachments}
+                {...props}
+              />
+            );
+          };
+
+          return (
+            <FieldArray name="attachments" component={renderFileUploader} />
+          );
+
+          //return <AttachmentsUploader />;
         }
       }
     ];
@@ -298,6 +330,8 @@ EventDayCreatorDialog.propTypes = {
 };
 
 EventDayCreatorDialog = withStyles(styles)(EventDayCreatorDialog);
+
+EventDayCreatorDialog = connect()(EventDayCreatorDialog);
 
 export default reduxForm({
   form: 'eventDayCreator', //Form name is same

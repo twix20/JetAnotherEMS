@@ -53,6 +53,7 @@ namespace JetAnotherEMS.Application.AutoMapper
  
 
                 cfg.CreateMap<UploadedFileViewModel, UploadedFile>()
+                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
                     .ForMember(dest => dest.FileName, opts => opts.MapFrom(src => src.FileName))
                     .ForMember(dest => dest.Type, opts => opts.MapFrom(src => src.Type))
                     .ForMember(dest => dest.LocationOnDisk, opts => opts.MapFrom(src => src.LocationOnDisk))

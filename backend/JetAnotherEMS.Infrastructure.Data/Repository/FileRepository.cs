@@ -39,5 +39,16 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task RemoveFile(Guid id)
+        {
+            var entity = await GetById(id);
+            var pathToDelete = entity.FullFilePath;
+
+            if (File.Exists(pathToDelete))
+            {
+                File.Delete(pathToDelete);
+            }
+        }
     }
 }

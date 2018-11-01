@@ -3687,6 +3687,10 @@ filenamify@^1.0.0:
     strip-outer "^1.0.0"
     trim-repeated "^1.0.0"
 
+filepond@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/filepond/-/filepond-3.2.5.tgz#3638d41e0111566c56c1d7f178d9cf26c98464f2"
+
 fileset@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/fileset/-/fileset-2.0.3.tgz#8e7548a96d3cc2327ee5e674168723a333bba2a0"
@@ -7565,6 +7569,10 @@ react-event-listener@^0.6.0, react-event-listener@^0.6.2, react-event-listener@^
     "@babel/runtime" "7.0.0"
     prop-types "^15.6.0"
     warning "^4.0.1"
+
+react-filepond@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-filepond/-/react-filepond-5.0.0.tgz#28c30a878ce27b9b4899f877f4c3ead8dc9a026e"
 
 react-fine-uploader@^1.1.1:
   version "1.1.1"

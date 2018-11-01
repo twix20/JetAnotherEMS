@@ -10,7 +10,11 @@ namespace JetAnotherEMS.Application.Interfaces
 {
     public interface IFileService
     {
+        Task<UploadedFileViewModel> GetById(Guid id);
+
         Task SaveFile(UploadedFileViewModel fileViewModel, Stream contentStream, string pathToSave);
+
+        Task DeleteFile(Guid id);
 
         Task MoveFile(UploadedFileViewModel file, string pathToMove);
 

@@ -17,6 +17,7 @@ import { TimePicker } from 'material-ui-pickers';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import AttachmentsUploader from '../AttachmentsUploader';
 
 import MUIPlacesAutocomplete from 'mui-places-autocomplete';
 
@@ -38,6 +39,8 @@ export const renderTextField = ({
 };
 
 export const renderMUIPlacesAutocomplete = ({ input, ...other }) => {
+  return <div />;
+  //TODO: fix
   return (
     <MUIPlacesAutocomplete
       onSuggestionSelected={sugestion => input.onChange(sugestion)}

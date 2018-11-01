@@ -21,7 +21,8 @@ class EventCalendar extends React.Component {
     dayCreator: {
       open: false,
       slotInfo: null
-    }
+    },
+    files: []
   };
 
   closeDayCreator = () => {
@@ -92,8 +93,10 @@ class EventCalendar extends React.Component {
       <div {...this.props}>
         <div className={classes.root}>
           <BigCalendar
+            toolbar={true}
+            //timeslots={5}
             selectable
-            showMultiDayTimes={false}
+            showMultiDayTimes={true}
             events={events}
             defaultView="week"
             views={['day', 'week']}

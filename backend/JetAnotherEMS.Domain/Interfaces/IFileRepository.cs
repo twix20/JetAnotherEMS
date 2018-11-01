@@ -14,5 +14,7 @@ namespace JetAnotherEMS.Domain.Interfaces
         Task MoveFile(UploadedFile file, string pathToMove);
 
         FileStream GetFileStream(UploadedFile file);
+
+        Task RemoveFile(Guid id);
     }
 }

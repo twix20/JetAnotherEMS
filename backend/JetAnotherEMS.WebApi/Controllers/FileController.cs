@@ -34,24 +34,62 @@ namespace JetAnotherEMS.WebApi.Controllers
             _environment = environment;
         }
 
+        [HttpGet]
+        [Route("[action]/{id:guid}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Load(Guid id)
+        {
+            var file = await _fileService.GetById(id);
+            if (file == null)
+                return BadRequest();
+
+            return Ok(new
+            {
+                id = file.Id,
+                name = file.OriginalName,
+                typ = "image/png",
+                size = file.Length,
+            });
+        }
+
+
+
         [HttpPost]
         [Route("[action]")]
         [RequestSizeLimit(5 * 1000 * 1000)] //5mb
         [AllowAnonymous]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload(IFormFile filepond)
         {
-            if (file == null || file.Length == 0)
+            if (filepond == null || filepond.Length == 0)
                 return BadRequest();
 
             //TODO: move to config
+            //TODO: move to command handler
             var fullTempPathToSave = Path.Combine(_environment.WebRootPath, "uploads");
 
-            var vm = Mapper.Map<UploadedFileViewModel>(file);
+            var vm = Mapper.Map<UploadedFileViewModel>(filepond);
+            vm.Id = Guid.NewGuid();
             vm.LocationOnDisk = fullTempPathToSave;
 
-            await _fileService.SaveFile(vm, file.OpenReadStream(), fullTempPathToSave);
+            await _fileService.SaveFile(vm, filepond.OpenReadStream(), fullTempPathToSave);
 
-            return Response(new { vm });
+            return Content(vm.Id.ToString());
+        }
+
+        [HttpDelete]
+        [AllowAnonymous]
+        public async Task<IActionResult> Delete()
+        {
+            using (var stream = new StreamReader(HttpContext.Request.Body))
+            {
+                var body = stream.ReadToEnd();
+
+                var id = Guid.Parse(body);
+
+                await _fileService.DeleteFile(id);
+
+                return Response(new { id });
+            }
         }
     }
 }

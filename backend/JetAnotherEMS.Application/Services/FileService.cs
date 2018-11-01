@@ -26,18 +26,33 @@ namespace JetAnotherEMS.Application.Services
             _bus = bus;
         }
 
+        public async Task<UploadedFileViewModel> GetById(Guid id)
+        {
+            var entity = await _fileRepository.GetById(id);
+
+            return Mapper.Map<UploadedFileViewModel>(entity);
+        }
+
         public async Task SaveFile(UploadedFileViewModel fileViewModel, Stream contentStream, string pathToSave)
         {
             //TODO: validate
             var entity = Mapper.Map<UploadedFile>(fileViewModel);
 
             var extension = Path.GetExtension(entity.FileName);
-            entity.FileName = $"{Guid.NewGuid()}{extension}";
+            entity.FileName = $"{fileViewModel.Id}{extension}";
 
             await _fileRepository.Add(entity);
-            fileViewModel.Id = entity.Id;
 
             await _fileRepository.SaveFile(entity, contentStream);
+
+            await _fileRepository.SaveChanges();
+        }
+
+        public async Task DeleteFile(Guid id)
+        {
+            await _fileRepository.RemoveFile(id);
+
+            await _fileRepository.Remove(id);
 
             await _fileRepository.SaveChanges();
         }

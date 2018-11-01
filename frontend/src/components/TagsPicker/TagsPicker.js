@@ -235,9 +235,6 @@ class TagsPicker extends React.Component {
   };
 
   componentDidMount() {
-    console.log('componentDidMount');
-    console.log(this.props);
-
     if (this.props.input) this.setState({ multi: this.props.input.value });
   }
 

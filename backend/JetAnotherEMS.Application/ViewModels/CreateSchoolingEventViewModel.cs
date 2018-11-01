@@ -13,5 +13,6 @@ namespace JetAnotherEMS.Application.ViewModels
         public SchoolingEventAddressViewModel Location { get; set; }
 
         //TODO: add more members
+        public List<SchoolingEventDayViewModel> Calendar { get; set; }
     }
 }

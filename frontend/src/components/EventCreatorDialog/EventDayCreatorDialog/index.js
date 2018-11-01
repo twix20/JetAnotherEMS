@@ -32,6 +32,7 @@ import {
 } from 'redux-form';
 import { renderTextField, renderTimePicker } from '../../forms';
 import { required, email } from 'redux-form-validators';
+import schoolingEventActions from '../../../actions/schoolingEventActions';
 
 const styles = theme => ({
   paper: {
@@ -132,9 +133,6 @@ class EventDayCreatorDialog extends React.Component {
       submitting,
       initialValues: { start, id, attachments }
     } = this.props;
-
-    console.log('attachments');
-    console.log(attachments);
 
     const formItems = [
       {

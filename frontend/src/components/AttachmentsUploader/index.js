@@ -35,6 +35,7 @@ class AttachmentsUploader extends React.Component {
   getCurrentFiles = () => this.props.fields.getAll() || [];
 
   handleRemove = file => {
+    return;
     const currentFiles = this.getCurrentFiles();
     const newFileList = currentFiles.filter(f => f.serverId !== file.serverId);
 

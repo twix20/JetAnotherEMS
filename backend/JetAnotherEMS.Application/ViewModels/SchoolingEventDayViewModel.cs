@@ -18,5 +18,7 @@ namespace JetAnotherEMS.Application.ViewModels
         public string LectureRoom { get; set; }
 
         public ICollection<SchoolingEventDayTagViewModel> Tags { get; set; }
+
+        public ICollection<SchoolingEventDayAttachmentViewModel> Attachments { get; set; }
     }
 }

@@ -88,7 +88,7 @@ export function* fetchEventAvailableTicketsSaga(action) {
 }
 
 export function* handleCreateOrUpdateSchoolingEvent(action) {
-  const {
+  let {
     id,
     eventTitle: title,
     description,
@@ -105,11 +105,22 @@ export function* handleCreateOrUpdateSchoolingEvent(action) {
     ? api.schoolingEvent.create
     : api.schoolingEvent.update;
 
+  calendar
+    .filter(day => day.attachments)
+    .map(day => day.attachments)
+    .forEach(dayAttachments => {
+      dayAttachments.forEach(a => {
+        a.id = a.serverId;
+      });
+    });
+
   const { response, error } = yield sagaRequestWrapper(request, apiAction, {
     id,
     title,
     description,
-    location
+    location,
+    calendar,
+    tickets
   });
 
   console.log('handleCreateOrUpdateSchoolingEvent');

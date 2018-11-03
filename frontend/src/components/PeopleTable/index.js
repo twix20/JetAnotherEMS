@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MUIDataTable from 'mui-datatables';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import green from '@material-ui/core/colors/green';
@@ -51,6 +52,12 @@ const styles = theme => ({
   },
   rejectButton: {
     color: red[800]
+  },
+  chip: {
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+      height: 17
+    }
   },
   approvedChip: {
     backgroundColor: green[800],
@@ -107,7 +114,12 @@ class PeopleTable extends React.Component {
       case TicketStatus.Approved:
         return {
           label: 'Approved',
-          chip: <Chip label="Approved" className={classes.approvedChip} />
+          chip: (
+            <Chip
+              label="Approved"
+              className={classNames(classes.chip, classes.approvedChip)}
+            />
+          )
         };
       case 'Awaiting Approval':
       case TicketStatus.AwaitingApproval:
@@ -119,7 +131,12 @@ class PeopleTable extends React.Component {
       case TicketStatus.Rejected:
         return {
           label: 'Rejected',
-          chip: <Chip label="Rejected" className={classes.rejectedChip} />
+          chip: (
+            <Chip
+              label="Rejected"
+              className={classNames(classes.chip, classes.rejectedChip)}
+            />
+          )
         };
       default:
         throw `Invalid ticket status! ${status}`;

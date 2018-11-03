@@ -8,6 +8,8 @@ namespace JetAnotherEMS.Application.Interfaces
 {
     public interface ISchoolingEventService
     {
+        Task<FeaturedSchoolingEventViewModel> GetById(Guid id);
+
         Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, int page, int pageSize);
 
         Task<IEnumerable<SchoolingEventTicketViewModel>> GetTickets(Guid id);

@@ -19,6 +19,8 @@ import api from '../services/api';
 import schoolingEventActions from '../actions/schoolingEventActions';
 import { schoolingEventFilterSelectors } from '../reducers/selectors';
 import ticketActions from '../actions/ticketActions';
+import { change as changeFieldValue, initialize } from 'redux-form';
+import moment from 'moment';
 
 export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   const filter = yield select(schoolingEventFilterSelectors.filter);
@@ -63,7 +65,11 @@ export function* fetchSchoolingEvent(action) {
     api.schoolingEvent.getEvent,
     { id }
   );
+
   console.log(response);
+  console.log(error);
+
+  return response;
 }
 
 export function* fetchSchoolingEventSchedule(action) {
@@ -74,7 +80,8 @@ export function* fetchSchoolingEventSchedule(action) {
     api.schoolingEvent.getSchedule,
     { id }
   );
-  console.log(response);
+
+  return response;
 }
 
 export function* fetchSchoolingEventParticipants(action) {
@@ -85,7 +92,8 @@ export function* fetchSchoolingEventParticipants(action) {
     api.schoolingEvent.getParticipants,
     { id: eventId }
   );
-  console.log(response);
+
+  return response;
 }
 
 export function* fetchEventAvailableTicketsSaga(action) {
@@ -97,7 +105,7 @@ export function* fetchEventAvailableTicketsSaga(action) {
     { id }
   );
 
-  console.log(response);
+  return response;
 }
 
 export function* handleCreateOrUpdateSchoolingEvent(action) {
@@ -151,6 +159,77 @@ export function* handleCreateOrUpdateSchoolingEvent(action) {
   }
 }
 
+export function* handleLoadEventCreatorInitialValues(action) {
+  const { eventId } = action;
+
+  try {
+    const { eventResponse, calendarResponse, ticketsResponse } = yield all({
+      eventResponse: call(fetchSchoolingEvent, { id: eventId }),
+      calendarResponse: call(fetchSchoolingEventSchedule, { id: eventId }),
+      ticketsResponse: call(fetchEventAvailableTicketsSaga, { id: eventId })
+    });
+
+    if (
+      eventResponse == undefined ||
+      calendarResponse == undefined ||
+      ticketsResponse == undefined
+    ) {
+      throw 'Something went wrong while fetching event from';
+    }
+
+    const event = eventResponse.data.data;
+    const calendar = calendarResponse.data.data;
+    const tickets = ticketsResponse.data.data;
+
+    //Set form values
+    const initialVal = {
+      eventTitle: event.title,
+      location: event.location,
+      description: event.description,
+      tickets: tickets.map(t => ({
+        currency: t.currency,
+        totalQuantity: t.totalQuantity,
+        usersBoughtThisTicket: t.usersBoughtThisTicket,
+        name: t.name,
+        price: t.price
+      })),
+      calendar: calendar.map(d => ({
+        id: d.id,
+        title: d.title,
+        description: d.description,
+        lectureRoom: d.lectureRoom,
+        teacher: d.teacher,
+        dateStart: moment(d.start),
+        dateEnd: moment(d.end),
+        start: moment(d.start).toDate(),
+        end: moment(d.end).toDate(),
+        bgColor: '#ff7f50',
+        attachments: d.attachments.map(a => ({
+          id: a.id,
+          name: a.originalName,
+          size: a.size,
+          type: a.type
+        }))
+        //TODO: add tags
+      }))
+    };
+
+    yield put(initialize('eventCreatorFrom', initialVal));
+
+    yield put(
+      schoolingEventActions.loadEventCreatorInitialValues.success({
+        ...event,
+        calendar,
+        tickets
+      })
+    );
+  } catch (error) {
+    yield put(
+      schoolingEventActions.loadEventCreatorInitialValues.failure(error)
+    );
+  }
+}
+
 export default function* root() {
   yield all([
     takeLatest(
@@ -184,6 +263,10 @@ export default function* root() {
     takeEvery(
       schoolingEventActions.createOrUpdateSchoolingEvent.REQUEST,
       handleCreateOrUpdateSchoolingEvent
+    ),
+    takeEvery(
+      schoolingEventActions.loadEventCreatorInitialValues.START,
+      handleLoadEventCreatorInitialValues
     )
   ]);
 }

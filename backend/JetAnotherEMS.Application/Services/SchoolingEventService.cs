@@ -37,6 +37,18 @@ namespace JetAnotherEMS.Application.Services
             _userManager = userManager;
         }
 
+        public async Task<FeaturedSchoolingEventViewModel> GetById(Guid id)
+        {
+            var entity = await _schoolingEventRepository.GetById(id);
+            if (entity == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("GetById", $"Event with id {id} doesn't exist"));
+                return null;
+            }
+
+            return Mapper.Map<FeaturedSchoolingEventViewModel>(entity);
+        }
+
         public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, int page, int pageSize)
         {
             var featuredEventsQuery = _schoolingEventRepository

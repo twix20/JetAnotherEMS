@@ -60,10 +60,6 @@ class TicketListForm extends React.Component {
       submitting
     } = this.props;
 
-    console.log('TicketListForm');
-    console.log(this.props);
-    console.log(fields.getAll());
-
     const tickets = fields.getAll();
 
     return (
@@ -89,7 +85,12 @@ class TicketListForm extends React.Component {
                 </ListItemAvatar>
                 <ListItemText
                   primary={`${ticket.name} - ${ticket.price}${ticket.currency}`}
-                  secondary={ticket.left ? `${ticket.left} tickets left` : null}
+                  secondary={
+                    ticket.usersBoughtThisTicket
+                      ? `${ticket.totalQuantity -
+                          ticket.usersBoughtThisTicket} tickets left`
+                      : null
+                  }
                 />
 
                 <ListItemSecondaryAction>

@@ -21,7 +21,7 @@ class EventPage extends React.Component {
       <DefaultLayout>
         <Grid container>
           <div className={classes.cardMargin}>
-            <EventCreatorOpenerButton mode="edit" />
+            <EventCreatorOpenerButton mode="edit" eventId={id} />
             <EventDetailsCard eventId={id} />
           </div>
           <EventTabs eventId={id} />

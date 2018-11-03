@@ -25,6 +25,17 @@ namespace JetAnotherEMS.WebApi.Controllers
             _schoolingEventService = schoolingEventService;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var vm = await _schoolingEventService.GetById(id);
+
+            return Response(vm);
+        }
+
+
 
         [HttpGet]
         [AllowAnonymous]

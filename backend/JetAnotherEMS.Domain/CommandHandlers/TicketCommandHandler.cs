@@ -113,14 +113,9 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         {
             var userEventTicket = await _userSchoolingEventTicketRepository.GetById(userEventTicketId);
 
-            if (userEventTicket.Status == TicketStatus.AwaitingApproval)
-            {
-                userEventTicket.Status = newStatus;
+            userEventTicket.Status = newStatus;
 
-                return Commit();
-            }
-
-            return false;
+            return Commit();
         }
     }
 }

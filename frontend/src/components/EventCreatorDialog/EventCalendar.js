@@ -79,7 +79,7 @@ class EventCalendar extends React.Component {
     };
 
     const dayId = newEvent.id;
-    let allEvents = this.props.fields.getAll();
+    let allEvents = this.props.fields.getAll() || [];
     let events = allEvents.filter(x => x.id !== dayId);
     events.push(newEvent);
 

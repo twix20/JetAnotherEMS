@@ -15,7 +15,9 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public List<string> TeacherNames { get; set; }
 
-        public SchoolingEventAddressViewModel Location { get; set; }
+        //public SchoolingEventAddressViewModel Location { get; set; } //TODO: make it google location
+
+        public string Location { get; set; }
 
         public List<SchoolingEventDayTagViewModel> FeaturedTags { get; set; }
 

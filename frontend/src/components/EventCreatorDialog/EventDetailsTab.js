@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import {
   renderTextField,
   renderMUIPlacesAutocomplete,

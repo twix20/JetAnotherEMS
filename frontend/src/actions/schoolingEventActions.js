@@ -9,7 +9,8 @@ import {
   POST_CREATE_SCHOOLING_EVENT_REQUEST,
   PATCH_CREATE_SCHOOLING_EVENT_REQUEST,
   GET_EVENT_AVAILABLE_TICKETS_REQUEST,
-  GET_EVENT_PARTICIPANTS_REQUEST
+  GET_EVENT_PARTICIPANTS_REQUEST,
+  LOAD_EVENT_CREATOR_INITIAL_VALUES
 } from '../constants/actionTypes';
 
 //TODO: Rename all GET requestas as Fetch
@@ -42,6 +43,10 @@ const updateSchoolingEventRequest = createAsyncAction(
   PATCH_CREATE_SCHOOLING_EVENT_REQUEST
 );
 
+const loadEventCreatorInitialValues = createAsyncAction(
+  LOAD_EVENT_CREATOR_INITIAL_VALUES
+);
+
 export default {
   getFeaturedSchoolingEventsRequest,
   getEventRequest,
@@ -51,5 +56,6 @@ export default {
   getEventParticipantsRequest,
   createOrUpdateSchoolingEvent,
   createSchoolingEventRequest,
-  updateSchoolingEventRequest
+  updateSchoolingEventRequest,
+  loadEventCreatorInitialValues
 };

@@ -10,8 +10,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import Typography from '@material-ui/core/Typography';
 
-import { change as changeFieldValue } from 'redux-form';
-
 import CancelIcon from '@material-ui/icons/Cancel';
 import Chip from '@material-ui/core/Chip';
 

@@ -6,7 +6,7 @@ import EventDetailsTab from './EventDetailsTab';
 import EventCalendar from './EventCalendar';
 import GalleryUploaderTab from './GalleryUploaderTab';
 import GenericTabs from './GenericTabs';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { FieldArray } from 'redux-form';
 
 const styles = theme => ({
   root: {

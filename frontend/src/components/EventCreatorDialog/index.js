@@ -66,7 +66,8 @@ class EventCreatorDialog extends React.Component {
       handleSubmit,
       pristine,
       reset,
-      submitting
+      submitting,
+      isLoadingForm
     } = this.props;
     const { tabSelected } = this.state;
 
@@ -103,7 +104,6 @@ class EventCreatorDialog extends React.Component {
                   type="submit"
                   disabled={pristine || submitting}
                   color="inherit"
-                  // onClick={handleClose}
                 >
                   save
                 </Button>
@@ -117,22 +117,26 @@ class EventCreatorDialog extends React.Component {
             >
               {/* <Grid item>DODAJ TYTUŁ</Grid> */}
 
-              <Grid item container className={classes.flex}>
-                <Grid
-                  item
-                  className={classnames(classes.flex, {
-                    [classes.flexedCalendar]: tabSelected === 1
-                  })}
-                >
-                  <CreatorTabs
-                    events={events}
-                    onTabChange={this.handleTabChange}
-                  />
+              {isLoadingForm ? (
+                <div>Loading...</div>
+              ) : (
+                <Grid item container className={classes.flex}>
+                  <Grid
+                    item
+                    className={classnames(classes.flex, {
+                      [classes.flexedCalendar]: tabSelected === 1
+                    })}
+                  >
+                    <CreatorTabs
+                      events={events}
+                      onTabChange={this.handleTabChange}
+                    />
+                  </Grid>
+                  <Grid item className={classes.flex}>
+                    <TicketTabs />
+                  </Grid>
                 </Grid>
-                <Grid item className={classes.flex}>
-                  <TicketTabs />
-                </Grid>
-              </Grid>
+              )}
             </Grid>
           </form>
         </Dialog>

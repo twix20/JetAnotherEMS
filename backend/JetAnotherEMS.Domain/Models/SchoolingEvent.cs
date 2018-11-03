@@ -9,7 +9,10 @@ namespace JetAnotherEMS.Domain.Models
 
         public string Description { get; set; }
 
-        public virtual SchoolingEventAddress Location { get; set; }
+        //public virtual SchoolingEventAddress Location { get; set; }
+
+        //TODO: change location to google api address
+        public string Location { get; set; }
 
         public virtual ICollection<SchoolingEventDayAttachment> Gallery { get; set; }
 

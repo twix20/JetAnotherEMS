@@ -119,11 +119,11 @@ namespace JetAnotherEMS.Application.Services
             // Date
             if (filter.DateFrom.HasValue)
             {
-                query = query.Where(e => e.Schedule.Any() && e.Schedule.Min(d => d.From) <= filter.DateFrom.Value);
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Min(d => d.Start) <= filter.DateFrom.Value);
             }
             if (filter.DateTo.HasValue)
             {
-                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.To) <= filter.DateTo.Value);
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.End) <= filter.DateTo.Value);
             }
 
             // Price
@@ -140,7 +140,7 @@ namespace JetAnotherEMS.Application.Services
             if (filter.OnlyOngoing.HasValue)
             {
                 var now = DateTime.UtcNow;
-                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.To) >= now && e.Schedule.Min(d => d.From) <= now);
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.End) >= now && e.Schedule.Min(d => d.Start) <= now);
             }
 
             //TODO: add only favorites

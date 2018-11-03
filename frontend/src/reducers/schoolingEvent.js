@@ -36,7 +36,7 @@ const availableTicketsDefaultState = {
 };
 const availableTickets = (state = availableTicketsDefaultState, action) => {
   switch (action.type) {
-    case schoolingEventActions.getEventAvailableTicketsRequest.SUCCESS:
+    case schoolingEventActions.getEventAvailableTicketsRequest.SUCCESS: {
       const { id } = action;
       const availableTickets = action.response.data.data;
 
@@ -46,6 +46,28 @@ const availableTickets = (state = availableTicketsDefaultState, action) => {
           [id]: availableTickets
         }
       };
+    }
+    default:
+      return state;
+  }
+};
+
+const participantsDefaultState = {
+  byEventId: {}
+};
+const participants = (state = participantsDefaultState, action) => {
+  switch (action.type) {
+    case schoolingEventActions.getEventParticipantsRequest.SUCCESS: {
+      const { id } = action;
+      const participants = action.response.data.data;
+
+      return {
+        byEventId: {
+          ...state.byEventId,
+          [id]: participants
+        }
+      };
+    }
     default:
       return state;
   }
@@ -54,10 +76,13 @@ const availableTickets = (state = availableTicketsDefaultState, action) => {
 export const selectors = {
   featured: state => Object.values(state.schoolingEvent.featured.byId) || [],
   availableTickets: (state, eventId) =>
-    state.schoolingEvent.availableTickets.byEventId[eventId] || []
+    state.schoolingEvent.availableTickets.byEventId[eventId] || [],
+  participants: (state, eventId) =>
+    state.schoolingEvent.participants.byEventId[eventId] || []
 };
 
 export default combineReducers({
   featured,
-  availableTickets
+  availableTickets,
+  participants
 });

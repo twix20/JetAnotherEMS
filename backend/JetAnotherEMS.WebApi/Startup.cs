@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using JetAnotherEMS.Domain.Validation;
 using JetAnotherEMS.Infrastructure.Data.Context;
 using JetAnotherEMS.Infrastructure.Identity.Authorization;
 using JetAnotherEMS.Infrastructure.Identity.Data;

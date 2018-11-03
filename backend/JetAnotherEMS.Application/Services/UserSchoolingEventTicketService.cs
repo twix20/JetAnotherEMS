@@ -56,5 +56,35 @@ namespace JetAnotherEMS.Application.Services
 
             await _bus.SendCommand(command);
         }
+
+        public async Task ApproveTickets(ApproveEventTicketsViewModel viewModel)
+        {
+            foreach (var userEventTicketId in viewModel.UserSchoolingEventTicketIdsToApprove)
+            {
+                var command = new ApproveEventTicketCommand()
+                {
+                    UserId = viewModel.UserId,
+                    EventId = viewModel.EventId,
+                    UserSchoolingEventTicketIdToApprove = userEventTicketId
+                };
+
+                await _bus.SendCommand(command);
+            }
+        }
+
+        public async Task RejectTickets(RejectEventTicketsViewModel viewModel)
+        {
+            foreach (var userEventTicketId in viewModel.UserSchoolingEventTicketIdsToReject)
+            {
+                var command = new RejectEventTicketCommand()
+                {
+                    UserId = viewModel.UserId,
+                    EventId = viewModel.EventId,
+                    UserSchoolingEventTicketIdToReject = userEventTicketId
+                };
+
+                await _bus.SendCommand(command);
+            }
+        }
     }
 }

@@ -63,7 +63,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<Guid?>("LocationId");
+                    b.Property<string>("Location");
 
                     b.Property<string>("Title");
 
@@ -72,8 +72,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("UpdatedByUserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
 
                     b.ToTable("SchoolingEvents");
                 });
@@ -89,17 +87,17 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<DateTime>("End");
+
                     b.Property<Guid?>("EventId");
 
-                    b.Property<DateTime>("From");
-
                     b.Property<string>("LectureRoom");
+
+                    b.Property<DateTime>("Start");
 
                     b.Property<string>("Teacher");
 
                     b.Property<string>("Title");
-
-                    b.Property<DateTime>("To");
 
                     b.Property<DateTime>("UpdatedAt");
 
@@ -208,13 +206,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int>("Length");
+                    b.Property<int>("FileType");
 
                     b.Property<string>("LocationOnDisk");
 
                     b.Property<string>("OriginalName");
 
-                    b.Property<int>("Type");
+                    b.Property<int>("Size");
 
                     b.Property<DateTime>("UpdatedAt");
 
@@ -282,13 +280,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.ToTable("SchoolingEventDayAttachment");
 
                     b.HasDiscriminator().HasValue("SchoolingEventDayAttachment");
-                });
-
-            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEvent", b =>
-                {
-                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventAddress", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDay", b =>

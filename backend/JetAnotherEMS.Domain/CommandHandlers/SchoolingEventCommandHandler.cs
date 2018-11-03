@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Core.Notifications;
@@ -8,6 +9,7 @@ using JetAnotherEMS.Domain.Core.Validation;
 using JetAnotherEMS.Domain.Events;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
+using JetAnotherEMS.Domain.Validation;
 using MediatR;
 
 namespace JetAnotherEMS.Domain.CommandHandlers
@@ -15,40 +17,20 @@ namespace JetAnotherEMS.Domain.CommandHandlers
     public class SchoolingEventCommandHandler : CommandHandler,
         IRequestHandler<CreateNewSchoolingEventCommand>,
         IRequestHandler<UpdateSchoolingEventCommand>,
-        IRequestHandler<ChangeFollowSchoolingEventCommand>,
-        IRequestHandler<BuyEventTicketCommand>, //TODO: move to another handler
-        IRequestHandler<CancelEventTicketCommand> //TODO: move to another handler
+        IRequestHandler<ChangeFollowSchoolingEventCommand>
     {
         private readonly ISchoolingEventRepository _schoolingEventRepository;
-        private readonly ISchoolingEventTicketRepository _schoolingEventTicketRepository;
-        private readonly IUserSchoolingEventTicketRepository _userSchoolingEventTicketRepository;
         public SchoolingEventCommandHandler(
             IUnitOfWork uow, 
             IMediatorHandler bus, 
             INotificationHandler<DomainNotification> notifications, 
             IValidationService validationService, 
-            ISchoolingEventRepository schoolingEventRepository, 
-            ISchoolingEventTicketRepository schoolingEventTicketRepository, 
-            IUserSchoolingEventTicketRepository userSchoolingEventTicketRepository) : base(uow, bus, notifications, validationService)
+            ISchoolingEventRepository schoolingEventRepository) : base(uow, bus, notifications, validationService)
         {
             _schoolingEventRepository = schoolingEventRepository;
-            _schoolingEventTicketRepository = schoolingEventTicketRepository;
-            _userSchoolingEventTicketRepository = userSchoolingEventTicketRepository;
         }
 
-        public Task<Unit> Handle(CreateNewSchoolingEventCommand request, CancellationToken cancellationToken)
-        {
-            _schoolingEventRepository.Add(new SchoolingEvent());
-            // Bus.RaiseEvent( new SchoolingEventCreatedEvent(eventId));
-            throw new NotImplementedException();
-        }
-
-        public Task<Unit> Handle(ChangeFollowSchoolingEventCommand request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Unit> Handle(BuyEventTicketCommand message, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateNewSchoolingEventCommand message, CancellationToken cancellationToken)
         {
             if (!message.IsValid(ValidationService))
             {
@@ -56,45 +38,22 @@ namespace JetAnotherEMS.Domain.CommandHandlers
                 return Unit.Value;
             }
 
-            var ticket = await _schoolingEventTicketRepository.GetById(message.TicketId);
+            var entity = Mapper.Map<SchoolingEvent>(message);
 
-            var userTicket = new UserSchoolingEventTicket()
-            {
-                UserId = message.UserId,
-                Ticket = ticket,
-                Status = TicketStatus.AwaitingApproval
-            };
-
-            ticket.Event.ParticipantsTickets.Add(userTicket);
-
-            _schoolingEventTicketRepository.Update(ticket);
+            await _schoolingEventRepository.Add(entity);
 
             if (Commit())
             {
-                await Bus.RaiseEvent(new UserBoughtEventTicket(ticket.Event.Id, message.UserId, ticket.Name, ticket.Price));
+                await Bus.RaiseEvent(new SchoolingEventCreatedEvent(entity.Id));
             }
 
+            // Bus.RaiseEvent( new SchoolingEventCreatedEvent(eventId));
             return Unit.Value;
         }
 
-        public async Task<Unit> Handle(CancelEventTicketCommand message, CancellationToken cancellationToken)
+        public Task<Unit> Handle(ChangeFollowSchoolingEventCommand request, CancellationToken cancellationToken)
         {
-            //TODO: validation
-            //if (!message.IsValid(ValidationService))
-            //{
-            //    NotifyValidationErrors(message);
-            //    return Unit.Value;
-            //}
-
-            await _userSchoolingEventTicketRepository.Remove(message.UserEventTicketId);
-
-            if (Commit())
-            {
-                //TODO: rise user canceled ticket event
-                //await Bus.RaiseEvent(new UserBoughtEventTicket(ticket.Event.Id, message.UserId, ticket.Name, ticket.Price));
-            }
-
-            return Unit.Value;
+            throw new NotImplementedException();
         }
 
         public Task<Unit> Handle(UpdateSchoolingEventCommand request, CancellationToken cancellationToken)

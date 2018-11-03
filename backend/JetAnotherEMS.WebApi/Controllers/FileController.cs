@@ -48,7 +48,7 @@ namespace JetAnotherEMS.WebApi.Controllers
                 id = file.Id,
                 name = file.OriginalName,
                 typ = "image/png",
-                size = file.Length,
+                size = file.Size,
             });
         }
 

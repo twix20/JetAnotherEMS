@@ -6,9 +6,9 @@ namespace JetAnotherEMS.Domain.Models
 {
     public class SchoolingEventDay : Entity
     {
-        public DateTime From { get; set; }
+        public DateTime Start { get; set; }
 
-        public DateTime To { get; set; }
+        public DateTime End { get; set; }
 
         public string Title { get; set; }
 
@@ -18,9 +18,9 @@ namespace JetAnotherEMS.Domain.Models
 
         public string LectureRoom { get; set; }
 
-        public virtual ICollection<SchoolingEventDayAttachment> Attachments { get; set; }
-
         public virtual ICollection<SchoolingEventDayTag> Tags { get; set; }
+
+        public virtual ICollection<SchoolingEventDayAttachment> Attachments { get; set; }
 
         public virtual SchoolingEvent Event { get; set; }
     }

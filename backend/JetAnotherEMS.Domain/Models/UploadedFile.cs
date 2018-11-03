@@ -9,18 +9,29 @@ namespace JetAnotherEMS.Domain.Models
 {
     public class UploadedFile : Entity
     {
+        public static Dictionary<UploadedFileType, string>  MimeTypesByFileType = new Dictionary<UploadedFileType, string>()
+        {
+            { UploadedFileType.Jpg, "image/jpeg"},
+            { UploadedFileType.Png, "image/png"},
+
+            { UploadedFileType.Pdf, "application/pdf"},
+            { UploadedFileType.Zip, "application/zip"},
+        };
+
         public string FileName { get; set; }
 
         public string OriginalName { get; set; }
 
-        public UploadedFileType Type { get; set; }
+        [NotMapped] public string Type => MimeTypesByFileType[FileType];
+
+        public UploadedFileType FileType { get; set; }
 
         public string LocationOnDisk { get; set; }
 
         /// <summary>
         /// Length in bytes
         /// </summary>
-        public int Length { get; set; }
+        public int Size { get; set; }
 
         [NotMapped] public string FullFilePath => Path.Combine(LocationOnDisk, FileName);
     }

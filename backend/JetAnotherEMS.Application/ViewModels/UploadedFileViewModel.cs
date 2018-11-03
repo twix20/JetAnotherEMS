@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.Collections.Generic;
 using JetAnotherEMS.Domain.Models;
 
 namespace JetAnotherEMS.Application.ViewModels
@@ -12,13 +9,15 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public string OriginalName { get; set; }
 
-        public UploadedFileType Type { get; set; }
+        public string Type { get; set; }
+
+        public UploadedFileType FileType { get; set; }
 
         public string LocationOnDisk { get; set; }
 
         /// <summary>
-        /// File length in bytes
+        /// File Size in bytes
         /// </summary>
-        public long Length { get; set; }
+        public long Size { get; set; }
     }
 }

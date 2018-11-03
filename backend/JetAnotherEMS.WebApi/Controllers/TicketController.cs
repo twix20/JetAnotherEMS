@@ -32,7 +32,7 @@ namespace JetAnotherEMS.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{eventId:guid}")]
+        [Route("me/[action]/{eventId:guid}")]
         public async Task<IActionResult> ByEvent(Guid eventId)
         {
             var usersTicket = await _userSchoolingEventTicketService.GetEventTicketForUser(_user.Id, eventId);
@@ -41,7 +41,7 @@ namespace JetAnotherEMS.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("[action]")]
+        [Route("me/[action]")]
         public async Task<IActionResult> Buy([FromBody]BuyEventTicketViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -58,7 +58,7 @@ namespace JetAnotherEMS.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("[action]")]
+        [Route("me/[action]")]
         public async Task<IActionResult> Cancel([FromBody]CancelEventTicketViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -70,6 +70,42 @@ namespace JetAnotherEMS.WebApi.Controllers
             viewModel.UserId = _user.Id;
 
             await _userSchoolingEventTicketService.CancelTicket(viewModel);
+
+            return Response(new { });
+        }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Approve([FromBody]ApproveEventTicketsViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(viewModel);
+            }
+
+            viewModel.UserId = _user.Id;
+
+            await _userSchoolingEventTicketService.ApproveTickets(viewModel);
+
+            return Response(new { });
+        }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Reject([FromBody]RejectEventTicketsViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(viewModel);
+            }
+
+            viewModel.UserId = _user.Id;
+
+            await _userSchoolingEventTicketService.RejectTickets(viewModel);
 
             return Response(new { });
         }

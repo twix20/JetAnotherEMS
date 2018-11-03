@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentValidation;
 using FluentValidation.Results;
 using JetAnotherEMS.Domain.Core.Events;
 using JetAnotherEMS.Domain.Core.Validation;

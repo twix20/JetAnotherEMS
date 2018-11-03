@@ -58,6 +58,35 @@ export function* cancelEventTicketSaga(action) {
   console.log(response);
 }
 
+export function* approveEventTicketsSaga(action) {
+  const { eventId, userTicketIds } = action;
+
+  const { response, error } = yield sagaRequestWrapper(
+    ticketActions.approveTicketsForEventRequest,
+    api.ticket.approveTickets,
+    {
+      eventId,
+      userTicketIds
+    }
+  );
+
+  console.log(response);
+}
+export function* rejectEventTicketsSaga(action) {
+  const { eventId, userTicketIds } = action;
+
+  const { response, error } = yield sagaRequestWrapper(
+    ticketActions.rejectTicketsForEventRequest,
+    api.ticket.rejectTickets,
+    {
+      eventId,
+      userTicketIds
+    }
+  );
+
+  console.log(response);
+}
+
 export default function* root() {
   yield all([
     takeLatest(
@@ -71,6 +100,14 @@ export default function* root() {
     takeEvery(
       ticketActions.cancelTicketForEventRequest.START,
       cancelEventTicketSaga
+    ),
+    takeLatest(
+      ticketActions.approveTicketsForEventRequest.START,
+      approveEventTicketsSaga
+    ),
+    takeLatest(
+      ticketActions.rejectTicketsForEventRequest.START,
+      rejectEventTicketsSaga
     )
   ]);
 }

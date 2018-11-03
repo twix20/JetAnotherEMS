@@ -39,17 +39,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    LocationId = table.Column<Guid>(nullable: true)
+                    Location = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SchoolingEvents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SchoolingEvents_GoogleMapsAddresses_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "GoogleMapsAddresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,8 +55,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedByUserId = table.Column<Guid>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
-                    From = table.Column<DateTime>(nullable: false),
-                    To = table.Column<DateTime>(nullable: false),
+                    Start = table.Column<DateTime>(nullable: false),
+                    End = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Teacher = table.Column<string>(nullable: true),
@@ -164,9 +158,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     FileName = table.Column<string>(nullable: true),
                     OriginalName = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: false),
+                    FileType = table.Column<int>(nullable: false),
                     LocationOnDisk = table.Column<string>(nullable: true),
-                    Length = table.Column<int>(nullable: false),
+                    Size = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     SchoolingEventDayId = table.Column<Guid>(nullable: true),
                     SchoolingEventId = table.Column<Guid>(nullable: true)
@@ -235,11 +229,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEvents_LocationId",
-                table: "SchoolingEvents",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SchoolingEventTickets_EventId",
                 table: "SchoolingEventTickets",
                 column: "EventId");
@@ -268,6 +257,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "GoogleMapsAddresses");
+
+            migrationBuilder.DropTable(
                 name: "SchoolingEventDayTags");
 
             migrationBuilder.DropTable(
@@ -287,9 +279,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "SchoolingEvents");
-
-            migrationBuilder.DropTable(
-                name: "GoogleMapsAddresses");
         }
     }
 }

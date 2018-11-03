@@ -16,15 +16,16 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                     Id = Guid.Parse("f9d6f596-b4af-40f0-8520-6f2e124c085d"),
                     Title = "Seed title",
                     Description = "Seed description",
-                    Location = new SchoolingEventAddress()
-                    {
-                        Id = Guid.Parse("d87bce2b-29f5-438e-910f-201eac76b27b"),
-                        City = "Unknown City",
-                        Country = "United States",
-                        State = "California",
-                        Street = "Amphitheater Pwd",
-                        ZipCode = "94043"
-                    },
+                    Location = "Wroclaw",
+                    //Location = new SchoolingEventAddress()
+                    //{
+                    //    Id = Guid.Parse("d87bce2b-29f5-438e-910f-201eac76b27b"),
+                    //    City = "Unknown City",
+                    //    Country = "United States",
+                    //    State = "California",
+                    //    Street = "Amphitheater Pwd",
+                    //    ZipCode = "94043"
+                    //},
                     Schedule = new List<SchoolingEventDay>()
                     {
                         new SchoolingEventDay()
@@ -33,8 +34,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                             Description = "Dummy day description",
                             LectureRoom = "C3 123",
                             Teacher = "Andrew Gol",
-                            From = DateTime.Now,
-                            To = DateTime.Now.AddHours(1),
+                            Start = DateTime.Now,
+                            End = DateTime.Now.AddHours(1),
                             Tags = new List<SchoolingEventDayTag>()
                             {
                                 new SchoolingEventDayTag()
@@ -50,8 +51,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                             Description = "Dummy day description2",
                             LectureRoom = "C3 1232",
                             Teacher = "Andrew Gol2",
-                            From = DateTime.Now.AddHours(2),
-                            To = DateTime.Now.AddHours(3),
+                            Start = DateTime.Now.AddHours(2),
+                            End = DateTime.Now.AddHours(3),
                             Tags = new List<SchoolingEventDayTag>()
                             {
                                 new SchoolingEventDayTag()

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace JetAnotherEMS.Application.ViewModels
 {
@@ -10,9 +8,12 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public string Description { get; set; }
 
-        public SchoolingEventAddressViewModel Location { get; set; }
+        //public SchoolingEventAddressViewModel Location { get; set; }
+        public string Location { get; set; }
 
         //TODO: add more members
-        public List<SchoolingEventDayViewModel> Calendar { get; set; }
+        public ICollection<SchoolingEventDayViewModel> Calendar { get; set; }
+
+        public ICollection<SchoolingEventTicketViewModel> Tickets { get; set; }
     }
 }

@@ -14,5 +14,7 @@ namespace JetAnotherEMS.Application.Interfaces
         Task BuyTicket(BuyEventTicketViewModel viewModel);
 
         Task CancelTicket(CancelEventTicketViewModel viewModel);
+        Task ApproveTickets(ApproveEventTicketsViewModel viewModel);
+        Task RejectTickets(RejectEventTicketsViewModel viewModel);
     }
 }

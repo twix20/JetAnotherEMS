@@ -4,6 +4,7 @@ import schoolingEventSagas from './schoolingEventSagas';
 import authSagas from './authSagas';
 import formActionSaga from 'redux-form-saga';
 import ticketSagas from './ticketSagas';
+import notificationsSaga from './notificationsSaga';
 
 /**
  * rootSaga
@@ -13,6 +14,7 @@ export default function* root() {
     fork(schoolingEventSagas),
     fork(authSagas),
     fork(formActionSaga),
-    fork(ticketSagas)
+    fork(ticketSagas),
+    fork(notificationsSaga)
   ]);
 }

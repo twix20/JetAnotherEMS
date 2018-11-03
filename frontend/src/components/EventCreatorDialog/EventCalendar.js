@@ -61,6 +61,7 @@ class EventCalendar extends React.Component {
     console.log('handleCreateNewDay');
     console.log(values);
 
+    values.attachments = values.attachments || [];
     const newEvent = {
       ...values,
       id: values.id || createRandomGuid(),

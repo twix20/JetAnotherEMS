@@ -1,16 +1,27 @@
-﻿using JetAnotherEMS.Domain.Core.Commands;
+﻿using System.Collections.Generic;
+using JetAnotherEMS.Domain.Core.Validation;
 using JetAnotherEMS.Domain.Models;
+using JetAnotherEMS.Domain.Validation;
 
 namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 {
-    public class CreateNewSchoolingEventCommand : Command
+    public class CreateNewSchoolingEventCommand : SchoolingEventCommand
     {
-        public string Title { get; set; }
+        public CreateNewSchoolingEventCommand(
+            string title, 
+            string description, 
+            string location, 
+            ICollection<SchoolingEventDay> calendar, 
+            ICollection<SchoolingEventTicket> tickets) : base(title, description, location, calendar, tickets)
+        {
+        }
 
-        public string Description { get; set; }
+        public override bool IsValid(IValidationService validationService)
+        {
+            ValidationResult = validationService
+                .Validate<CreateNewSchoolingEventCommand, CreateNewSchoolingEventCommandValidator>(this);
 
-        public GoogleMapsAddress Location { get; set; }
-
-        //TODO: add more members
+            return ValidationResult.IsValid;
+        }
     }
 }

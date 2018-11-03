@@ -7,6 +7,7 @@ import {
   takeEvery
 } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
+import { SubmissionError } from 'redux-form';
 import ActionTypes, {
   GET_FEATURED_SCHOOLING_EVENTS_REQUEST,
   GET_SCHOOLING_EVENT_REQUEST,
@@ -17,6 +18,7 @@ import { sagaRequestWrapper } from './common';
 import api from '../services/api';
 import schoolingEventActions from '../actions/schoolingEventActions';
 import { schoolingEventFilterSelectors } from '../reducers/selectors';
+import ticketActions from '../actions/ticketActions';
 
 export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   const filter = yield select(schoolingEventFilterSelectors.filter);
@@ -75,6 +77,17 @@ export function* fetchSchoolingEventSchedule(action) {
   console.log(response);
 }
 
+export function* fetchSchoolingEventParticipants(action) {
+  const { eventId } = action;
+
+  const { response, error } = yield sagaRequestWrapper(
+    schoolingEventActions.getEventParticipantsRequest,
+    api.schoolingEvent.getParticipants,
+    { id: eventId }
+  );
+  console.log(response);
+}
+
 export function* fetchEventAvailableTicketsSaga(action) {
   const { id } = action;
 
@@ -123,8 +136,19 @@ export function* handleCreateOrUpdateSchoolingEvent(action) {
     tickets
   });
 
-  console.log('handleCreateOrUpdateSchoolingEvent');
-  console.log(response);
+  if (error) {
+    const formError = new SubmissionError({
+      login: 'User with this login is not found', // specific field error
+      _error: 'Login failed, please check your credentials and try again' // global form error
+    });
+    yield put(
+      schoolingEventActions.createOrUpdateSchoolingEvent.failure(formError)
+    );
+  } else {
+    yield put(
+      schoolingEventActions.createOrUpdateSchoolingEvent.success(error)
+    );
+  }
 }
 
 export default function* root() {
@@ -140,6 +164,14 @@ export default function* root() {
     takeLatest(
       schoolingEventActions.getScheduleRequst.START,
       fetchSchoolingEventSchedule
+    ),
+    takeLatest(
+      [
+        schoolingEventActions.getEventParticipantsRequest.START,
+        ticketActions.approveTicketsForEventRequest.SUCCESS,
+        ticketActions.rejectTicketsForEventRequest.SUCCESS
+      ],
+      fetchSchoolingEventParticipants
     ),
     takeLatest(
       ActionTypes.UPDATE_SCHOOLING_EVENT_FILTER,

@@ -21,6 +21,7 @@ import MapIcon from '@material-ui/icons/Map';
 import times from 'lodash/times';
 
 import PeopleTable from '../../components/PeopleTable';
+import ParticipantsTab from '../../components/ParticipantsTab';
 import GoogleMapReact from 'google-map-react';
 
 const cords = {
@@ -115,7 +116,7 @@ class ScrollableTabsButtonForce extends React.Component {
           {value === 0 && <DayScheduleCarousel eventId={eventId} />}
           {value === 1 && (
             <TabContainer>
-              <PeopleTable />
+              <ParticipantsTab eventId={eventId} />
             </TabContainer>
           )}
           {value === 2 && (

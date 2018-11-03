@@ -1,7 +1,4 @@
-﻿using System;
-using JetAnotherEMS.Domain.Models;
-
-namespace JetAnotherEMS.Application.ViewModels
+﻿namespace JetAnotherEMS.Application.ViewModels
 {
     public class SchoolingEventTicketViewModel : EntityViewModel
     {
@@ -12,5 +9,7 @@ namespace JetAnotherEMS.Application.ViewModels
         public uint TotalQuantity { get; set; }
 
         public string Currency { get; set; }
+
+        public uint UsersBoughtThisTicket { get; set; }
     }
 }

@@ -24,26 +24,22 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<Guid>("CreatedByUserId");
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<string>("State");
+                    b.Property<float>("Lat");
 
-                    b.Property<string>("Street");
+                    b.Property<float>("Lng");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<Guid>("UpdatedByUserId");
-
-                    b.Property<string>("ZipCode");
 
                     b.HasKey("Id");
 
@@ -62,8 +58,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("CreatedByUserId");
 
                     b.Property<string>("Description");
-
-                    b.Property<string>("Location");
 
                     b.Property<string>("Title");
 
@@ -263,6 +257,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("JetAnotherEMS.Domain.Models.GoogleMapsAddress");
 
+                    b.Property<Guid>("EventId");
+
+                    b.HasIndex("EventId")
+                        .IsUnique()
+                        .HasFilter("[EventId] IS NOT NULL");
 
                     b.ToTable("SchoolingEventAddress");
 
@@ -328,6 +327,14 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventTicket", "Ticket")
                         .WithMany()
                         .HasForeignKey("TicketId");
+                });
+
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventAddress", b =>
+                {
+                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
+                        .WithOne("Location")
+                        .HasForeignKey("JetAnotherEMS.Domain.Models.SchoolingEventAddress", "EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDayAttachment", b =>

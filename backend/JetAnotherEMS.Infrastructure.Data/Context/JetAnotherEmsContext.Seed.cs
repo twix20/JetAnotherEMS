@@ -16,16 +16,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                     Id = Guid.Parse("f9d6f596-b4af-40f0-8520-6f2e124c085d"),
                     Title = "Seed title",
                     Description = "Seed description",
-                    Location = "Wroclaw",
-                    //Location = new SchoolingEventAddress()
-                    //{
-                    //    Id = Guid.Parse("d87bce2b-29f5-438e-910f-201eac76b27b"),
-                    //    City = "Unknown City",
-                    //    Country = "United States",
-                    //    State = "California",
-                    //    Street = "Amphitheater Pwd",
-                    //    ZipCode = "94043"
-                    //},
+                    Location = new SchoolingEventAddress()
+                    {
+                        Id = Guid.Parse("d87bce2b-29f5-438e-910f-201eac76b27b"),
+                        Description = "Zygmunta Janiszewskiego 7, Wrocław",
+                        Lat = 51.109427201651876f,
+                        Lng = 17.05958488218637f
+                    },
                     Schedule = new List<SchoolingEventDay>()
                     {
                         new SchoolingEventDay()

@@ -71,6 +71,21 @@ const participants = (state = participantsDefaultState, action) => {
   }
 };
 
+export const byId = (state = {}, action) => {
+  switch (action.type) {
+    case schoolingEventActions.getEventRequest.SUCCESS: {
+      const { id } = action;
+
+      return {
+        ...state,
+        [id]: action.response.data.data
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 export const creatorDialog = (state = { isOpen: false }, action) => {
   switch (action.type) {
     case OPEN_CREATOR_DIALOG: {
@@ -84,6 +99,7 @@ export const creatorDialog = (state = { isOpen: false }, action) => {
 };
 
 export const selectors = {
+  eventById: (state, id) => state.schoolingEvent.byId[id],
   featured: state => Object.values(state.schoolingEvent.featured.byId) || [],
   availableTickets: (state, eventId) =>
     state.schoolingEvent.availableTickets.byEventId[eventId] || [],
@@ -93,6 +109,7 @@ export const selectors = {
 };
 
 export default combineReducers({
+  byId,
   featured,
   availableTickets,
   participants,

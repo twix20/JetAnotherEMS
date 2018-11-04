@@ -11,13 +11,13 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public DateTime StartingDateTime { get; set; }
 
+        public DateTime EndingDateTime { get; set; }
+
         public int ScheduleDaysCount { get; set; }
 
         public List<string> TeacherNames { get; set; }
 
-        //public SchoolingEventAddressViewModel Location { get; set; } //TODO: make it google location
-
-        public string Location { get; set; }
+        public SchoolingEventAddressViewModel Location { get; set; } //TODO: make it google location
 
         public List<SchoolingEventDayTagViewModel> FeaturedTags { get; set; }
 

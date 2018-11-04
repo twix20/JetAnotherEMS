@@ -239,8 +239,7 @@ class EventCard extends React.PureComponent {
               </Typography>
               <Typography variant="subheading" color="textSecondary">
                 <PlaceIcon fontSize="inherit" />
-                {`${event.location.city}, ${event.location.street}`}
-                {event.loc}
+                {event.location.description}
               </Typography>
             </Grid>
 

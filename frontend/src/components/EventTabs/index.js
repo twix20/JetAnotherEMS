@@ -24,6 +24,9 @@ import PeopleTable from '../../components/PeopleTable';
 import ParticipantsTab from '../../components/ParticipantsTab';
 import GoogleMapReact from 'google-map-react';
 
+import { connect } from 'react-redux';
+import { schoolingEventSelectors } from '../../reducers/selectors';
+
 const cords = {
   lat: 51.1078852,
   lng: 17.0385376
@@ -53,9 +56,9 @@ const styles = theme => ({
   }
 });
 
-function renderMarkers(map, maps) {
+function renderMarkers(map, maps, cords, content) {
   var infowindow = new google.maps.InfoWindow({
-    content: '<strong>Wrocław</strong> <br/> Reja 23/20'
+    content: content
   });
 
   let marker = new maps.Marker({
@@ -77,13 +80,15 @@ const LocationMap = props => {
         bootstrapURLKeys={{ key: 'AIzaSyAm_B9x-hZcSwq2rB97ZtU3NmKz_bQ6GZA' }}
         defaultCenter={props.center}
         defaultZoom={props.zoom}
-        onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+        onGoogleApiLoaded={({ map, maps }) =>
+          renderMarkers(map, maps, props.center, props.markContent)
+        }
       />
     </div>
   );
 };
 
-class ScrollableTabsButtonForce extends React.PureComponent {
+class EventTabs extends React.PureComponent {
   state = {
     value: 0
   };
@@ -93,8 +98,15 @@ class ScrollableTabsButtonForce extends React.PureComponent {
   };
 
   render() {
-    const { classes, eventId } = this.props;
+    const { classes, eventId, getEvent } = this.props;
     const { value } = this.state;
+
+    const event = getEvent(eventId);
+
+    if (!event) return null;
+
+    const cords = { lat: event.location.lat, lng: event.location.lng };
+    const markContent = event.location.description;
 
     return (
       <div className={classes.root}>
@@ -121,7 +133,7 @@ class ScrollableTabsButtonForce extends React.PureComponent {
           )}
           {value === 2 && (
             <TabContainer>
-              <LocationMap center={cords} zoom={11} />
+              <LocationMap center={cords} zoom={11} markContent={markContent} />
             </TabContainer>
           )}
         </div>
@@ -130,9 +142,13 @@ class ScrollableTabsButtonForce extends React.PureComponent {
   }
 }
 
-ScrollableTabsButtonForce.propTypes = {
+EventTabs.propTypes = {
   classes: PropTypes.object.isRequired,
   eventId: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(ScrollableTabsButtonForce);
+const mapStateToProps = state => ({
+  getEvent: id => schoolingEventSelectors.eventById(state, id)
+});
+
+export default withStyles(styles)(connect(mapStateToProps)(EventTabs));

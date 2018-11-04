@@ -32,6 +32,7 @@ namespace JetAnotherEMS.Application.AutoMapper
                     .ForMember(dest => dest.ScheduleDaysCount, opts => opts.MapFrom(src => src.Schedule.GroupBy(d => d.Start.Day).Count()))
                     .ForMember(dest => dest.TeacherNames, opts => opts.MapFrom(src => src.Schedule.Select(d => d.Teacher).Distinct()))
                     .ForMember(dest => dest.StartingDateTime, opts => opts.MapFrom(src => src.Schedule.OrderBy(d => d.Start).Select(d => d.Start).FirstOrDefault()))
+                    .ForMember(dest => dest.EndingDateTime, opts => opts.MapFrom(src => src.Schedule.OrderByDescending(d => d.End).Select(d => d.End).FirstOrDefault()))
                     .ForMember(dest => dest.TicketsLeftCount, opts => opts.MapFrom(src => src.AvailableTickets.Sum(t => t.TotalQuantity) - src.ParticipantsTickets.Count))
                     .ForMember(dest => dest.MinTicketPrice, opts => opts.MapFrom(src => src.AvailableTickets.Min(t => t.Price)))
                     .ForMember(

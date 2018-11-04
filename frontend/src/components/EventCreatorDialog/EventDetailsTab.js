@@ -98,27 +98,29 @@ class EventDetailsTab extends React.Component {
         </IconInputTemplate>
 
         <IconInputTemplate Icon={LocationOnIcon}>
-          <Field
+          {/* <Field
             className={classes.field}
             name="location"
             component={renderTextField} //TODO: M ake renderGooleLocationSelect
             label="Location"
             validate={[required()]}
-          />
+          /> */}
 
-          {/* <Field
+          <Field
             fullWidth
             name="location"
             autoFocus={false}
             placeholder="Search for a place"
-            component={renderMUIPlacesAutocomplete}
+            //component={renderMUIPlacesAutocomplete}
+            component={renderTextField}
+            validate={[required()]}
             createAutocompleteRequest={inputValue => {
               return {
                 input: inputValue,
-                types: ["address"]
+                types: ['address']
               };
             }}
-          /> */}
+          />
         </IconInputTemplate>
 
         <IconInputTemplate
@@ -129,7 +131,7 @@ class EventDetailsTab extends React.Component {
           <Field
             className={classes.quillContainer}
             name="description"
-            component={renderAceEditor} //TODO: M ake renderGooleLocationSelect
+            component={renderAceEditor}
             label="Description"
             mode="html"
             theme="github"

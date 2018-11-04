@@ -8,27 +8,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "GoogleMapsAddresses",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedByUserId = table.Column<Guid>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedByUserId = table.Column<Guid>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false),
-                    Street = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    State = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GoogleMapsAddresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SchoolingEvents",
                 columns: table => new
                 {
@@ -38,12 +17,37 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     UpdatedByUserId = table.Column<Guid>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Location = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SchoolingEvents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GoogleMapsAddresses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedByUserId = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Lat = table.Column<float>(nullable: false),
+                    Lng = table.Column<float>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    EventId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GoogleMapsAddresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GoogleMapsAddresses_SchoolingEvents_EventId",
+                        column: x => x.EventId,
+                        principalTable: "SchoolingEvents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,6 +223,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GoogleMapsAddresses_EventId",
+                table: "GoogleMapsAddresses",
+                column: "EventId",
+                unique: true,
+                filter: "[EventId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SchoolingEventDays_EventId",

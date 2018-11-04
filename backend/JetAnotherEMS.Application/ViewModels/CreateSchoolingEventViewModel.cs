@@ -8,10 +8,9 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public string Description { get; set; }
 
-        //public SchoolingEventAddressViewModel Location { get; set; }
-        public string Location { get; set; }
+        public SchoolingEventAddressViewModel Location { get; set; }
 
-        //TODO: add more members
+        //TODO: add gallery
         public ICollection<SchoolingEventDayViewModel> Calendar { get; set; }
 
         public ICollection<SchoolingEventTicketViewModel> Tickets { get; set; }

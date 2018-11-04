@@ -49,7 +49,6 @@ export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
     api.schoolingEvent.getFeaturedEvents,
     data
   );
-  console.log(response);
 }
 
 export function* debouncedFetchFeaturedEventsWithAppliedFilter(action) {
@@ -66,9 +65,6 @@ export function* fetchSchoolingEvent(action) {
     api.schoolingEvent.getEvent,
     { id }
   );
-
-  console.log(response);
-  console.log(error);
 
   return response;
 }

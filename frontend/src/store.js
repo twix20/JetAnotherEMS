@@ -36,7 +36,9 @@ const getMiddleware = () => {
       myRouterMiddleware,
       localStorageMiddleware,
       thunk,
-      createLogger()
+      createLogger({
+        diff: true
+      })
     );
   }
 };
@@ -44,7 +46,7 @@ const getMiddleware = () => {
 export const store = createStore(reducer, composeWithDevTools(getMiddleware()));
 // Load previous user token
 const jwtToken = localStorage.getItem('jwt');
-console.log(jwtToken);
+
 if (jwtToken) {
   store.dispatch(
     authActions.login.success({

@@ -17,7 +17,13 @@ const styles = theme => ({
 });
 
 class CreatorTabs extends React.Component {
-  state = {};
+  state = {
+    tabs: []
+  };
+
+  componentDidMount() {
+    this.setState({ tabs: this.getTabs() });
+  }
 
   getTabs = () => {
     const { events } = this.props;
@@ -45,8 +51,9 @@ class CreatorTabs extends React.Component {
 
   render() {
     const { onTabChange } = this.props;
+    const { tabs } = this.state;
 
-    return <GenericTabs onTabChange={onTabChange} tabs={this.getTabs()} />;
+    return <GenericTabs onTabChange={onTabChange} tabs={tabs} />;
   }
 }
 

@@ -83,7 +83,7 @@ const LocationMap = props => {
   );
 };
 
-class ScrollableTabsButtonForce extends React.Component {
+class ScrollableTabsButtonForce extends React.PureComponent {
   state = {
     value: 0
   };

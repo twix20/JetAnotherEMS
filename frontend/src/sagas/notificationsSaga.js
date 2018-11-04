@@ -11,8 +11,6 @@ import schoolingEventActions from '../actions/schoolingEventActions';
 import notificationActions from '../actions/notificationActions';
 
 function* saveSchoolingEventNotifications(action) {
-  console.log(action);
-
   if (
     action.type === schoolingEventActions.createOrUpdateSchoolingEvent.SUCCESS
   ) {

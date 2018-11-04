@@ -22,7 +22,6 @@ export function* fetchTicketForEvent(action) {
       eventId
     }
   );
-  console.log(response);
 }
 
 export function* buyTicketForEventSaga(action) {
@@ -39,8 +38,6 @@ export function* buyTicketForEventSaga(action) {
   if (response) {
     yield call(fetchTicketForEvent, { eventId });
   }
-
-  console.log(response);
 }
 
 export function* cancelEventTicketSaga(action) {
@@ -54,8 +51,6 @@ export function* cancelEventTicketSaga(action) {
       eventId
     }
   );
-
-  console.log(response);
 }
 
 export function* approveEventTicketsSaga(action) {
@@ -69,8 +64,6 @@ export function* approveEventTicketsSaga(action) {
       userTicketIds
     }
   );
-
-  console.log(response);
 }
 export function* rejectEventTicketsSaga(action) {
   const { eventId, userTicketIds } = action;
@@ -83,8 +76,6 @@ export function* rejectEventTicketsSaga(action) {
       userTicketIds
     }
   );
-
-  console.log(response);
 }
 
 export default function* root() {

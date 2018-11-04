@@ -12,7 +12,7 @@ const styles = theme => ({
   }
 });
 
-class EventPage extends React.Component {
+class EventPage extends React.PureComponent {
   render() {
     const { id } = this.props.match.params;
     const { classes } = this.props;

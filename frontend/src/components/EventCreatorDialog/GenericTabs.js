@@ -38,7 +38,7 @@ const TabContainer = withStyles(styles)(props => {
   );
 });
 
-class GenericTabs extends React.Component {
+class GenericTabs extends React.PureComponent {
   state = {
     activeTab: 0
   };
@@ -56,6 +56,8 @@ class GenericTabs extends React.Component {
     const { activeTab } = this.state;
 
     const tabToDisplay = tabs[activeTab];
+
+    if (!tabToDisplay) return null;
 
     return (
       <div className={classes.root}>

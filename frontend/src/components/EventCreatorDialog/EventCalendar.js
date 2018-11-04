@@ -89,62 +89,60 @@ class EventCalendar extends React.Component {
     const { classes, events } = this.props;
 
     return (
-      <div {...this.props}>
-        <div className={classes.root}>
-          <BigCalendar
-            toolbar={true}
-            //timeslots={5}
-            selectable
-            showMultiDayTimes={true}
-            events={events}
-            defaultView="week"
-            views={['day', 'week']}
-            scrollToTime={new Date(1970, 1, 1, 6)}
-            defaultDate={new Date()}
-            //onLeftMenu={e => console.log(e)}
-            onSelectEvent={event => {
+      <div className={classes.root} {...this.props}>
+        <BigCalendar
+          toolbar={true}
+          //timeslots={5}
+          selectable
+          showMultiDayTimes={true}
+          events={events}
+          defaultView="week"
+          views={['day', 'week']}
+          scrollToTime={new Date(1970, 1, 1, 6)}
+          defaultDate={new Date()}
+          //onLeftMenu={e => console.log(e)}
+          onSelectEvent={event => {
+            this.setState({
+              dayCreator: {
+                ...this.state.dayCreator,
+                slotInfo: event,
+                open: true
+              }
+            });
+          }}
+          onSelectSlot={
+            slotInfo =>
               this.setState({
                 dayCreator: {
                   ...this.state.dayCreator,
-                  slotInfo: event,
+                  slotInfo,
                   open: true
                 }
-              });
-            }}
-            onSelectSlot={
-              slotInfo =>
-                this.setState({
-                  dayCreator: {
-                    ...this.state.dayCreator,
-                    slotInfo,
-                    open: true
-                  }
-                })
+              })
 
-              // alert(
-              //   `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-              //     `\nend: ${slotInfo.end.toLocaleString()}` +
-              //     `\naction: ${slotInfo.action}`
-              // )
-            }
-          />
+            // alert(
+            //   `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+            //     `\nend: ${slotInfo.end.toLocaleString()}` +
+            //     `\naction: ${slotInfo.action}`
+            // )
+          }
+        />
 
-          {dayCreator.open &&
-            dayCreator.slotInfo && (
-              <EventDayCreatorDialog
-                open={dayCreator.open}
-                initialValues={{
-                  ...dayCreator.slotInfo,
-                  dateStart: moment(dayCreator.slotInfo.start),
-                  dateEnd: moment(dayCreator.slotInfo.end),
-                  bgColor: '#ff7f50'
-                }}
-                onDelete={this.handleDelete}
-                onCancel={this.handleCancel}
-                onSubmit={this.handleCreateNewDay}
-              />
-            )}
-        </div>
+        {dayCreator.open &&
+          dayCreator.slotInfo && (
+            <EventDayCreatorDialog
+              open={dayCreator.open}
+              initialValues={{
+                ...dayCreator.slotInfo,
+                dateStart: moment(dayCreator.slotInfo.start),
+                dateEnd: moment(dayCreator.slotInfo.end),
+                bgColor: '#ff7f50'
+              }}
+              onDelete={this.handleDelete}
+              onCancel={this.handleCancel}
+              onSubmit={this.handleCreateNewDay}
+            />
+          )}
       </div>
     );
   }

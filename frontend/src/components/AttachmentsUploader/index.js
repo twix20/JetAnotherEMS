@@ -36,9 +36,7 @@ class AttachmentsUploader extends React.Component {
     files: []
   };
 
-  handleInit() {
-    console.log('FilePond instance has initialised', this.pond);
-  }
+  handleInit() {}
 
   componentDidMount() {
     const { initialFiles } = this.props;
@@ -72,8 +70,6 @@ class AttachmentsUploader extends React.Component {
             //this.handleRemove(file);
           }}
           onupdatefiles={fileItems => {
-            //console.log(fileItems);
-
             const updatedItems = fileItems.map(fileItem => ({
               ...fileItem,
               lastModified: fileItem.file.lastModified,
@@ -94,9 +90,6 @@ class AttachmentsUploader extends React.Component {
           }}
         >
           {this.state.files.map((file, i) => {
-            console.log('I want to render');
-            console.log(file);
-
             return (
               <File
                 key={i}

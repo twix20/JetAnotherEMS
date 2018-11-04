@@ -55,7 +55,6 @@ class Dots extends React.Component {
         justify={steps.length > 6 ? '' : 'center'}
       >
         {Object.keys(steps).map((stepDate, i) => {
-          console.log(stepDate);
           const isActive = i === activeStep;
           const dotColor = isActive ? 'secondary' : 'textSecondary';
           // eslint-disable-next-line react/no-array-index-key

@@ -146,8 +146,6 @@ class EventCard extends React.PureComponent {
   render() {
     const { classes, event } = this.props;
 
-    console.log(event);
-
     return (
       <Paper>
         <Grid container direction="row">

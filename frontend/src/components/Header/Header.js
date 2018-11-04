@@ -51,8 +51,6 @@ class Header extends React.Component {
   componentDidMount() {
     const { user } = this.props;
 
-    console.log(user);
-
     this.setState({ auth: Boolean(user) });
   }
 

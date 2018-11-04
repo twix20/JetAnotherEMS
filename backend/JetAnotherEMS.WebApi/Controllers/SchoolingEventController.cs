@@ -89,6 +89,8 @@ namespace JetAnotherEMS.WebApi.Controllers
                 return Response(viewModel);
             }
 
+            viewModel.Id = Guid.NewGuid();
+
             await _schoolingEventService.Create(viewModel);
 
             return Response(viewModel);

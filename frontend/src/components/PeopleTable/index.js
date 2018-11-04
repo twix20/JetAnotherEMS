@@ -75,8 +75,6 @@ const ParticipantsToolbarSelect = ({
   onApproveClicked,
   onRejectClicked
 }) => {
-  console.log(selectedRows);
-
   return (
     <div>
       <Tooltip title={'Approve all'}>

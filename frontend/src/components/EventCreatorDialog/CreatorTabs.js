@@ -43,11 +43,6 @@ class CreatorTabs extends React.Component {
     ];
   };
 
-  handleCreateEvent = event => {
-    console.log('handleCreateEvent');
-    console.log(event);
-  };
-
   render() {
     const { onTabChange } = this.props;
 

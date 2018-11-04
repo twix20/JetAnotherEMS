@@ -51,10 +51,7 @@ const uploader = new FineUploaderTraditional({
     },
 
     callbacks: {
-      onValidate: function(a, b) {
-        console.log(a);
-        console.log(b);
-      },
+      onValidate: function(a, b) {},
       onError: function(id, name, errorReason, xhrOrXdr) {
         alert(`Error on file number ${id} - ${name}.  Reason: ${errorReason}`);
       }

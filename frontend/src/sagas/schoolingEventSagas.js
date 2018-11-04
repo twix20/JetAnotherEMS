@@ -127,14 +127,16 @@ export function* handleCreateOrUpdateSchoolingEvent(action) {
     ? api.schoolingEvent.create
     : api.schoolingEvent.update;
 
-  calendar
-    .filter(day => day.attachments)
-    .map(day => day.attachments)
-    .forEach(dayAttachments => {
-      dayAttachments.forEach(a => {
-        a.id = a.serverId;
+  if (calendar) {
+    calendar
+      .filter(day => day.attachments)
+      .map(day => day.attachments)
+      .forEach(dayAttachments => {
+        dayAttachments.forEach(a => {
+          a.id = a.serverId;
+        });
       });
-    });
+  }
 
   const { response, error } = yield sagaRequestWrapper(request, apiAction, {
     id,
@@ -158,7 +160,8 @@ export function* handleCreateOrUpdateSchoolingEvent(action) {
       schoolingEventActions.createOrUpdateSchoolingEvent.success(error)
     );
 
-    yield put(push('/'));
+    yield put(schoolingEventActions.openCreatorDialog(false));
+    yield put(push(`/event/${response.data.data.id}`));
   }
 }
 

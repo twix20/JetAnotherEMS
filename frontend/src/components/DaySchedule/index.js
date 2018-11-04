@@ -113,8 +113,6 @@ class DaySchedule extends React.Component {
 
     const secondary = true;
 
-    console.log(day);
-
     return (
       <Grid container className={classes.activityContainer}>
         <Grid item xs={3} lg={1} className={classes.timeline}>

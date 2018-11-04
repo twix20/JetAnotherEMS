@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
-import ActionTypes, {
-  GET_SCHOOLING_EVENT_REQUEST
-} from '../constants/actionTypes';
+import ActionTypes, { OPEN_CREATOR_DIALOG } from '../constants/actionTypes';
 
 import schoolingEventActions from '../actions/schoolingEventActions';
 
@@ -73,16 +71,30 @@ const participants = (state = participantsDefaultState, action) => {
   }
 };
 
+export const creatorDialog = (state = { isOpen: false }, action) => {
+  switch (action.type) {
+    case OPEN_CREATOR_DIALOG: {
+      return {
+        isOpen: action.isOpen
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 export const selectors = {
   featured: state => Object.values(state.schoolingEvent.featured.byId) || [],
   availableTickets: (state, eventId) =>
     state.schoolingEvent.availableTickets.byEventId[eventId] || [],
   participants: (state, eventId) =>
-    state.schoolingEvent.participants.byEventId[eventId] || []
+    state.schoolingEvent.participants.byEventId[eventId] || [],
+  isCreatorOpened: state => state.schoolingEvent.creatorDialog.isOpen
 };
 
 export default combineReducers({
   featured,
   availableTickets,
-  participants
+  participants,
+  creatorDialog
 });

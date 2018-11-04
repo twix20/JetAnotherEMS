@@ -46,15 +46,12 @@ class EventTicketsOpenerButton extends React.Component {
       handleTicketCancel
     } = this.props;
 
-    console.log(selectedTicket);
-    console.log(usersTicket);
-
     return (
       <div>
         {usersTicket === null ? (
           <Button
             variant="extendedFab"
-            ariaLabel="Delete"
+            aria-label="Delete"
             onClick={this.handleClickOpen}
           >
             <NavigationIcon />

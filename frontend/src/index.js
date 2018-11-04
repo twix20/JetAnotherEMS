@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import React from 'react';
-import { Route, Switch, HashRouter } from 'react-router-dom';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import 'regenerator-runtime/runtime';
 
@@ -11,9 +11,9 @@ import App from './App';
 //ConnectedRouter doesnt work with gh-pages
 ReactDOM.render(
   <Provider store={store}>
-    <HashRouter history={history}>
+    <BrowserRouter history={history}>
       <App />
-    </HashRouter>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

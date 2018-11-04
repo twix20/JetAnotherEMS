@@ -7,7 +7,10 @@ import EventCreatorDialog from '../EventCreatorDialog';
 import FabButton from '../common/FabButton';
 import { createRandomGuid } from '../../services/randomService';
 import schoolingEventActions from '../../actions/schoolingEventActions';
-import { createLoadingSelector } from '../../reducers/selectors';
+import {
+  createLoadingSelector,
+  schoolingEventSelectors
+} from '../../reducers/selectors';
 
 import moment from 'moment';
 
@@ -15,7 +18,6 @@ const styles = theme => {};
 
 class EventCreatorOpenerButton extends React.Component {
   state = {
-    eventCreatorOpen: false,
     initialValues: {
       calendar: [
         {
@@ -35,25 +37,23 @@ class EventCreatorOpenerButton extends React.Component {
   };
 
   handleFabClick = () => {
-    const { eventId, loadInitialValues } = this.props;
+    const { eventId, loadInitialValues, openDialog } = this.props;
+
+    openDialog(true);
 
     if (eventId) {
       loadInitialValues(eventId);
     }
-
-    this.setState({
-      eventCreatorOpen: true
-    });
   };
   handleEventCreatorClose = () => {
-    this.setState({
-      eventCreatorOpen: false
-    });
+    const { openDialog } = this.props;
+
+    openDialog(false);
   };
 
   render() {
-    const { eventCreatorOpen, initialValues } = this.state;
-    const { mode, isLoadingForm } = this.props;
+    const { initialValues } = this.state;
+    const { mode, isLoadingForm, eventCreatorOpen } = this.props;
 
     return (
       <div>
@@ -77,7 +77,8 @@ EventCreatorOpenerButton.propTypes = {
 const mapStateToProps = state => ({
   isLoadingForm: createLoadingSelector([
     schoolingEventActions.loadEventCreatorInitialValues.type
-  ])(state)
+  ])(state),
+  eventCreatorOpen: schoolingEventSelectors.isCreatorOpened(state)
 });
 const mapDispatchToProps = dispatch => ({
   loadInitialValues: eventId =>
@@ -85,7 +86,9 @@ const mapDispatchToProps = dispatch => ({
       schoolingEventActions.loadEventCreatorInitialValues.start({
         eventId
       })
-    )
+    ),
+  openDialog: isOpen =>
+    dispatch(schoolingEventActions.openCreatorDialog(isOpen))
 });
 
 export default withStyles(styles)(

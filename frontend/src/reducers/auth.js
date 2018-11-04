@@ -17,7 +17,6 @@ export default (state = {}, action) => {
       const { accessToken } = action.payload;
 
       const decoded = jwtDecode(accessToken);
-      console.log(decoded);
 
       return {
         token: accessToken,

@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index_bundle.js",
-    publicPath: "/JetAnotherEMS/"
+    publicPath: "/"
   },
   devtool: "eval-source-map",
   module: {

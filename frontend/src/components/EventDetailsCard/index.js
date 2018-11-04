@@ -148,8 +148,6 @@ class EventDetailsCard extends React.Component {
     fetchEvent(eventId);
     fetchUsersTicket(eventId);
     fetchAvailableTickets(eventId);
-
-    console.log(eventId);
   }
 
   handleHeaderMenuClick = event => {

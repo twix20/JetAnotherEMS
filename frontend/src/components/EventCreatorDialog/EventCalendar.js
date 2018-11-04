@@ -46,9 +46,6 @@ class EventCalendar extends React.Component {
   };
 
   handleDelete = dayId => {
-    console.log('Id like to delete');
-    console.log(dayId);
-
     let allEvents = this.props.fields.getAll();
     const events = allEvents.filter(x => x.id !== dayId);
     this.props.fields.removeAll();
@@ -58,9 +55,6 @@ class EventCalendar extends React.Component {
   };
 
   handleCreateNewDay = values => {
-    console.log('handleCreateNewDay');
-    console.log(values);
-
     values.attachments = values.attachments || [];
     const newEvent = {
       ...values,
@@ -82,9 +76,6 @@ class EventCalendar extends React.Component {
     let allEvents = this.props.fields.getAll() || [];
     let events = allEvents.filter(x => x.id !== dayId);
     events.push(newEvent);
-
-    console.log(events);
-    console.log(this.props);
 
     this.props.dispatch(
       changleFieldValue(this.props.meta.form, 'calendar', events)
@@ -110,7 +101,7 @@ class EventCalendar extends React.Component {
             views={['day', 'week']}
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date()}
-            onLeftMenu={e => console.log(e)}
+            //onLeftMenu={e => console.log(e)}
             onSelectEvent={event => {
               this.setState({
                 dayCreator: {

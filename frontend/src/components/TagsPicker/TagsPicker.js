@@ -5,11 +5,8 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
-
 import MenuItem from '@material-ui/core/MenuItem';
-
 import Typography from '@material-ui/core/Typography';
-
 import CancelIcon from '@material-ui/icons/Cancel';
 import Chip from '@material-ui/core/Chip';
 
@@ -19,45 +16,7 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Paper from '@material-ui/core/Paper';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' }
-].map(suggestion => ({
-  value: suggestion.label,
-  label: suggestion.label
-}));
+import api from '../../services/api';
 
 const styles = theme => ({
   root: {
@@ -98,7 +57,7 @@ const styles = theme => ({
   },
   paper: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 3,
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0
@@ -228,15 +187,16 @@ const components = {
 
 class TagsPicker extends React.Component {
   state = {
-    single: null,
-    multi: null
+    value: null,
+    suggestions: [],
+    isLoading: false
   };
 
   componentDidMount() {
-    if (this.props.input) this.setState({ multi: this.props.input.value });
+    if (this.props.value) this.setState({ value: this.props.value });
   }
 
-  handleChange = name => value => {
+  handleChange = value => {
     const { onChange } = this.props;
 
     if (onChange) {
@@ -244,9 +204,28 @@ class TagsPicker extends React.Component {
     }
 
     this.setState({
-      [name]: value
+      value
     });
   };
+
+  handleInputChange = value => {
+    this.setState({ isLoading: true }, () => {
+      this.fetchSuggestions(value).then(r => {
+        const newSuggestions = r.data.data.map(e => ({
+          value: e.value,
+          label: e.value,
+          description: e.description
+        }));
+
+        this.setState({
+          suggestions: newSuggestions,
+          isLoading: false
+        });
+      });
+    });
+  };
+
+  fetchSuggestions = query => api.tags.search({ query });
 
   render() {
     const { classes, theme, canCreate, name } = this.props;
@@ -262,10 +241,9 @@ class TagsPicker extends React.Component {
     };
 
     let label = '';
-    let placeholder = 'Select multiple tags';
     let shrink = false;
 
-    if (this.state.multi && this.state.multi.length > 0) {
+    if (this.state.value && this.state.value.length > 0) {
       shrink = true;
       label = 'Tags';
     }
@@ -284,12 +262,16 @@ class TagsPicker extends React.Component {
                 shrink: shrink
               }
             }}
-            options={suggestions}
+            options={this.state.suggestions}
             components={components}
-            value={this.state.multi}
-            onChange={this.handleChange('multi')}
-            placeholder={placeholder}
+            value={this.state.value}
+            onChange={this.handleChange}
+            filterOption={(option, rawinput) => true}
+            onInputChange={this.handleInputChange}
+            placeholder={'Select multiple tags'}
             isMulti
+            isLoading={this.state.isLoading}
+            noOptionsMessage={inputValue => 'Start typing...'}
           />
         </NoSsr>
       </div>

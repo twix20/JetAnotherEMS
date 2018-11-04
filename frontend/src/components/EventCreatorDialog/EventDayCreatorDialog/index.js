@@ -28,7 +28,8 @@ import { change as changleFieldValue } from 'redux-form';
 import {
   renderTextField,
   renderTimePicker,
-  renderFileUploader
+  renderFileUploader,
+  renderTagsPicker
 } from '../../forms';
 import { Form, Field } from 'react-final-form';
 
@@ -174,7 +175,7 @@ class EventDayCreatorDialog extends React.Component {
         name: 'tagsPicker',
         label: 'Tags',
         children: () => {
-          return <TagsPicker name="tagsPicker" canCreate />;
+          return <Field name="tags" canCreate component={renderTagsPicker} />;
         }
       },
       {

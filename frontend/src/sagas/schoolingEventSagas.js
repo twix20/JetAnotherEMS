@@ -21,6 +21,7 @@ import { schoolingEventFilterSelectors } from '../reducers/selectors';
 import ticketActions from '../actions/ticketActions';
 import { change as changeFieldValue, initialize } from 'redux-form';
 import moment from 'moment';
+import { push } from 'react-router-redux';
 
 export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   const filter = yield select(schoolingEventFilterSelectors.filter);
@@ -156,6 +157,8 @@ export function* handleCreateOrUpdateSchoolingEvent(action) {
     yield put(
       schoolingEventActions.createOrUpdateSchoolingEvent.success(error)
     );
+
+    yield put(push('/'));
   }
 }
 

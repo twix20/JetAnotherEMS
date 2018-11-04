@@ -23,6 +23,8 @@ import MUIPlacesAutocomplete, {
 } from 'mui-places-autocomplete';
 import { classNames } from 'classnames';
 
+import TagsPicker from '../TagsPicker/TagsPicker';
+
 import { FilePond, File, registerPlugin } from 'react-filepond';
 import AceEditor from 'react-ace';
 
@@ -151,6 +153,22 @@ export const renderSelectField = ({
     {...custom}
   />
 );
+
+export const renderTagsPicker = ({
+  input,
+  label,
+  meta: { touched, error },
+  children,
+  ...custom
+}) => {
+  return (
+    <TagsPicker
+      onChange={value => input.onChange(value)}
+      value={input.value}
+      {...custom}
+    />
+  );
+};
 
 export const renderAceEditor = ({ input, ...custom }) => {
   return (

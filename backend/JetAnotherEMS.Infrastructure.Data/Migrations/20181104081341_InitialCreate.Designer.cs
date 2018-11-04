@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JetAnotherEmsContext))]
-    [Migration("20181103120942_InitialCreate")]
+    [Migration("20181104081341_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,6 +123,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<Guid?>("EventId");
+
                     b.Property<Guid?>("SchoolingEventDayId");
 
                     b.Property<DateTime>("UpdatedAt");
@@ -132,6 +134,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<string>("Value");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.HasIndex("SchoolingEventDayId");
 
@@ -293,6 +297,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDayTag", b =>
                 {
+                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId");
+
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventDay")
                         .WithMany("Tags")
                         .HasForeignKey("SchoolingEventDayId");

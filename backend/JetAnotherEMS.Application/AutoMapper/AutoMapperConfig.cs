@@ -72,6 +72,7 @@ namespace JetAnotherEMS.Application.AutoMapper
 
                 cfg.CreateMap<ApproveEventTicketsViewModel, ApproveEventTicketCommand>(MemberList.Source);
 
+                cfg.CreateMap<SchoolingEventDayTagViewModel, SchoolingEventDayTag>(MemberList.Source);
                 cfg.CreateMap<SchoolingEventDayAttachmentViewModel, SchoolingEventDayAttachment>();
                 cfg.CreateMap<SchoolingEventTicketViewModel, SchoolingEventTicket>(MemberList.Source);
                 cfg.CreateMap<SchoolingEventTicket, SchoolingEventTicketViewModel>()

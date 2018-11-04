@@ -134,11 +134,18 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
+                    EventId = table.Column<Guid>(nullable: true),
                     SchoolingEventDayId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SchoolingEventDayTags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SchoolingEventDayTags_SchoolingEvents_EventId",
+                        column: x => x.EventId,
+                        principalTable: "SchoolingEvents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SchoolingEventDayTags_SchoolingEventDays_SchoolingEventDayId",
                         column: x => x.SchoolingEventDayId,
@@ -216,6 +223,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SchoolingEventDays_EventId",
                 table: "SchoolingEventDays",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SchoolingEventDayTags_EventId",
+                table: "SchoolingEventDayTags",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(

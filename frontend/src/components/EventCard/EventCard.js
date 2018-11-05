@@ -175,15 +175,21 @@ class EventCard extends React.PureComponent {
               xs={6}
             >
               <Grid item className={classes.infoDetail}>
-                <Typography
-                  className={classes.infoNumber}
-                  variant="display1"
-                  color="primary"
+                <Tooltip
+                  position="bottom"
+                  title={event.teacherNames.join(', ')}
                 >
-                  {event.teacherNames.length}
-                </Typography>
-
-                <SchoolIcon />
+                  <div>
+                    <Typography
+                      className={classes.infoNumber}
+                      variant="display1"
+                      color="primary"
+                    >
+                      {event.teacherNames.length}
+                    </Typography>
+                    <SchoolIcon />
+                  </div>
+                </Tooltip>
               </Grid>
               <Grid item>
                 <Typography>Teachers</Typography>

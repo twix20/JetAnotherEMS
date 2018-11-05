@@ -14,6 +14,9 @@ import 'rc-slider/assets/index.css';
 import HeartCheckobx from '../common/HeartCheckbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import IndeterminateCheckbox from '../IndeterminateCheckbox';
+
+import TagsPicker from '../TagsPicker/TagsPicker';
 
 import schoolingEventFilterActions from '../../actions/schoolingEventFilterActions';
 import { connect } from 'react-redux';
@@ -44,22 +47,23 @@ const styles = theme => ({
 });
 
 class EventFilter extends React.Component {
-  state = {
-    date: {
-      start: null,
-      end: null
-    }
-  };
-
   handlePriceChange = range => {
-    this.props.updateFilter('price', { from: range[0], to: range[1] });
+    this.handleFilterChange('priceFrom', range[0]);
+    this.handleFilterChange('priceTo', range[1]);
   };
 
-  handleDateChange = (newDate, name) => {
-    let currentDate = this.props.filter.date;
-    currentDate[name] = newDate;
+  handleDateChange = (name, newDate) => {
+    this.props.updateFilter(name, newDate);
+  };
 
-    this.props.updateFilter('date', currentDate);
+  handleChange = event => {
+    const { name, value } = event.target;
+
+    this.handleFilterChange(name, value);
+  };
+
+  handleFilterChange = (name, value) => {
+    this.props.updateFilter(name, value);
   };
 
   render() {
@@ -74,8 +78,13 @@ class EventFilter extends React.Component {
               gutterBottom
               className={classes.sectionTitle}
             >
-              Location
+              Tags
             </Typography>
+
+            <TagsPicker
+              value={filter.tags}
+              onChange={v => this.handleFilterChange('tags', v)}
+            />
           </Grid>
           <Grid item className={classes.section}>
             <Typography
@@ -90,9 +99,10 @@ class EventFilter extends React.Component {
               className={classes.datePicker}
               autoOk
               label="From"
+              name={'dateStart'}
+              value={filter.dateStart}
               clearable
-              value={filter.date.start}
-              onChange={date => this.handleDateChange(date, 'start')}
+              onChange={date => this.handleDateChange('dateStart', date)}
               animateYearScrolling={false}
             />
 
@@ -100,9 +110,10 @@ class EventFilter extends React.Component {
               className={classes.datePicker}
               autoOk
               label="To"
+              name={'dateEnd'}
+              value={filter.dateEnd}
               clearable
-              value={filter.date.to}
-              onChange={date => this.handleDateChange(date, 'end')}
+              onChange={date => this.handleDateChange('dateEnd', date)}
               animateYearScrolling={false}
             />
           </Grid>
@@ -118,7 +129,7 @@ class EventFilter extends React.Component {
             <Grid container direction="column" justify="center">
               <Grid item>
                 <Typography variant="headline" align="center">
-                  ${filter.price.from} - ${filter.price.to}
+                  ${filter.priceFrom} - ${filter.priceTo}
                 </Typography>
               </Grid>
 
@@ -144,32 +155,37 @@ class EventFilter extends React.Component {
 
             <Grid item>
               <FormControlLabel
-                control={<HeartCheckobx id="filterFavorite" />}
                 label="Favorites"
-                onChange={(event, checked) =>
-                  this.props.updateFilter('toggleable', {
-                    toggleableName: 'onlyFavorites',
-                    value: checked
-                  })
+                control={
+                  <IndeterminateCheckbox
+                    name="onlyFavorites"
+                    onChange={this.handleFilterChange}
+                  />
                 }
               />
             </Grid>
 
             <Grid item>
               <FormControlLabel
+                label="Private"
                 control={
-                  <Checkbox
-                    onChange={(event, checked) =>
-                      this.props.updateFilter('toggleable', {
-                        toggleableName: 'onlyOngoing',
-                        value: checked
-                      })
-                    }
-                    value="checkedB"
-                    color="primary"
+                  <IndeterminateCheckbox
+                    name="onlyPrivate"
+                    onChange={this.handleFilterChange}
                   />
                 }
-                label="Ongoing"
+              />
+            </Grid>
+
+            <Grid item>
+              <FormControlLabel
+                label="Created by me"
+                control={
+                  <IndeterminateCheckbox
+                    name="onlyMy"
+                    onChange={this.handleFilterChange}
+                  />
+                }
               />
             </Grid>
           </Grid>

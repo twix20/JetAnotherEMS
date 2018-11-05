@@ -35,13 +35,9 @@ const styles = theme => ({
   exp: {
     height: `calc(100% - ${theme.spacing.unit * 3}px)`
   },
-  quillContainer: {
-    height: '100%',
-    '& .ql-editor': {
-      width: '100%',
-      overflowY: 'scroll',
-      maxHeight: '600px',
-      minHeight: '200px'
+  locationContainer: {
+    '& input::placeholder': {
+      opacity: 1
     }
   }
 });
@@ -88,6 +84,15 @@ class EventDetailsTab extends React.Component {
 
     return (
       <Grid container direction="column" className={classes.root}>
+        <IconInputTemplate Icon={PublicIcon}>
+          <Field
+            //className={classes.field}
+            name="isPublic"
+            component={renderCheckBox}
+            label="Is Public"
+          />
+        </IconInputTemplate>
+
         <IconInputTemplate Icon={TitleIcon}>
           <Field
             className={classes.field}
@@ -98,31 +103,25 @@ class EventDetailsTab extends React.Component {
           />
         </IconInputTemplate>
 
-        <IconInputTemplate Icon={PublicIcon}>
-          <Field
-            //className={classes.field}
-            name="isPublic"
-            component={renderCheckBox}
-            label="Is Public"
-          />
-        </IconInputTemplate>
-
         <IconInputTemplate Icon={LocationOnIcon}>
-          <Field
-            fullWidth
-            name="location"
-            autoFocus={false}
-            placeholder="Search for a place"
-            component={renderMUIPlacesAutocomplete}
-            //component={renderTextField}
-            validate={[required()]}
-            createAutocompleteRequest={inputValue => {
-              return {
-                input: inputValue,
-                types: ['address']
-              };
-            }}
-          />
+          <div className={classes.locationContainer}>
+            <Field
+              name="location"
+              label="Location"
+              autoFocus={false}
+              component={renderMUIPlacesAutocomplete}
+              textFieldProps={{
+                fullWidth: true
+              }}
+              validate={[required()]}
+              createAutocompleteRequest={inputValue => {
+                return {
+                  input: inputValue,
+                  types: ['address']
+                };
+              }}
+            />
+          </div>
         </IconInputTemplate>
 
         <IconInputTemplate Icon={SubjectIcon}>

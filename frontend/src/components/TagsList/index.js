@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
   tagsContainer: {
@@ -16,19 +17,21 @@ const styles = theme => ({
   }
 });
 
-function TagsList(props) {
+const TagsList = props => {
   const { classes, tags } = props;
 
   return (
     <List className={classes.tagsContainer}>
       {tags.map(r => (
         <ListItem key={r.id} className={classes.tag}>
-          <Chip label={r.value} />
+          <Tooltip position="bottom" title={r.description}>
+            <Chip label={r.value} />
+          </Tooltip>
         </ListItem>
       ))}
     </List>
   );
-}
+};
 
 TagsList.defaultProps = {
   tags: []

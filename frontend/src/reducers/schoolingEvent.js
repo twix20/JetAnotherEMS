@@ -71,7 +71,7 @@ const participants = (state = participantsDefaultState, action) => {
   }
 };
 
-export const byId = (state = {}, action) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
     case schoolingEventActions.getEventRequest.SUCCESS: {
       const { id } = action;
@@ -86,7 +86,7 @@ export const byId = (state = {}, action) => {
   }
 };
 
-export const creatorDialog = (state = { isOpen: false }, action) => {
+const creatorDialog = (state = { isOpen: false }, action) => {
   switch (action.type) {
     case OPEN_CREATOR_DIALOG: {
       return {

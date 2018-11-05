@@ -23,15 +23,18 @@ namespace JetAnotherEMS.Application.Services
     //TODO: add DomainNotifications when something goes wrong
     public class SchoolingEventService : ISchoolingEventService
     {
+        private readonly IUser _user;
         private readonly IMediatorHandler _bus;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ISchoolingEventRepository _schoolingEventRepository;
 
         public SchoolingEventService(
+            IUser user,
             ISchoolingEventRepository schoolingEventRepository, 
             IMediatorHandler bus,
             UserManager<ApplicationUser> userManager)
         {
+            _user = user;
             this._schoolingEventRepository = schoolingEventRepository;
             _bus = bus;
             _userManager = userManager;
@@ -129,13 +132,13 @@ namespace JetAnotherEMS.Application.Services
             SchoolingEventFilterViewModel filter)
         {
             // Date
-            if (filter.DateFrom.HasValue)
+            if (filter.DateStart.HasValue)
             {
-                query = query.Where(e => e.Schedule.Any() && e.Schedule.Min(d => d.Start) <= filter.DateFrom.Value);
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Min(d => d.Start) <= filter.DateStart.Value);
             }
-            if (filter.DateTo.HasValue)
+            if (filter.DateEnd.HasValue)
             {
-                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.End) <= filter.DateTo.Value);
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.End) <= filter.DateEnd.Value);
             }
 
             // Price
@@ -148,14 +151,31 @@ namespace JetAnotherEMS.Application.Services
                 query = query.Where(e => e.AvailableTickets.Any(t => t.Price <= filter.PriceTo));
             }
 
-            // Only ongoing
-            if (filter.OnlyOngoing.HasValue)
+            // Only favorites for current user
+            if (filter.OnlyFavorites.HasValue)
             {
-                var now = DateTime.UtcNow;
-                query = query.Where(e => e.Schedule.Any() && e.Schedule.Max(d => d.End) >= now && e.Schedule.Min(d => d.Start) <= now);
+                query = query.Where(e => e.Followers.Any(f => f.UserId == _user.Id));
             }
 
-            //TODO: add only favorites
+            // Only private for current user
+            if (filter.OnlyPrivate.HasValue)
+            {
+                query = query.Where(e => !e.IsPublic && e.CreatedByUserId == _user.Id);
+            }
+
+            //Only created by current user
+            if (filter.OnlyMy.HasValue)
+            {
+                query = query.Where(e => e.CreatedByUserId == _user.Id);
+            }
+
+            //Tags by its value
+            if (filter.Tags != null && filter.Tags.Any())
+            {
+                query = query.Where(e =>
+                    e.Schedule.SelectMany(d => d.Tags).Any(t => filter.Tags.Any(x => x.Value == t.Value)));
+            }
+
             return query;
         }
     }

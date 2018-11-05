@@ -30,12 +30,13 @@ export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   const data = {
     page: 0,
     pageSize: 20,
-    DateFrom: filter.date.start ? filter.date.start.format() : null,
-    DateTo: filter.date.to ? filter.date.to.format() : null,
-    PriceFrom: filter.price.start,
-    PriceTo: filter.price.to,
-    OnlyFavorites: filter.toggleable.onlyFavorites,
-    OnlyOngoing: filter.toggleable.onlyOngoing
+    DateFrom: filter.dateStart ? filter.dateStart.format() : null,
+    DateTo: filter.dateEnd ? filter.dateEnd.format() : null,
+    PriceFrom: filter.priceFrom,
+    PriceTo: filter.priceTo,
+    OnlyFavorites: filter.onlyFavorites,
+    OnlyPrivate: filter.onlyPrivate,
+    OnlyMy: filter.onlyMy
   };
 
   yield put(

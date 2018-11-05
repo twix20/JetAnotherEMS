@@ -46,9 +46,7 @@ class RegisterForm extends React.Component {
           fullWidth
           component={renderTextField}
           validate={[required()]}
-          inputProps={{
-            type: 'password'
-          }}
+          type="password"
         />
 
         <Field
@@ -57,9 +55,7 @@ class RegisterForm extends React.Component {
           fullWidth
           component={renderTextField}
           validate={[required()]}
-          inputProps={{
-            type: 'password'
-          }}
+          type="password"
         />
 
         <Field

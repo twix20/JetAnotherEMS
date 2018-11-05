@@ -210,18 +210,23 @@ class TagsPicker extends React.Component {
 
   handleInputChange = value => {
     this.setState({ isLoading: true }, () => {
-      this.fetchSuggestions(value).then(r => {
-        const newSuggestions = r.data.data.map(e => ({
-          value: e.value,
-          label: e.value,
-          description: e.description
-        }));
+      this.fetchSuggestions(value)
+        .then(r => {
+          const newSuggestions = r.data.data.map(e => ({
+            value: e.value,
+            label: e.value,
+            description: e.description
+          }));
 
-        this.setState({
-          suggestions: newSuggestions,
-          isLoading: false
+          this.setState({
+            suggestions: newSuggestions,
+            isLoading: false
+          });
+        })
+        .catch(error => {
+          console.log('Couldnt fetch suggestions!');
+          console.log(error);
         });
-      });
     });
   };
 

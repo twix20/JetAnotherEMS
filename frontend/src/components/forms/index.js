@@ -58,7 +58,7 @@ export const renderCheckBox = ({
       <Checkbox
         {...rest}
         name={name}
-        InputProps={restInput}
+        inputProps={restInput}
         onChange={onChange}
         checked={!!value}
         value="checkedF"
@@ -108,9 +108,24 @@ export const renderFileUploader = ({
   );
 };
 
-export const renderMUIPlacesAutocomplete = ({ input, ...other }) => {
+export const renderMUIPlacesAutocomplete = ({
+  input: { value, onChange, ...restInput },
+  textFieldProps,
+  label,
+  ...other
+}) => {
   return (
     <MUIPlacesAutocomplete
+      textFieldProps={{
+        placeholder: value.description
+          ? value.description
+          : 'Search for a place',
+        label: label,
+        InputLabelProps: {
+          shrink: !!value.description
+        },
+        ...textFieldProps
+      }}
       onSuggestionSelected={suggestion => {
         geocodeBySuggestion(suggestion).then(results => {
           if (results.length < 1) {
@@ -123,10 +138,11 @@ export const renderMUIPlacesAutocomplete = ({ input, ...other }) => {
           suggestion.lat = geometry.location.lat();
           suggestion.lng = geometry.location.lng();
 
-          input.onChange(suggestion);
+          onChange(suggestion);
         });
       }}
       renderTarget={() => <div />}
+      label={label}
       {...other}
     />
   );

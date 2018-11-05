@@ -40,6 +40,8 @@ namespace JetAnotherEMS.WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("[action]")]
+        //TODO: sort by
+        //TODO: pagination
         public async Task<IActionResult> Featured(SchoolingEventFilterViewModel filter, int page = 0, int pageSize = 10)
         {
             var entities = await _schoolingEventService.GetFeaturedEvents(filter, page, pageSize);

@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace JetAnotherEMS.Application.ViewModels
 {
     public class SchoolingEventFilterViewModel
     {
-        public DateTime? DateFrom { get; set; }
-        public DateTime? DateTo { get; set; }
+        public DateTime? DateStart { get; set; }
+        public DateTime? DateEnd { get; set; }
 
         public decimal? PriceFrom { get; set; }
         public decimal? PriceTo { get; set; }
 
         public bool? OnlyFavorites { get; set; }
 
-        public bool? OnlyOngoing { get; set; }
+        public bool? OnlyPrivate { get; set; }
+
+        public bool? OnlyMy { get; set; }
+
+        public IEnumerable<SchoolingEventDayTagViewModel> Tags { get; set; }
     }
 }

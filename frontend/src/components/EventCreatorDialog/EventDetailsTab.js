@@ -8,7 +8,7 @@ import { Field } from 'redux-form';
 import {
   renderTextField,
   renderMUIPlacesAutocomplete,
-  renderAceEditor
+  renderCheckBox
 } from '../forms';
 import { required, email } from 'redux-form-validators';
 
@@ -16,6 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import TitleIcon from '@material-ui/icons/Title';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SubjectIcon from '@material-ui/icons/Subject';
+import PublicIcon from '@material-ui/icons/Public';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -97,22 +98,23 @@ class EventDetailsTab extends React.Component {
           />
         </IconInputTemplate>
 
-        <IconInputTemplate Icon={LocationOnIcon}>
-          {/* <Field
-            className={classes.field}
-            name="location"
-            component={renderTextField} //TODO: M ake renderGooleLocationSelect
-            label="Location"
-            validate={[required()]}
-          /> */}
+        <IconInputTemplate Icon={PublicIcon}>
+          <Field
+            //className={classes.field}
+            name="isPublic"
+            component={renderCheckBox}
+            label="Is Public"
+          />
+        </IconInputTemplate>
 
+        <IconInputTemplate Icon={LocationOnIcon}>
           <Field
             fullWidth
             name="location"
             autoFocus={false}
             placeholder="Search for a place"
-            //component={renderMUIPlacesAutocomplete}
-            component={renderTextField}
+            component={renderMUIPlacesAutocomplete}
+            //component={renderTextField}
             validate={[required()]}
             createAutocompleteRequest={inputValue => {
               return {
@@ -123,27 +125,15 @@ class EventDetailsTab extends React.Component {
           />
         </IconInputTemplate>
 
-        <IconInputTemplate
-          Icon={SubjectIcon}
-          className={classes.exp}
-          alignItems="baseline"
-        >
+        <IconInputTemplate Icon={SubjectIcon}>
           <Field
-            className={classes.quillContainer}
+            className={classes.field}
             name="description"
-            component={renderAceEditor}
+            component={renderTextField}
             label="Description"
-            mode="html"
-            theme="github"
+            multiline
+            fullWidth
           />
-
-          {/* <ReactQuill
-            theme="snow"
-            placeholder={"Description"}
-            className={classes.quillContainer}
-            value={this.state.text}
-            onChange={this.handleChange}
-          /> */}
         </IconInputTemplate>
       </Grid>
     );

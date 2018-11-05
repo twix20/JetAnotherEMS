@@ -45,21 +45,30 @@ export const renderTextField = ({
 );
 
 export const renderCheckBox = ({
-  input: { checked, name, onChange, ...restInput },
+  input: { value, name, onChange, ...restInput },
   meta,
+  label,
+  labelProps,
   ...rest
 }) => (
-  <Checkbox
-    {...rest}
-    name={name}
-    InputProps={restInput}
-    onChange={onChange}
-    checked={!!checked}
+  <FormControlLabel
+    {...labelProps}
+    label={label}
+    control={
+      <Checkbox
+        {...rest}
+        name={name}
+        InputProps={restInput}
+        onChange={onChange}
+        checked={!!value}
+        value="checkedF"
+      />
+    }
   />
 );
 
 export const renderTimePicker = ({
-  input: { checked, name, onChange, value, ...restInput },
+  input: { name, onChange, value, ...restInput },
   meta,
   label,
   ...rest

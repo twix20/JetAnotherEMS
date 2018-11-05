@@ -12,9 +12,11 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 
         public string Description { get; set; }
 
-        //public GoogleMapsAddress Location { get; set; }
+        public bool IsPublic { get; set; }
 
-        public string Location { get; set; }
+        public GoogleMapsAddress Location { get; set; }
+
+        //public string Location { get; set; }
 
         public ICollection<SchoolingEventDay> Calendar { get; set; }
 
@@ -25,12 +27,14 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
         public SchoolingEventCommand(
             string title,
             string description,
-            string location,
+            bool isPublic,
+            GoogleMapsAddress location,
             ICollection<SchoolingEventDay> calendar,
             ICollection<SchoolingEventTicket> tickets)
         {
             Title = title;
             Description = description;
+            IsPublic = isPublic;
             Location = location;
             Calendar = calendar;
             Tickets = tickets;

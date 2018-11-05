@@ -6,14 +6,21 @@ using JetAnotherEMS.Domain.Models;
 
 namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 {
-    public class UpdateSchoolingEventCommand : Command
+    public class UpdateSchoolingEventCommand : SchoolingEventCommand
     {
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        public GoogleMapsAddress Location { get; set; }
-
-        //TODO: add more members
+        /// <summary>
+        /// Id of the event
+        /// </summary>
+        public Guid Id { get; set; }
+        public UpdateSchoolingEventCommand(
+            Guid id,
+            string title, 
+            string description, 
+            bool isPublic, 
+            GoogleMapsAddress location, 
+            ICollection<SchoolingEventDay> calendar, 
+            ICollection<SchoolingEventTicket> tickets) : base(title, description, isPublic, location, calendar, tickets)
+        {
+        }
     }
 }

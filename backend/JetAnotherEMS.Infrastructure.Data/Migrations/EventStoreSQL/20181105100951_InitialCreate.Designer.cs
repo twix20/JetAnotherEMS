@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 {
     [DbContext(typeof(EventStoreSQLContext))]
-    [Migration("20181104183533_InitialCreate")]
+    [Migration("20181105100951_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

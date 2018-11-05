@@ -3,11 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using JetAnotherEMS.Domain.Core.Models;
+using JetAnotherEMS.Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace JetAnotherEMS.Infrastructure.Data.Context
 {
     public class JetAnotherEmsContext : DbContext
     {
+        private readonly IUser _user;
+
         public DbSet<SchoolingEvent> SchoolingEvents { get; set; }
         public DbSet<SchoolingEventAddress> SchoolingEventAddresses { get; set; }
         public DbSet<SchoolingEventDay> SchoolingEventDays { get; set; }
@@ -19,11 +27,34 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         public DbSet<GoogleMapsAddress> GoogleMapsAddresses { get; set; }
         public DbSet<UploadedFile> UploadedFiles { get; set; }
 
+        public JetAnotherEmsContext()
+            : base()
+        {
+        }
+
+        public JetAnotherEmsContext(IUser user)
+            
+        {
+            _user = user;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new CustomerMap());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override int SaveChanges()
+        {
+            AddTimestamps();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AddTimestamps();
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -40,5 +71,33 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                 .UseSqlServer(config.GetConnectionString("DefaultConnection"));
         }
 
+        private void AddTimestamps()
+        {
+            var entities = ChangeTracker.Entries().Where(x =>
+                x.Entity is Entity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+
+            var currentUserId = Guid.Empty;
+            try
+            {
+                currentUserId = _user.Id;
+            }
+            catch (NullReferenceException)
+            {
+            }
+
+            foreach (var entity in entities)
+            {
+                var entityBase = (Entity) entity.Entity;
+
+                if (entity.State == EntityState.Added)
+                {
+                    entityBase.CreatedAt = DateTime.UtcNow;
+                    entityBase.CreatedByUserId = currentUserId;
+                }
+
+                entityBase.UpdatedAt = DateTime.UtcNow;
+                entityBase.UpdatedByUserId = currentUserId;
+            }
+        }
     }
 }

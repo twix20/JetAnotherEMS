@@ -10,9 +10,10 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
         public CreateNewSchoolingEventCommand(
             string title, 
             string description, 
-            string location, 
+            bool isPublic,
+            GoogleMapsAddress location,
             ICollection<SchoolingEventDay> calendar, 
-            ICollection<SchoolingEventTicket> tickets) : base(title, description, location, calendar, tickets)
+            ICollection<SchoolingEventTicket> tickets) : base(title, description, isPublic, location, calendar, tickets)
         {
         }
 

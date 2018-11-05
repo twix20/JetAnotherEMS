@@ -16,6 +16,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                     Id = Guid.Parse("f9d6f596-b4af-40f0-8520-6f2e124c085d"),
                     Title = "Seed title",
                     Description = "Seed description",
+                    IsPublic = true,
                     Location = new SchoolingEventAddress()
                     {
                         Id = Guid.Parse("d87bce2b-29f5-438e-910f-201eac76b27b"),

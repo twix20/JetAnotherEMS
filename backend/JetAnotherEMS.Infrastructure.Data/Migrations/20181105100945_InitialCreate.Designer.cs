@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JetAnotherEmsContext))]
-    [Migration("20181104183528_InitialCreate")]
+    [Migration("20181105100945_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.Property<Guid>("CreatedByUserId");
 
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsPublic");
 
                     b.Property<string>("Title");
 

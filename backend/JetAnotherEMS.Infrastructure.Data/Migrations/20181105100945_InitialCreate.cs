@@ -17,7 +17,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     UpdatedByUserId = table.Column<Guid>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    IsPublic = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

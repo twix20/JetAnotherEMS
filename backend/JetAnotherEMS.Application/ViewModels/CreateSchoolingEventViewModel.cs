@@ -8,6 +8,8 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public string Description { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public SchoolingEventAddressViewModel Location { get; set; }
 
         //TODO: add gallery

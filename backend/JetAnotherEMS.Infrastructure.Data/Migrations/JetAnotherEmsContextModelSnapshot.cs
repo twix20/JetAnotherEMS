@@ -59,6 +59,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("IsPublic");
+
                     b.Property<string>("Title");
 
                     b.Property<DateTime>("UpdatedAt");

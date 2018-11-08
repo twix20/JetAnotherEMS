@@ -100,7 +100,6 @@ FormItem.propTypes = {
   icon: PropTypes.func.isRequired
 };
 
-//TODO: change this dialog to -> react-material-ui-form-validator
 class EventDayCreatorDialog extends React.Component {
   handleEntering = () => {};
 
@@ -201,15 +200,7 @@ class EventDayCreatorDialog extends React.Component {
               initialFiles={attachments}
               allowMultiple={true}
               maxFiles={3}
-              server={{
-                url: 'https://localhost:44364/api/File/',
-                process: {
-                  url: 'Upload'
-                  // headers: {
-                  //   "Access-Control-Allow-Origin": "*"
-                  // }
-                }
-              }}
+              filepondRef={ref => (this.filepondRef = ref)}
             />
           );
         }
@@ -235,7 +226,21 @@ class EventDayCreatorDialog extends React.Component {
         <Form
           validate={validate}
           initialValues={this.props.initialValues}
-          onSubmit={onSubmit}
+          onSubmit={values => {
+            const filepondFiles = this.filepondRef.getFiles();
+            const filepondFilesById = filepondFiles.reduce((acc, f) => {
+              acc[f.id] = f;
+              return acc;
+            }, {});
+            values.attachments = values.attachments
+              .map(a => {
+                a.serverId = filepondFilesById[a.id].serverId;
+                return a;
+              })
+              .filter(x => !!x.serverId);
+
+            onSubmit(values);
+          }}
           render={({
             handleSubmit,
             form,

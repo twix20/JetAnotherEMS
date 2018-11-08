@@ -12,9 +12,10 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public SchoolingEventAddressViewModel Location { get; set; }
 
-        //TODO: add gallery
         public ICollection<SchoolingEventDayViewModel> Calendar { get; set; }
 
         public ICollection<SchoolingEventTicketViewModel> Tickets { get; set; }
+
+        public ICollection<SchoolingEventGalleryFileViewModel> Gallery { get; set; }
     }
 }

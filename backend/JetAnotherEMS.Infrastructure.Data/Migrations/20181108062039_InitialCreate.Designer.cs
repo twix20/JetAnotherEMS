@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JetAnotherEmsContext))]
-    [Migration("20181105100945_InitialCreate")]
+    [Migration("20181108062039_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,13 +208,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int>("FileType");
-
                     b.Property<string>("LocationOnDisk");
 
                     b.Property<string>("OriginalName");
 
-                    b.Property<int>("Size");
+                    b.Property<long>("Size");
 
                     b.Property<DateTime>("UpdatedAt");
 
@@ -278,15 +276,24 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<Guid?>("SchoolingEventDayId");
 
-                    b.Property<Guid?>("SchoolingEventId");
-
                     b.HasIndex("SchoolingEventDayId");
 
-                    b.HasIndex("SchoolingEventId");
-
-                    b.ToTable("SchoolingEventDayAttachment");
+                    b.ToTable("SchoolingEventDayAttachments");
 
                     b.HasDiscriminator().HasValue("SchoolingEventDayAttachment");
+                });
+
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventGalleryFile", b =>
+                {
+                    b.HasBaseType("JetAnotherEMS.Domain.Models.UploadedFile");
+
+                    b.Property<Guid?>("EventId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("SchoolingEventGalleryFiles");
+
+                    b.HasDiscriminator().HasValue("SchoolingEventGalleryFile");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDay", b =>
@@ -346,10 +353,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventDay", "SchoolingEventDay")
                         .WithMany("Attachments")
                         .HasForeignKey("SchoolingEventDayId");
+                });
 
-                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent")
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventGalleryFile", b =>
+                {
+                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
                         .WithMany("Gallery")
-                        .HasForeignKey("SchoolingEventId");
+                        .HasForeignKey("EventId");
                 });
 #pragma warning restore 612, 618
         }

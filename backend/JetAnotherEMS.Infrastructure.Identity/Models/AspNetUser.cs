@@ -18,7 +18,7 @@ namespace JetAnotherEMS.Infrastructure.Identity.Models
 
         public string Name => _accessor.HttpContext.User.Identity.Name;
 
-        public Guid Id => Guid.Parse(Name);
+        public Guid Id => string.IsNullOrEmpty(Name) ? Guid.Empty : Guid.Parse(Name);
 
         public bool IsAuthenticated()
         {

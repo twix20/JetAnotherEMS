@@ -11,10 +11,12 @@ namespace JetAnotherEMS.Application.Interfaces
         Task<UserSchoolingEventTicketViewModel> GetById(Guid id);
 
         Task<UserSchoolingEventTicketViewModel> GetEventTicketForUser(Guid userId, Guid eventId);
+
         Task BuyTicket(BuyEventTicketViewModel viewModel);
 
         Task CancelTicket(CancelEventTicketViewModel viewModel);
-        Task ApproveTickets(ApproveEventTicketsViewModel viewModel);
-        Task RejectTickets(RejectEventTicketsViewModel viewModel);
+
+        Task ChangeTicketsStatus(ChangeTicketsStatusViewModel viewModel);
+        Task ChangeTicketStatus(ChangeTicketStatusViewModel viewModel);
     }
 }

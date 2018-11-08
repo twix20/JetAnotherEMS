@@ -26,7 +26,7 @@ class CreatorTabs extends React.Component {
   }
 
   getTabs = () => {
-    const { events } = this.props;
+    const { gallery } = this.props;
     return [
       {
         label: 'Event details',
@@ -36,7 +36,8 @@ class CreatorTabs extends React.Component {
         label: 'Schedule',
         content: () => {
           const renderCalendar = props => {
-            return <EventCalendar events={events} {...props} />;
+            const allEvents = props.fields.getAll();
+            return <EventCalendar events={allEvents} {...props} />;
           };
 
           return <FieldArray name="calendar" component={renderCalendar} />;
@@ -44,7 +45,9 @@ class CreatorTabs extends React.Component {
       },
       {
         label: 'Gallery',
-        content: () => <GalleryUploaderTab />
+        content: () => {
+          return <GalleryUploaderTab />;
+        }
       }
     ];
   };

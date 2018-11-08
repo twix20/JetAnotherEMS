@@ -60,7 +60,6 @@ class EventCreatorDialog extends React.Component {
   render() {
     const {
       classes,
-      events,
       open,
       handleClose,
       handleSubmit,
@@ -127,10 +126,7 @@ class EventCreatorDialog extends React.Component {
                       [classes.flexedCalendar]: tabSelected === 1
                     })}
                   >
-                    <CreatorTabs
-                      events={events}
-                      onTabChange={this.handleTabChange}
-                    />
+                    <CreatorTabs onTabChange={this.handleTabChange} />
                   </Grid>
                   <Grid item className={classes.flex}>
                     <TicketTabs />

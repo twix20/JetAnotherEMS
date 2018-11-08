@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Core.Notifications;
@@ -11,6 +14,7 @@ using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
 using JetAnotherEMS.Domain.Validation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace JetAnotherEMS.Domain.CommandHandlers
 {
@@ -20,14 +24,24 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         IRequestHandler<ChangeFollowSchoolingEventCommand>
     {
         private readonly ISchoolingEventRepository _schoolingEventRepository;
+        private readonly ISchoolingEventDayAttachmentRepository _schoolingEventDayAttachmentRepository;
+        private readonly ISchoolingEventGalleryFileRepository _schoolingEventGalleryFileRepository;
+        private readonly IFileRepository _fileRepository;
+
         public SchoolingEventCommandHandler(
             IUnitOfWork uow, 
             IMediatorHandler bus, 
             INotificationHandler<DomainNotification> notifications, 
             IValidationService validationService, 
-            ISchoolingEventRepository schoolingEventRepository) : base(uow, bus, notifications, validationService)
+            ISchoolingEventRepository schoolingEventRepository, 
+            ISchoolingEventDayAttachmentRepository schoolingEventDayAttachmentRepository, 
+            ISchoolingEventGalleryFileRepository schoolingEventGalleryFileRepository,
+            IFileRepository fileRepository) : base(uow, bus, notifications, validationService)
         {
             _schoolingEventRepository = schoolingEventRepository;
+            _schoolingEventDayAttachmentRepository = schoolingEventDayAttachmentRepository;
+            _schoolingEventGalleryFileRepository = schoolingEventGalleryFileRepository;
+            _fileRepository = fileRepository;
         }
 
         public async Task<Unit> Handle(CreateNewSchoolingEventCommand message, CancellationToken cancellationToken)
@@ -42,21 +56,29 @@ namespace JetAnotherEMS.Domain.CommandHandlers
 
             await _schoolingEventRepository.Add(entity);
 
-            if (Commit())
+            if (await Commit())
             {
                 await Bus.RaiseEvent(new SchoolingEventCreatedEvent(entity.Id));
             }
 
-            // Bus.RaiseEvent( new SchoolingEventCreatedEvent(eventId));
+            return Unit.Value;
+        }
+        public async Task<Unit> Handle(UpdateSchoolingEventCommand request, CancellationToken cancellationToken)
+        {
+            //TODO: add validation
+            var entity = Mapper.Map<SchoolingEvent>(request);
+
+            _schoolingEventRepository.Update(entity);
+
+            if (await Commit())
+            {
+                //TODO: rise event
+            }
+
             return Unit.Value;
         }
 
         public Task<Unit> Handle(ChangeFollowSchoolingEventCommand request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Unit> Handle(UpdateSchoolingEventCommand request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

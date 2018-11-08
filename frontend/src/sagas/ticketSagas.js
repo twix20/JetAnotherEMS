@@ -11,6 +11,7 @@ import { delay } from 'redux-saga';
 import { sagaRequestWrapper } from './common';
 import api from '../services/api';
 import ticketActions from '../actions/ticketActions';
+import { TicketStatus } from '../constants/enums';
 
 export function* fetchTicketForEvent(action) {
   const { eventId } = action;
@@ -53,27 +54,16 @@ export function* cancelEventTicketSaga(action) {
   );
 }
 
-export function* approveEventTicketsSaga(action) {
-  const { eventId, userTicketIds } = action;
+export function* handleChangeTicketsSatusForEvent(action) {
+  const { eventId, userTicketIds, newTicketStatus } = action;
 
   const { response, error } = yield sagaRequestWrapper(
-    ticketActions.approveTicketsForEventRequest,
-    api.ticket.approveTickets,
+    ticketActions.changeTicketsSatusForEventRequest,
+    api.ticket.changeStatuses,
     {
       eventId,
-      userTicketIds
-    }
-  );
-}
-export function* rejectEventTicketsSaga(action) {
-  const { eventId, userTicketIds } = action;
-
-  const { response, error } = yield sagaRequestWrapper(
-    ticketActions.rejectTicketsForEventRequest,
-    api.ticket.rejectTickets,
-    {
-      eventId,
-      userTicketIds
+      userTicketIds,
+      newTicketStatus
     }
   );
 }
@@ -93,12 +83,8 @@ export default function* root() {
       cancelEventTicketSaga
     ),
     takeLatest(
-      ticketActions.approveTicketsForEventRequest.START,
-      approveEventTicketsSaga
-    ),
-    takeLatest(
-      ticketActions.rejectTicketsForEventRequest.START,
-      rejectEventTicketsSaga
+      ticketActions.changeTicketsSatusForEventRequest.START,
+      handleChangeTicketsSatusForEvent
     )
   ]);
 }

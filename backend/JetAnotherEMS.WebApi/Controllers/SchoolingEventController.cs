@@ -5,9 +5,11 @@ using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Core.Notifications;
+using JetAnotherEMS.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace JetAnotherEMS.WebApi.Controllers
 {
@@ -16,13 +18,15 @@ namespace JetAnotherEMS.WebApi.Controllers
     public class SchoolingEventController : ApiController
     {
         private readonly ISchoolingEventService _schoolingEventService;
+        private readonly ISchoolingEventGalleryFileRepository _eventGalleryFileRepository;
 
         public SchoolingEventController(
             INotificationHandler<DomainNotification> notifications, 
             IMediatorHandler mediator,
-            ISchoolingEventService schoolingEventService) : base(notifications, mediator)
+            ISchoolingEventService schoolingEventService, ISchoolingEventGalleryFileRepository eventGalleryFileRepository) : base(notifications, mediator)
         {
             _schoolingEventService = schoolingEventService;
+            _eventGalleryFileRepository = eventGalleryFileRepository;
         }
 
         [HttpGet]
@@ -45,6 +49,8 @@ namespace JetAnotherEMS.WebApi.Controllers
         public async Task<IActionResult> Featured(SchoolingEventFilterViewModel filter, int page = 0, int pageSize = 10)
         {
             var entities = await _schoolingEventService.GetFeaturedEvents(filter, page, pageSize);
+
+            var all = await _eventGalleryFileRepository.GetAll().ToListAsync();
 
             return Response(entities);
         }

@@ -109,11 +109,13 @@ export function* fetchEventAvailableTicketsSaga(action) {
 export function* handleCreateOrUpdateSchoolingEvent(action) {
   let {
     id,
+    isPublic,
     eventTitle: title,
     description,
     location,
     calendar,
-    tickets
+    tickets,
+    gallery
   } = action.payload;
 
   const shouldCreate = !id;
@@ -135,18 +137,34 @@ export function* handleCreateOrUpdateSchoolingEvent(action) {
       });
   }
 
+  if (gallery) {
+    gallery = gallery.map(g => {
+      return {
+        id: g.serverId,
+        serverId: g.serverId,
+        name: g.name,
+        size: g.size,
+        type: g.type,
+        origin: 'local'
+      };
+    });
+  }
+
   const { response, error } = yield sagaRequestWrapper(request, apiAction, {
     id,
+    isPublic,
     title,
     description,
     location,
     calendar,
-    tickets
+    tickets,
+    gallery
   });
 
   if (error) {
     const formError = new SubmissionError({
-      login: 'User with this login is not found', // specific field error
+      //TODO: provide correct error messages / notifications
+      login: 'Uaaaaaaaaaaaaaaaa', // specific field error
       _error: 'Login failed, please check your credentials and try again' // global form error
     });
     yield put(
@@ -186,10 +204,12 @@ export function* handleLoadEventCreatorInitialValues(action) {
 
     //Set form values
     const initialVal = {
+      id: event.id,
       eventTitle: event.title,
       location: event.location,
       description: event.description,
       tickets: tickets.map(t => ({
+        id: t.id,
         currency: t.currency,
         totalQuantity: t.totalQuantity,
         usersBoughtThisTicket: t.usersBoughtThisTicket,
@@ -209,11 +229,21 @@ export function* handleLoadEventCreatorInitialValues(action) {
         bgColor: '#ff7f50',
         attachments: d.attachments.map(a => ({
           id: a.id,
+          serverId: a.id,
           name: a.originalName,
           size: a.size,
-          type: a.type
+          type: a.type,
+          origin: 'local'
         }))
         //TODO: add tags
+      })),
+      gallery: event.gallery.map(g => ({
+        id: g.id,
+        serverId: g.id,
+        name: g.originalName,
+        size: g.size,
+        type: g.type,
+        origin: 'local'
       }))
     };
 
@@ -250,8 +280,7 @@ export default function* root() {
     takeLatest(
       [
         schoolingEventActions.getEventParticipantsRequest.START,
-        ticketActions.approveTicketsForEventRequest.SUCCESS,
-        ticketActions.rejectTicketsForEventRequest.SUCCESS
+        ticketActions.changeTicketsSatusForEventRequest.SUCCESS
       ],
       fetchSchoolingEventParticipants
     ),

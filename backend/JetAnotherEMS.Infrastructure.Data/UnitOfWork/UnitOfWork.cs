@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,9 @@ namespace JetAnotherEMS.Infrastructure.Data.UnitOfWork
             _context = context;
         }
 
-        public bool Commit()
+        public async Task<bool> Commit()
         {
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public void Dispose()

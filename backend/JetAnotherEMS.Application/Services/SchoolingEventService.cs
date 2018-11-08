@@ -62,6 +62,9 @@ namespace JetAnotherEMS.Application.Services
             if (filter != null)
                 featuredEventsQuery = ApplyFilters(featuredEventsQuery, filter);
 
+
+            var xd = await featuredEventsQuery.ToListAsync();
+
             return await featuredEventsQuery.ProjectTo<FeaturedSchoolingEventViewModel>()
                 .ToListAsync();
         }

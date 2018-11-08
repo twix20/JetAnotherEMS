@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using JetAnotherEMS.Domain.Core.Events;
+using JetAnotherEMS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace JetAnotherEMS.Infrastructure.Data.Context
@@ -12,6 +14,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new StoredEventMap());
+
+            modelBuilder.Entity<SchoolingEventGalleryFile>();
+            modelBuilder.Entity<SchoolingEventDayAttachment>();
+
+            modelBuilder.Entity<UploadedFile>().Property<string>("Discriminator").Metadata.AfterSaveBehavior = PropertySaveBehavior.Save;
 
             base.OnModelCreating(modelBuilder);
         }

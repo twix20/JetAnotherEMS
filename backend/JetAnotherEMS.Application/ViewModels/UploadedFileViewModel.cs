@@ -9,6 +9,10 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public string OriginalName { get; set; }
 
+
+        /// <summary>
+        /// one of the MIME types
+        /// </summary>
         public string Type { get; set; }
 
         public UploadedFileType FileType { get; set; }

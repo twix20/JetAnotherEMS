@@ -1,4 +1,5 @@
-﻿using JetAnotherEMS.Domain.Core.Bus;
+﻿using System.Threading.Tasks;
+using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Core.Commands;
 using JetAnotherEMS.Domain.Core.Notifications;
 using JetAnotherEMS.Domain.Core.Validation;
@@ -34,12 +35,14 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             }
         }
 
-        public bool Commit()
+        public async Task<bool> Commit()
         {
             if (Notifications.HasNotifications()) return false;
-            if (Uow.Commit()) return true;
 
-            Bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
+            var commitSucceed = await Uow.Commit();
+            if (commitSucceed) return true;
+
+            await Bus.RaiseEvent(new DomainNotification("Commit", "We had a problem during saving your data."));
             return false;
         }
     }

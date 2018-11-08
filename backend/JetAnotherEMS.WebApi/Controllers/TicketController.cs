@@ -77,7 +77,7 @@ namespace JetAnotherEMS.WebApi.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Approve([FromBody]ApproveEventTicketsViewModel viewModel)
+        public async Task<IActionResult> ChangeStatuses([FromBody]ChangeTicketsStatusViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace JetAnotherEMS.WebApi.Controllers
 
             viewModel.UserId = _user.Id;
 
-            await _userSchoolingEventTicketService.ApproveTickets(viewModel);
+            await _userSchoolingEventTicketService.ChangeTicketsStatus(viewModel);
 
             return Response(new { });
         }
@@ -95,7 +95,7 @@ namespace JetAnotherEMS.WebApi.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Reject([FromBody]RejectEventTicketsViewModel viewModel)
+        public async Task<IActionResult> ChangeStatus([FromBody]ChangeTicketStatusViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace JetAnotherEMS.WebApi.Controllers
 
             viewModel.UserId = _user.Id;
 
-            await _userSchoolingEventTicketService.RejectTickets(viewModel);
+            await _userSchoolingEventTicketService.ChangeTicketStatus(viewModel);
 
             return Response(new { });
         }

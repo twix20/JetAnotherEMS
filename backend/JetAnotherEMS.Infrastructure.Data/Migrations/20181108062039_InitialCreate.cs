@@ -170,12 +170,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     FileName = table.Column<string>(nullable: true),
                     OriginalName = table.Column<string>(nullable: true),
-                    FileType = table.Column<int>(nullable: false),
                     LocationOnDisk = table.Column<string>(nullable: true),
-                    Size = table.Column<int>(nullable: false),
+                    Size = table.Column<long>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     SchoolingEventDayId = table.Column<Guid>(nullable: true),
-                    SchoolingEventId = table.Column<Guid>(nullable: true)
+                    EventId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -187,8 +186,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UploadedFiles_SchoolingEvents_SchoolingEventId",
-                        column: x => x.SchoolingEventId,
+                        name: "FK_UploadedFiles_SchoolingEvents_EventId",
+                        column: x => x.EventId,
                         principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -263,9 +262,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 column: "SchoolingEventDayId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UploadedFiles_SchoolingEventId",
+                name: "IX_UploadedFiles_EventId",
                 table: "UploadedFiles",
-                column: "SchoolingEventId");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSchoolingEventTickets_SchoolingEventId",

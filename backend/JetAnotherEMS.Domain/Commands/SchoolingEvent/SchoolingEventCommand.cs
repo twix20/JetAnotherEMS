@@ -6,7 +6,7 @@ using JetAnotherEMS.Domain.Models;
 
 namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 {
-    public class SchoolingEventCommand : Command
+    public abstract class SchoolingEventCommand : Command
     {
         public string Title { get; set; }
 
@@ -14,23 +14,22 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 
         public bool IsPublic { get; set; }
 
-        public GoogleMapsAddress Location { get; set; }
-
-        //public string Location { get; set; }
+        public SchoolingEventAddress Location { get; set; }
 
         public ICollection<SchoolingEventDay> Calendar { get; set; }
 
         public ICollection<SchoolingEventTicket> Tickets { get; set; }
 
-        //TODO: add more members
+        public ICollection<SchoolingEventGalleryFile> Gallery { get; set; }
 
         public SchoolingEventCommand(
             string title,
             string description,
             bool isPublic,
-            GoogleMapsAddress location,
+            SchoolingEventAddress location,
             ICollection<SchoolingEventDay> calendar,
-            ICollection<SchoolingEventTicket> tickets)
+            ICollection<SchoolingEventTicket> tickets, 
+            ICollection<SchoolingEventGalleryFile> gallery)
         {
             Title = title;
             Description = description;
@@ -38,6 +37,7 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
             Location = location;
             Calendar = calendar;
             Tickets = tickets;
+            Gallery = gallery;
         }
     }
 }

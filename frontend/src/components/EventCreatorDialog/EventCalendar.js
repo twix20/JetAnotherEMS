@@ -21,8 +21,7 @@ class EventCalendar extends React.Component {
     dayCreator: {
       open: false,
       slotInfo: null
-    },
-    files: []
+    }
   };
 
   closeDayCreator = () => {
@@ -64,9 +63,9 @@ class EventCalendar extends React.Component {
       attachments: values.attachments.map(a => {
         return {
           serverId: a.serverId,
-          name: a.file.name,
-          size: a.file.size,
-          type: a.file.type,
+          name: a.name,
+          size: a.size,
+          type: a.type,
           origin: 'local'
         };
       })

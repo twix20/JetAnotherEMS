@@ -13,7 +13,7 @@ namespace JetAnotherEMS.Domain.Models
 
         public virtual SchoolingEventAddress Location { get; set; }
 
-        public virtual ICollection<SchoolingEventDayAttachment> Gallery { get; set; }
+        public virtual ICollection<SchoolingEventGalleryFile> Gallery { get; set; }
 
         public virtual ICollection<SchoolingEventDay> Schedule { get; set; }
 

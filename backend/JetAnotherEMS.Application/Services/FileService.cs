@@ -38,8 +38,9 @@ namespace JetAnotherEMS.Application.Services
             //TODO: validate
             var entity = Mapper.Map<UploadedFile>(fileViewModel);
 
-            var extension = Path.GetExtension(entity.FileName);
+            var extension = Path.GetExtension(entity.OriginalName);
             entity.FileName = $"{fileViewModel.Id}{extension}";
+            entity.Size = contentStream.Length;
 
             await _fileRepository.Add(entity);
 
@@ -62,18 +63,6 @@ namespace JetAnotherEMS.Application.Services
             var entity = Mapper.Map<UploadedFile>(file);
 
             await _fileRepository.MoveFile(entity, pathToMove);
-        }
-
-        public FileStream GetFileStream(UploadedFile file)
-        {
-            throw new NotImplementedException();
-        }
-
-        public FileStream GetFileStream(UploadedFileViewModel file)
-        {
-            var entity = Mapper.Map<UploadedFile>(file);
-
-            return _fileRepository.GetFileStream(entity);
         }
     }
 }

@@ -24,16 +24,35 @@ namespace JetAnotherEMS.Domain.Models
 
         [NotMapped] public string Type => MimeTypesByFileType[FileType];
 
-        public UploadedFileType FileType { get; set; }
+        [NotMapped] public UploadedFileType FileType => MapExtension(OriginalName);
 
         public string LocationOnDisk { get; set; }
 
         /// <summary>
         /// Length in bytes
         /// </summary>
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         [NotMapped] public string FullFilePath => Path.Combine(LocationOnDisk, FileName);
+
+        public static UploadedFileType MapExtension(string fileName)
+        {
+            var extension = Path.GetExtension(fileName)?.ToLower();
+
+            switch (extension)
+            {
+                case ".jpg":
+                    return UploadedFileType.Jpg;
+                case ".png":
+                    return UploadedFileType.Png;
+                case ".pdf":
+                    return UploadedFileType.Pdf;
+                case ".zip":
+                    return UploadedFileType.Zip;
+                default:
+                    return UploadedFileType.Unknown;
+            }
+        }
     }
 
 

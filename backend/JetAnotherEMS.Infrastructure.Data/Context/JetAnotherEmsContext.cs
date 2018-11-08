@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using JetAnotherEMS.Domain.Core.Models;
 using JetAnotherEMS.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace JetAnotherEMS.Infrastructure.Data.Context
 {
@@ -17,11 +18,12 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         private readonly IUser _user;
 
         public DbSet<SchoolingEvent> SchoolingEvents { get; set; }
+        public DbSet<SchoolingEventGalleryFile> SchoolingEventGalleryFiles { get; set; }
         public DbSet<SchoolingEventAddress> SchoolingEventAddresses { get; set; }
         public DbSet<SchoolingEventDay> SchoolingEventDays { get; set; }
-        public DbSet<SchoolingEventFollower> SchoolingEventFollowers { get; set; }
         public DbSet<SchoolingEventDayAttachment> SchoolingEventDayAttachments { get; set; }
         public DbSet<SchoolingEventDayTag> SchoolingEventDayTags { get; set; }
+        public DbSet<SchoolingEventFollower> SchoolingEventFollowers { get; set; }
         public DbSet<SchoolingEventTicket> SchoolingEventTickets { get; set; }
         public DbSet<UserSchoolingEventTicket> UserSchoolingEventTickets { get; set; }
         public DbSet<GoogleMapsAddress> GoogleMapsAddresses { get; set; }
@@ -41,6 +43,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new CustomerMap());
+
+            modelBuilder.Entity<SchoolingEventDayAttachment>();
+            modelBuilder.Entity<SchoolingEventGalleryFile>();
+
+            modelBuilder.Entity<UploadedFile>().Property<string>("Discriminator").Metadata.AfterSaveBehavior = PropertySaveBehavior.Save;
 
             base.OnModelCreating(modelBuilder);
         }

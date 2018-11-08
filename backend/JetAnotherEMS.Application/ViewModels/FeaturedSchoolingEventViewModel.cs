@@ -9,6 +9,8 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public string Description { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public DateTime StartingDateTime { get; set; }
 
         public DateTime EndingDateTime { get; set; }
@@ -17,9 +19,11 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public List<string> TeacherNames { get; set; }
 
-        public SchoolingEventAddressViewModel Location { get; set; } //TODO: make it google location
+        public SchoolingEventAddressViewModel Location { get; set; }
 
         public List<SchoolingEventDayTagViewModel> FeaturedTags { get; set; }
+
+        public List<SchoolingEventGalleryFileViewModel> Gallery { get; set; }
 
         public long TicketsLeftCount { get; set; }
 

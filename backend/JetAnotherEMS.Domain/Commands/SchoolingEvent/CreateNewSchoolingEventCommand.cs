@@ -11,9 +11,10 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
             string title, 
             string description, 
             bool isPublic,
-            GoogleMapsAddress location,
+            SchoolingEventAddress location,
             ICollection<SchoolingEventDay> calendar, 
-            ICollection<SchoolingEventTicket> tickets) : base(title, description, isPublic, location, calendar, tickets)
+            ICollection<SchoolingEventTicket> tickets,
+            ICollection<SchoolingEventGalleryFile> gallery) : base(title, description, isPublic, location, calendar, tickets, gallery)
         {
         }
 

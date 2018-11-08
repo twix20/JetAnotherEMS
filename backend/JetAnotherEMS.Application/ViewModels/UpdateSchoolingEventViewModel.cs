@@ -1,4 +1,6 @@
-﻿namespace JetAnotherEMS.Application.ViewModels
+﻿using System.Collections.Generic;
+
+namespace JetAnotherEMS.Application.ViewModels
 {
     public class UpdateSchoolingEventViewModel : EntityViewModel
     {
@@ -10,6 +12,10 @@
 
         public SchoolingEventAddressViewModel Location { get; set; }
 
-        //TODO: add more members
+        public ICollection<SchoolingEventDayViewModel> Calendar { get; set; }
+
+        public ICollection<SchoolingEventTicketViewModel> Tickets { get; set; }
+
+        public ICollection<SchoolingEventGalleryFileViewModel> Gallery { get; set; }
     }
 }

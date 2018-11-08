@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { renderFileUploader } from '../forms';
+import { FieldArray, Field } from 'redux-form';
 
-import FineUploaderTraditional from 'fine-uploader-wrappers';
-import Gallery from 'react-fine-uploader';
-import { Typography } from '@material-ui/core';
-
-import 'react-fine-uploader/gallery/gallery.css';
-
-import Button from '@material-ui/core/Button';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { change } from 'redux-form';
+import { store } from './../../store';
 
 const styles = theme => ({
   galleryRoot: {
@@ -22,66 +18,34 @@ const styles = theme => ({
   }
 });
 
-const uploader = new FineUploaderTraditional({
-  // UI customizations
-  options: {
-    autoUpload: false,
-    debug: true,
-
-    chunking: {
-      enabled: true
-    },
-    deleteFile: {
-      enabled: true,
-      endpoint: '/uploads'
-    },
-    request: {
-      endpoint: '/uploads'
-    },
-    retry: {
-      enableAuto: false
-    },
-    validation: {
-      allowedExtensions: ['jpeg', 'jpg', 'png'],
-      itemLimit: 5,
-      sizeLimit: 5120000 // 50 kB = 50 * 1024 bytes
-    },
-    messages: {
-      tooManyItemsError: 'Maximum image number to upload is 5'
-    },
-
-    callbacks: {
-      onValidate: function(a, b) {},
-      onError: function(id, name, errorReason, xhrOrXdr) {
-        alert(`Error on file number ${id} - ${name}.  Reason: ${errorReason}`);
-      }
-    }
-  }
-});
-
 class GalleryUploaderTab extends React.Component {
-  fileInputChildren = () => (
-    <span>
-      <CloudUploadIcon className="react-fine-uploader-gallery-file-input-upload-icon" />
-      Select photos
-    </span>
-  );
-
-  dropzoneContent = (
-    <span className={'react-fine-uploader-gallery-dropzone-content'}>
-      Drop up to 5 photos here!
-    </span>
-  );
-
   render() {
     const { classes } = this.props;
 
+    const renderGalleryUploader = props => {
+      const initialFiles =
+        props.input.value instanceof Array ? props.input.value : [];
+
+      const onprocessfile = (error, file) => {
+        if (file.serverId === null) return;
+
+        let allFiles = initialFiles;
+        let fileToUpdate = allFiles.find(x => x.id === file.id);
+        fileToUpdate.serverId = file.serverId;
+
+        store.dispatch(change(props.meta.form, props.input.name, allFiles));
+      };
+
+      return renderFileUploader({ ...props, initialFiles, onprocessfile });
+    };
+
     return (
       <div className={classes.galleryRoot}>
-        <Gallery
-          fileInput-children={this.fileInputChildren()}
-          dropzone-content={this.dropzoneContent}
-          uploader={uploader}
+        <Field
+          name="gallery"
+          component={renderGalleryUploader}
+          allowMultiple={true}
+          maxFiles={6}
         />
       </div>
     );

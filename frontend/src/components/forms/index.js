@@ -92,13 +92,43 @@ export const renderFileUploader = ({
   meta,
   initialFiles,
   name,
+  server,
+  filepondRef,
   ...rest
 }) => {
   const error = meta.error && meta.touched;
+
+  let serverProp = {
+    url: 'https://localhost:44364/api/File/',
+    process: {
+      url: 'Upload',
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    },
+    ...server
+  };
+
   return (
     <div style={{ width: '100%' }} name={name}>
       {error && <div>{error}</div>}
-      <FilePond onupdatefiles={fileItems => onChange(fileItems)} {...rest}>
+      <FilePond
+        ref={ref => filepondRef && filepondRef(ref)}
+        onupdatefiles={fileItems =>
+          onChange(
+            fileItems.map(f => ({
+              id: f.id,
+              serverId: f.serverId,
+              name: f.file.name,
+              size: f.file.size,
+              type: f.file.type,
+              origin: 'local'
+            }))
+          )
+        }
+        server={serverProp}
+        {...rest}
+      >
         {initialFiles &&
           initialFiles.map(({ serverId, ...restFile }, index) => (
             <File key={index} src={serverId} {...restFile} />

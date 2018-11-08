@@ -36,8 +36,6 @@ class AttachmentsUploader extends React.Component {
     files: []
   };
 
-  handleInit() {}
-
   componentDidMount() {
     const { initialFiles } = this.props;
 
@@ -62,7 +60,6 @@ class AttachmentsUploader extends React.Component {
               }
             }
           }}
-          oninit={() => this.handleInit()}
           onprocessfile={(error, file) => {
             //this.handleComplete(error, file);
           }}

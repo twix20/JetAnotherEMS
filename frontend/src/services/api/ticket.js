@@ -14,14 +14,16 @@ export default {
     instance.post(`${URL_HOST}/api/Ticket/Me/Cancel`, {
       UserEventTicketId: id
     }),
-  approveTickets: ({ eventId, userTicketIds }) =>
-    instance.post(`${URL_HOST}/api/Ticket/Approve`, {
+  changeStatuses: ({ eventId, userTicketIds, newTicketStatus }) =>
+    instance.post(`${URL_HOST}/api/Ticket/ChangeStatuses`, {
       EventId: eventId,
-      UserSchoolingEventTicketIdsToApprove: userTicketIds
+      UserEventTicketIds: userTicketIds,
+      NewTicketStatus: newTicketStatus
     }),
-  rejectTickets: ({ eventId, userTicketIds }) =>
+  changeStatus: ({ eventId, userTicketId, newTicketStatus }) =>
     instance.post(`${URL_HOST}/api/Ticket/Reject`, {
       EventId: eventId,
-      UserSchoolingEventTicketIdsToReject: userTicketIds
+      UserEventTicketId: userTicketId,
+      NewTicketStatus: newTicketStatus
     })
 };

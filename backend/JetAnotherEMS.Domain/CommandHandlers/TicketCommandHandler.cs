@@ -18,8 +18,8 @@ namespace JetAnotherEMS.Domain.CommandHandlers
     public class TicketCommandHandler : CommandHandler,
         IRequestHandler<BuyEventTicketCommand>,
         IRequestHandler<CancelEventTicketCommand>,
-        IRequestHandler<ApproveEventTicketCommand>,
-        IRequestHandler<RejectEventTicketCommand>
+        IRequestHandler<ChangeTicketStatusCommand>,
+        IRequestHandler<ChangeTicketsStatusCommand>
     {
 
         private readonly ISchoolingEventTicketRepository _schoolingEventTicketRepository;
@@ -58,7 +58,7 @@ namespace JetAnotherEMS.Domain.CommandHandlers
 
             _schoolingEventTicketRepository.Update(ticket);
 
-            if (Commit())
+            if (await Commit())
             {
                 await Bus.RaiseEvent(new UserBoughtEventTicket(ticket.Event.Id, message.UserId, ticket.Name, ticket.Price));
             }
@@ -77,7 +77,7 @@ namespace JetAnotherEMS.Domain.CommandHandlers
 
             await _userSchoolingEventTicketRepository.Remove(message.UserEventTicketId);
 
-            if (Commit())
+            if (await Commit())
             {
                 //TODO: rise user canceled ticket event
                 //await Bus.RaiseEvent(new UserBoughtEventTicket(ticket.Event.Id, message.UserId, ticket.Name, ticket.Price));
@@ -85,11 +85,16 @@ namespace JetAnotherEMS.Domain.CommandHandlers
 
             return Unit.Value;
         }
-        public async Task<Unit> Handle(ApproveEventTicketCommand message, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ChangeTicketStatusCommand message, CancellationToken cancellationToken)
         {
-            var commitSucceed = await ApplyApproval(message.UserSchoolingEventTicketIdToApprove, TicketStatus.Approved);
+            //TODO: add validation
 
-            if (commitSucceed)
+
+            var userEventTicket = await _userSchoolingEventTicketRepository.GetById(message.UserEventTicketId);
+
+            userEventTicket.Status = message.NewTicketStatus;
+
+            if (await Commit())
             {
                 //TODO: rise event
             }
@@ -97,25 +102,26 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             return Unit.Value;
         }
 
-        public async Task<Unit> Handle(RejectEventTicketCommand message, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ChangeTicketsStatusCommand message, CancellationToken cancellationToken)
         {
-            var commitSucceed = await ApplyApproval(message.UserSchoolingEventTicketIdToReject, TicketStatus.Rejected);
+            //TODO: add validation
 
-            if (commitSucceed)
+            foreach (var userEventTicketId in message.UserEventTicketIds)
+            {
+                var userEventTicket = await _userSchoolingEventTicketRepository.GetById(userEventTicketId);
+
+                if (userEventTicket.Status == TicketStatus.AwaitingApproval)
+                {
+                    userEventTicket.Status = message.NewTicketStatus;
+                }
+            }
+
+            if (await Commit())
             {
                 //TODO: rise event
             }
 
             return Unit.Value;
-        }
-
-        private async Task<bool> ApplyApproval(Guid userEventTicketId, TicketStatus newStatus)
-        {
-            var userEventTicket = await _userSchoolingEventTicketRepository.GetById(userEventTicketId);
-
-            userEventTicket.Status = newStatus;
-
-            return Commit();
         }
     }
 }

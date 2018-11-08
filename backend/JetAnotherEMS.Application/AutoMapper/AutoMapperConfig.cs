@@ -39,43 +39,52 @@ namespace JetAnotherEMS.Application.AutoMapper
                         dest => dest.FeaturedTags,
                         opts => opts.MapFrom(determinateFeaturedTagsFromSchedule)); // Take 5 most reused tags in the schedule
 
-                cfg.CreateMap<BuyEventTicketViewModel, BuyEventTicketCommand>();
-                cfg.CreateMap<CancelEventTicketViewModel, CancelEventTicketCommand>();
+                cfg.CreateMap<BuyEventTicketViewModel, BuyEventTicketCommand>(MemberList.Source);
 
                 cfg.CreateMap<UserSchoolingEventTicket, SchoolingEventParticipantViewModel>()
-                    .ForMember(dest => dest.UserSchoolingEventTicketId, opts => opts.MapFrom(src => src.Id));
+                    .ForMember(dest => dest.UserSchoolingEventTicketId, opts => opts.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.UserEmail, opts => opts.Ignore());
 
                 cfg.CreateMap<ApplicationUser, SchoolingEventParticipantViewModel>()
-                    .ForMember(dest => dest.UserEmail, opts => opts.MapFrom(src => src.Email));
+                    .ForMember(dest => dest.UserId, opts => opts.MapFrom(u => u.Id))
+                    .ForMember(dest => dest.UserEmail, opts => opts.MapFrom(src => src.Email))
+                    .ForMember(dest => dest.UserSchoolingEventTicketId, opts => opts.Ignore())
+                    .ForMember(dest => dest.Status, opts => opts.Ignore())
+                    .ForMember(dest => dest.TicketName, opts => opts.Ignore())
+                    .ForMember(dest => dest.TicketPrice, opts => opts.Ignore())
+                    .ForMember(dest => dest.TicketCurrency, opts => opts.Ignore())
+                    .ForMember(dest => dest.TicketTotalQuantity, opts => opts.Ignore());
+
 
 
                 cfg.CreateMap<IFormFile, UploadedFileViewModel>()
-                    .ForMember(dest => dest.Type, opts => opts.ResolveUsing(f => MapExtension(f.FileName)))
-                    .ForMember(dest => dest.OriginalName, opts => opts.MapFrom(src => src.FileName));
- 
-
-                cfg.CreateMap<UploadedFileViewModel, UploadedFile>()
-                    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
-                    .ForMember(dest => dest.FileName, opts => opts.MapFrom(src => src.FileName))
-                    .ForMember(dest => dest.Type, opts => opts.MapFrom(src => src.Type))
-                    .ForMember(dest => dest.LocationOnDisk, opts => opts.MapFrom(src => src.LocationOnDisk))
-                    .ForMember(dest => dest.OriginalName, opts => opts.MapFrom(src => src.OriginalName))
-                    .ForMember(dest => dest.Size, opts => opts.MapFrom(src => src.Size))
+                    .ForMember(dest => dest.Size, opts => opts.MapFrom(src => src.Length))
+                    .ForMember(dest => dest.OriginalName, opts => opts.MapFrom(src => src.FileName))
                     .ForAllOtherMembers(opts => opts.Ignore());
 
 
-                cfg.CreateMap<CreateSchoolingEventViewModel, CreateNewSchoolingEventCommand>();
-                cfg.CreateMap<CreateNewSchoolingEventCommand, SchoolingEvent>()
+                cfg.CreateMap<UploadedFileViewModel, UploadedFile>(MemberList.Source);
+
+                cfg.CreateMap<CreateSchoolingEventViewModel, CreateNewSchoolingEventCommand>(MemberList.Source);
+                cfg.CreateMap<UpdateSchoolingEventViewModel, UpdateSchoolingEventCommand>(MemberList.Source);
+
+                cfg.CreateMap<CreateNewSchoolingEventCommand, SchoolingEvent>(MemberList.Source)
+                    //TODO: rename schedule -> calendar
+                    // TODO: rename AvailableTickets -> Tickets
+                    .ForMember(dest => dest.Schedule, opts => opts.MapFrom(src => src.Calendar))
+                    .ForMember(dest => dest.AvailableTickets, opts => opts.MapFrom(src => src.Tickets));
+                cfg.CreateMap<UpdateSchoolingEventCommand, SchoolingEvent>(MemberList.Source)
                     //TODO: rename schedule -> calendar
                     // TODO: rename AvailableTickets -> Tickets
                     .ForMember(dest => dest.Schedule, opts => opts.MapFrom(src => src.Calendar))
                     .ForMember(dest => dest.AvailableTickets, opts => opts.MapFrom(src => src.Tickets));
 
-                cfg.CreateMap<ApproveEventTicketsViewModel, ApproveEventTicketCommand>(MemberList.Source);
+                cfg.CreateMap<ChangeTicketStatusViewModel, ChangeTicketStatusCommand>(MemberList.Source);
+                cfg.CreateMap<ChangeTicketsStatusViewModel, ChangeTicketsStatusCommand>(MemberList.Source);
 
                 cfg.CreateMap<SchoolingEventDayTagViewModel, SchoolingEventDayTag>(MemberList.Source);
-                cfg.CreateMap<SchoolingEventDayAttachmentViewModel, SchoolingEventDayAttachment>();
-                cfg.CreateMap<SchoolingEventTicketViewModel, SchoolingEventTicket>(MemberList.Source);
+                cfg.CreateMap<SchoolingEventTicketViewModel, SchoolingEventTicket>(MemberList.Source)
+                    .ForSourceMember(src => src.UsersBoughtThisTicket, opts => opts.Ignore());
                 cfg.CreateMap<SchoolingEventTicket, SchoolingEventTicketViewModel>()
                     .ForMember(dest => dest.UsersBoughtThisTicket, opts => opts.ResolveUsing((e, vm) =>
                     {
@@ -86,46 +95,17 @@ namespace JetAnotherEMS.Application.AutoMapper
 
                 cfg.CreateMap<SchoolingEventDayViewModel, SchoolingEventDay>(MemberList.Source);
 
-                cfg.CreateMap<UploadedFileViewModel, UploadedFile>()
-                    .ForMember(
-                        dest => dest.FileType,
-                        opts => opts.ResolveUsing(
-                            src => UploadedFile.MimeTypesByFileType.ContainsValue(src.Type)
-                                ? UploadedFile.MimeTypesByFileType.First(x => x.Value == src.Type).Key
-                                : UploadedFileType.Unknown));
 
+                cfg.CreateMap<SchoolingEventDayAttachmentViewModel, SchoolingEventDayAttachment>(MemberList.Source);
+                cfg.CreateMap<SchoolingEventGalleryFileViewModel, SchoolingEventGalleryFile>(MemberList.Source);
 
-                cfg.CreateMap<SchoolingEventDayAttachmentViewModel, SchoolingEventDayAttachment>()
-                    .ForMember(
-                        dest => dest.FileType,
-                        opts => opts.ResolveUsing(
-                            src => UploadedFile.MimeTypesByFileType.ContainsValue(src.Type)
-                                ? UploadedFile.MimeTypesByFileType.First(x => x.Value == src.Type).Key
-                                : UploadedFileType.Unknown));
+                cfg.CreateMap<SchoolingEventAddressViewModel, SchoolingEventAddress>(MemberList.Source);
             });
 
 
 
-
-        }
-
-        public static UploadedFileType MapExtension(string fileName)
-        {
-            var extension = Path.GetExtension(fileName)?.ToLower();
-
-            switch (extension)
-            {
-                case ".jpg":
-                    return UploadedFileType.Jpg;
-                case ".png":
-                    return UploadedFileType.Png;
-                case ".pdf":
-                    return UploadedFileType.Pdf;
-                case ".zip":
-                    return UploadedFileType.Zip;
-                default:
-                    return UploadedFileType.Unknown;
-            }
+            //Mapper.AssertConfigurationIsValid();
+            //TODO: make it pass
         }
     }
 }

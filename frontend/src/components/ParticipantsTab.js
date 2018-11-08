@@ -85,14 +85,16 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       ticketActions.approveTicketsForEventRequest.start({
         eventId,
-        userTicketIds
+        userTicketIds,
+        newTicketStatus: TicketStatus.Approved
       })
     ),
   rejectTickets: (eventId, userTicketIds) =>
     dispatch(
       ticketActions.rejectTicketsForEventRequest.start({
         eventId,
-        userTicketIds
+        userTicketIds,
+        newTicketStatus: TicketStatus.Rejected
       })
     )
 });

@@ -7,6 +7,7 @@ using JetAnotherEMS.Domain.Models;
 
 namespace JetAnotherEMS.Domain.Interfaces
 {
+    //TODO: rename to IUploadedFileRepository
     public interface IFileRepository : IRepository<UploadedFile>
     {
         Task SaveFile(UploadedFile file, Stream fileContent);

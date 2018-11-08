@@ -205,6 +205,7 @@ export function* handleLoadEventCreatorInitialValues(action) {
     //Set form values
     const initialVal = {
       id: event.id,
+      isPublic: event.isPublic,
       eventTitle: event.title,
       location: event.location,
       description: event.description,

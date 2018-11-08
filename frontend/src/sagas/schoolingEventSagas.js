@@ -30,8 +30,8 @@ export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   const data = {
     page: 0,
     pageSize: 20,
-    DateFrom: filter.dateStart ? filter.dateStart.format() : null,
-    DateTo: filter.dateEnd ? filter.dateEnd.format() : null,
+    DateStart: filter.dateStart ? filter.dateStart.format() : null,
+    DateEnd: filter.dateEnd ? filter.dateEnd.format() : null,
     PriceFrom: filter.priceFrom,
     PriceTo: filter.priceTo,
     OnlyFavorites: filter.onlyFavorites,

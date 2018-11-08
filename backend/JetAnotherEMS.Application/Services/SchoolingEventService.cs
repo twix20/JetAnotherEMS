@@ -137,7 +137,7 @@ namespace JetAnotherEMS.Application.Services
             // Date
             if (filter.DateStart.HasValue)
             {
-                query = query.Where(e => e.Schedule.Any() && e.Schedule.Min(d => d.Start) <= filter.DateStart.Value);
+                query = query.Where(e => e.Schedule.Any() && e.Schedule.Min(d => d.Start) >= filter.DateStart.Value);
             }
             if (filter.DateEnd.HasValue)
             {

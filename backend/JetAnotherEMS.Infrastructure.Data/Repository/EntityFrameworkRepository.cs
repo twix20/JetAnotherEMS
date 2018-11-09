@@ -43,7 +43,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
         public virtual async Task Remove(Guid id)
         {
             var entity = await GetById(id);
-            DbSet.Remove(entity);
+            if(entity != null)
+                DbSet.Remove(entity);
         }
 
         public Task<int> SaveChanges()

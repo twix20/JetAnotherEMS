@@ -34,26 +34,6 @@ namespace JetAnotherEMS.WebApi.Controllers
             _environment = environment;
         }
 
-        [HttpGet]
-        [Route("[action]/{id:guid}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Load(Guid id)
-        {
-            var file = await _fileService.GetById(id);
-            if (file == null)
-                return BadRequest();
-
-            return Ok(new
-            {
-                id = file.Id,
-                name = file.OriginalName,
-                typ = "image/png",
-                size = file.Size,
-            });
-        }
-
-
-
         [HttpPost]
         [Route("[action]")]
         [RequestSizeLimit(5 * 1000 * 1000)] //5mb
@@ -75,6 +55,23 @@ namespace JetAnotherEMS.WebApi.Controllers
 
             return Content(vm.Id.ToString());
         }
+
+        [HttpGet]
+        [Route("{id:guid}/[action]")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Download(Guid id)
+        {
+            var fileDb = await _fileService.GetById(id);
+            if (fileDb == null)
+                return BadRequest();
+
+            var filePath = Path.Combine(fileDb.LocationOnDisk, fileDb.FileName);
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            var fileName = fileDb.OriginalName;
+
+            return File(fileBytes, "application/force-download", fileName);
+        }
+
 
         [HttpDelete]
         [AllowAnonymous]

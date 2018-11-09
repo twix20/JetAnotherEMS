@@ -137,9 +137,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.Property<string>("Description");
 
-                    b.Property<Guid?>("EventId");
-
-                    b.Property<Guid?>("SchoolingEventDayId");
+                    b.Property<Guid?>("EventDayId");
 
                     b.Property<DateTime>("UpdatedAt");
 
@@ -149,9 +147,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("SchoolingEventDayId");
+                    b.HasIndex("EventDayId");
 
                     b.ToTable("SchoolingEventDayTag");
                 });
@@ -279,7 +275,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 {
                     b.HasBaseType("JetAnotherEMS.Domain.Models.UploadedFile");
 
-                    b.Property<Guid?>("SchoolingEventDayId");
+                    b.Property<Guid>("SchoolingEventDayId");
 
                     b.HasIndex("SchoolingEventDayId");
 
@@ -318,13 +314,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDayTag", b =>
                 {
-                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId");
-
-                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventDay")
+                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventDay", "EventDay")
                         .WithMany("Tags")
-                        .HasForeignKey("SchoolingEventDayId");
+                        .HasForeignKey("EventDayId");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventFollower", b =>
@@ -357,7 +349,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 {
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventDay", "SchoolingEventDay")
                         .WithMany("Attachments")
-                        .HasForeignKey("SchoolingEventDayId");
+                        .HasForeignKey("SchoolingEventDayId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventGalleryFile", b =>

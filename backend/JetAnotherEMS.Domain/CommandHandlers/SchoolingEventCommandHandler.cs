@@ -24,8 +24,7 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         IRequestHandler<ChangeFollowSchoolingEventCommand>
     {
         private readonly ISchoolingEventRepository _schoolingEventRepository;
-        private readonly ISchoolingEventDayAttachmentRepository _schoolingEventDayAttachmentRepository;
-        private readonly ISchoolingEventGalleryFileRepository _schoolingEventGalleryFileRepository;
+        private readonly ISchoolingEventDayRepository _schoolingEventDayRepository;
         private readonly IFileRepository _fileRepository;
 
         public SchoolingEventCommandHandler(
@@ -33,14 +32,12 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             IMediatorHandler bus, 
             INotificationHandler<DomainNotification> notifications, 
             IValidationService validationService, 
-            ISchoolingEventRepository schoolingEventRepository, 
-            ISchoolingEventDayAttachmentRepository schoolingEventDayAttachmentRepository, 
-            ISchoolingEventGalleryFileRepository schoolingEventGalleryFileRepository,
+            ISchoolingEventRepository schoolingEventRepository,
+            ISchoolingEventDayRepository schoolingEventDayRepository,
             IFileRepository fileRepository) : base(uow, bus, notifications, validationService)
         {
             _schoolingEventRepository = schoolingEventRepository;
-            _schoolingEventDayAttachmentRepository = schoolingEventDayAttachmentRepository;
-            _schoolingEventGalleryFileRepository = schoolingEventGalleryFileRepository;
+            _schoolingEventDayRepository = schoolingEventDayRepository;
             _fileRepository = fileRepository;
         }
 
@@ -67,6 +64,13 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         {
             //TODO: add validation
             var entity = Mapper.Map<SchoolingEvent>(request);
+
+            //var dbEntity = await _schoolingEventRepository.GetById(entity.Id);
+
+
+
+
+
 
             _schoolingEventRepository.Update(entity);
 

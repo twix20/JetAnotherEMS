@@ -233,11 +233,13 @@ class EventDayCreatorDialog extends React.Component {
               return acc;
             }, {});
             values.attachments = values.attachments
-              .map(a => {
-                a.serverId = filepondFilesById[a.id].serverId;
-                return a;
-              })
-              .filter(x => !!x.serverId);
+              ? values.attachments
+                  .map(a => {
+                    a.serverId = filepondFilesById[a.id].serverId;
+                    return a;
+                  })
+                  .filter(x => !!x.serverId)
+              : [];
 
             onSubmit(values);
           }}

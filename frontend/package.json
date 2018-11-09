@@ -22,6 +22,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^1.0.0",
+    "file-saver": "^2.0.0-rc.4",
     "filepond": "^3.2.5",
     "final-form": "^4.10.0",
     "fine-uploader": "^5.16.2",

@@ -4,6 +4,7 @@ import schoolingEvent from './schoolingEvent';
 import account from './account';
 import ticket from './ticket';
 import tags from './tags';
+import file from './file';
 
 export let instance = axios.create({
   baseURL: API_URL
@@ -18,5 +19,6 @@ export default {
   schoolingEvent,
   account,
   ticket,
-  tags
+  tags,
+  file
 };

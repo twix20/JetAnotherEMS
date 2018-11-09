@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
-using JetAnotherEMS.Domain.Core.Models;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
 using JetAnotherEMS.Infrastructure.Data.Context;
@@ -18,44 +18,71 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
 
         public override void Update(SchoolingEvent entity)
         {
-            FetchUploadedFileEntities(entity).Wait();
+            foreach (var availableTicket in entity.AvailableTickets)
+            {
+                Context.Entry(availableTicket).State = availableTicket.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
+            }
 
             base.Update(entity);
+
+            Task task = Task.Run(async () => await PerformUpdate(entity));
+            task.Wait();
         }
 
-
-        private async Task FetchUploadedFileEntities(SchoolingEvent entity)
+        private async Task PerformUpdate(SchoolingEvent entity)
         {
-            async Task<List<T>> FileAssignerHelper<T>(IEnumerable<Entity> fileEntities)
-                where T : Entity
+            async Task FileAssignerHelper<T>(IEnumerable<T> fileEntities, Func<T, bool> additionalPredicate)
+                where T : UploadedFile
             {
-                var dbFiles = await Context.UploadedFiles.Where(x => fileEntities.Select(f => f.Id).Contains(x.Id)).ProjectTo<T>().ToListAsync();
+                var dbFiles = await Context.UploadedFiles.Where(x => fileEntities.Select(f => f.Id).Contains(x.Id)).ProjectTo<T>().ToDictionaryAsync(x => x.Id, x => x);
 
-                foreach (var dbFile in dbFiles)
+                foreach (var fileEntity in fileEntities)
                 {
-                    Context.Entry(dbFile).Property("Discriminator").CurrentValue = typeof(T).Name;
+                    var dbFile = dbFiles[fileEntity.Id];
+
+                    fileEntity.LocationOnDisk = dbFile.LocationOnDisk;
+                    fileEntity.FileName = dbFile.FileName;
+                    fileEntity.OriginalName = dbFile.OriginalName;
+                    fileEntity.Size = dbFile.Size;
+                    fileEntity.WebUrl = dbFile.WebUrl;
+                    fileEntity.CreatedAt = dbFile.CreatedAt;
+                    fileEntity.CreatedByUserId = dbFile.CreatedByUserId;
+
+                    Context.Entry(fileEntity).Property("Discriminator").CurrentValue = typeof(T).Name;
                 }
 
-                var toRemove = await Context.UploadedFiles.Where(x => !fileEntities.Select(g => g.Id).Contains(x.Id)).ToListAsync();
+                var toRemove = await Context.Set<T>().Where(x => !fileEntities.Select(g => g.Id).Contains(x.Id) && additionalPredicate(x)).ToListAsync();
                 Context.RemoveRange(toRemove);
-
-                return dbFiles;
             }
 
             if (entity.Gallery != null)
             {
-                entity.Gallery = await FileAssignerHelper<SchoolingEventGalleryFile>(entity.Gallery);
+                await FileAssignerHelper<SchoolingEventGalleryFile>(entity.Gallery, x => x.EventId == entity.Id);
             }
 
             if (entity.Schedule != null)
             {
+                var dbSchedule = await Context.SchoolingEventDays.Where(x => x.Event.Id == entity.Id).ToDictionaryAsync(x => x.Id, x => x);
+
                 foreach (var eventDay in entity.Schedule)
                 {
+                    Context.Entry(eventDay).State = dbSchedule.ContainsKey(eventDay.Id) ? EntityState.Modified : EntityState.Added;
+
                     if (eventDay.Attachments != null)
                     {
-                        eventDay.Attachments = await FileAssignerHelper<SchoolingEventDayAttachment>(eventDay.Attachments);
+                        await FileAssignerHelper<SchoolingEventDayAttachment>(eventDay.Attachments, a => a.SchoolingEventDayId == eventDay.Id);
+                    }
+
+                    if (eventDay.Tags != null)
+                    {
+                        var tagsToRemove = await Context.SchoolingEventDayTags.Where(t => t.EventDay.Id == eventDay.Id).ToListAsync();
+                        Context.RemoveRange(tagsToRemove);
                     }
                 }
+
+                var newDayIds = entity.Schedule.Where(x => x.GetType() == typeof(SchoolingEventDay)).Select(x => x.Id);
+                var daysToDelete = dbSchedule.Values.Where(dbScheduleValue => !newDayIds.Contains(dbScheduleValue.Id));
+                Context.RemoveRange(daysToDelete);
             }
 
             base.Update(entity);

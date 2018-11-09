@@ -3,6 +3,6 @@
     public class SchoolingEventDayTag : Tag
     {
 
-        public virtual SchoolingEvent Event { get; set; }
+        public virtual SchoolingEventDay EventDay { get; set; }
     }
 }

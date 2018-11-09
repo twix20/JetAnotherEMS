@@ -21,7 +21,7 @@ namespace JetAnotherEMS.Application.ViewModels
         [JsonIgnore]
         public string LocationOnDisk { get; set; }
 
-        public string FtpFileUrl => string.Join("/", new string[] {"https://localhost:44364", "uploads", FileName}); //TODO: take it from config
+        public string FtpFileUrl => string.Join("/", new string[] { "https://localhost:5001", "uploads", FileName }); //TODO: take it from config
 
         /// <summary>
         /// File Size in bytes

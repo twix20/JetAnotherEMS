@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
+namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SchoolingEvent",
+                name: "SchoolingEvents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -22,27 +22,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SchoolingEvent", x => x.Id);
+                    table.PrimaryKey("PK_SchoolingEvents", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StoredEvent",
-                columns: table => new
-                {
-                    MessageType = table.Column<string>(nullable: true),
-                    AggregateId = table.Column<Guid>(nullable: false),
-                    Timestamp = table.Column<DateTime>(nullable: false),
-                    Id = table.Column<Guid>(nullable: false),
-                    Data = table.Column<string>(nullable: true),
-                    User = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StoredEvent", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SchoolingEventAddress",
+                name: "GoogleMapsAddresses",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -53,21 +37,22 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                     Description = table.Column<string>(nullable: true),
                     Lat = table.Column<float>(nullable: false),
                     Lng = table.Column<float>(nullable: false),
-                    EventId = table.Column<Guid>(nullable: false)
+                    Discriminator = table.Column<string>(nullable: false),
+                    EventId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SchoolingEventAddress", x => x.Id);
+                    table.PrimaryKey("PK_GoogleMapsAddresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SchoolingEventAddress_SchoolingEvent_EventId",
+                        name: "FK_GoogleMapsAddresses_SchoolingEvents_EventId",
                         column: x => x.EventId,
-                        principalTable: "SchoolingEvent",
+                        principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SchoolingEventDay",
+                name: "SchoolingEventDays",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -85,17 +70,17 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SchoolingEventDay", x => x.Id);
+                    table.PrimaryKey("PK_SchoolingEventDays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SchoolingEventDay_SchoolingEvent_EventId",
+                        name: "FK_SchoolingEventDays_SchoolingEvents_EventId",
                         column: x => x.EventId,
-                        principalTable: "SchoolingEvent",
+                        principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SchoolingEventFollower",
+                name: "SchoolingEventFollowers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -108,17 +93,17 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SchoolingEventFollower", x => x.Id);
+                    table.PrimaryKey("PK_SchoolingEventFollowers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SchoolingEventFollower_SchoolingEvent_EventId",
+                        name: "FK_SchoolingEventFollowers_SchoolingEvents_EventId",
                         column: x => x.EventId,
-                        principalTable: "SchoolingEvent",
+                        principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SchoolingEventTicket",
+                name: "SchoolingEventTickets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -134,17 +119,17 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SchoolingEventTicket", x => x.Id);
+                    table.PrimaryKey("PK_SchoolingEventTickets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SchoolingEventTicket_SchoolingEvent_EventId",
+                        name: "FK_SchoolingEventTickets_SchoolingEvents_EventId",
                         column: x => x.EventId,
-                        principalTable: "SchoolingEvent",
+                        principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SchoolingEventDayTag",
+                name: "SchoolingEventDayTags",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -154,28 +139,21 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    EventId = table.Column<Guid>(nullable: true),
-                    SchoolingEventDayId = table.Column<Guid>(nullable: true)
+                    EventDayId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SchoolingEventDayTag", x => x.Id);
+                    table.PrimaryKey("PK_SchoolingEventDayTags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SchoolingEventDayTag_SchoolingEvent_EventId",
-                        column: x => x.EventId,
-                        principalTable: "SchoolingEvent",
+                        name: "FK_SchoolingEventDayTags_SchoolingEventDays_EventDayId",
+                        column: x => x.EventDayId,
+                        principalTable: "SchoolingEventDays",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SchoolingEventDayTag_SchoolingEventDay_SchoolingEventDayId",
-                        column: x => x.SchoolingEventDayId,
-                        principalTable: "SchoolingEventDay",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UploadedFile",
+                name: "UploadedFiles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -194,23 +172,23 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UploadedFile", x => x.Id);
+                    table.PrimaryKey("PK_UploadedFiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UploadedFile_SchoolingEventDay_SchoolingEventDayId",
+                        name: "FK_UploadedFiles_SchoolingEventDays_SchoolingEventDayId",
                         column: x => x.SchoolingEventDayId,
-                        principalTable: "SchoolingEventDay",
+                        principalTable: "SchoolingEventDays",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UploadedFile_SchoolingEvent_EventId",
+                        name: "FK_UploadedFiles_SchoolingEvents_EventId",
                         column: x => x.EventId,
-                        principalTable: "SchoolingEvent",
+                        principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSchoolingEventTicket",
+                name: "UserSchoolingEventTickets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -225,101 +203,94 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSchoolingEventTicket", x => x.Id);
+                    table.PrimaryKey("PK_UserSchoolingEventTickets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserSchoolingEventTicket_SchoolingEvent_SchoolingEventId",
+                        name: "FK_UserSchoolingEventTickets_SchoolingEvents_SchoolingEventId",
                         column: x => x.SchoolingEventId,
-                        principalTable: "SchoolingEvent",
+                        principalTable: "SchoolingEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserSchoolingEventTicket_SchoolingEventTicket_TicketId",
+                        name: "FK_UserSchoolingEventTickets_SchoolingEventTickets_TicketId",
                         column: x => x.TicketId,
-                        principalTable: "SchoolingEventTicket",
+                        principalTable: "SchoolingEventTickets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventAddress_EventId",
-                table: "SchoolingEventAddress",
+                name: "IX_GoogleMapsAddresses_EventId",
+                table: "GoogleMapsAddresses",
                 column: "EventId",
-                unique: true);
+                unique: true,
+                filter: "[EventId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventDay_EventId",
-                table: "SchoolingEventDay",
+                name: "IX_SchoolingEventDays_EventId",
+                table: "SchoolingEventDays",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventDayTag_EventId",
-                table: "SchoolingEventDayTag",
+                name: "IX_SchoolingEventDayTags_EventDayId",
+                table: "SchoolingEventDayTags",
+                column: "EventDayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SchoolingEventFollowers_EventId",
+                table: "SchoolingEventFollowers",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventDayTag_SchoolingEventDayId",
-                table: "SchoolingEventDayTag",
+                name: "IX_SchoolingEventTickets_EventId",
+                table: "SchoolingEventTickets",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadedFiles_SchoolingEventDayId",
+                table: "UploadedFiles",
                 column: "SchoolingEventDayId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventFollower_EventId",
-                table: "SchoolingEventFollower",
+                name: "IX_UploadedFiles_EventId",
+                table: "UploadedFiles",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolingEventTicket_EventId",
-                table: "SchoolingEventTicket",
-                column: "EventId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadedFile_SchoolingEventDayId",
-                table: "UploadedFile",
-                column: "SchoolingEventDayId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadedFile_EventId",
-                table: "UploadedFile",
-                column: "EventId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserSchoolingEventTicket_SchoolingEventId",
-                table: "UserSchoolingEventTicket",
+                name: "IX_UserSchoolingEventTickets_SchoolingEventId",
+                table: "UserSchoolingEventTickets",
                 column: "SchoolingEventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSchoolingEventTicket_TicketId",
-                table: "UserSchoolingEventTicket",
+                name: "IX_UserSchoolingEventTickets_TicketId",
+                table: "UserSchoolingEventTickets",
                 column: "TicketId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SchoolingEventAddress");
+                name: "GoogleMapsAddresses");
 
             migrationBuilder.DropTable(
-                name: "SchoolingEventDayTag");
+                name: "SchoolingEventDayTags");
 
             migrationBuilder.DropTable(
-                name: "SchoolingEventFollower");
+                name: "SchoolingEventFollowers");
 
             migrationBuilder.DropTable(
-                name: "StoredEvent");
+                name: "UploadedFiles");
 
             migrationBuilder.DropTable(
-                name: "UploadedFile");
+                name: "UserSchoolingEventTickets");
 
             migrationBuilder.DropTable(
-                name: "UserSchoolingEventTicket");
+                name: "SchoolingEventDays");
 
             migrationBuilder.DropTable(
-                name: "SchoolingEventDay");
+                name: "SchoolingEventTickets");
 
             migrationBuilder.DropTable(
-                name: "SchoolingEventTicket");
-
-            migrationBuilder.DropTable(
-                name: "SchoolingEvent");
+                name: "SchoolingEvents");
         }
     }
 }

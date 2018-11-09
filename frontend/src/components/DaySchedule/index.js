@@ -25,6 +25,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import TagsList from '../TagsList';
 import moment from 'moment';
+import { formatBytes, saveFileById } from '../../services/utils';
 
 const styles = theme => ({
   root: {
@@ -106,12 +107,35 @@ function generate(element) {
 
 //TODO: rename DaySchedule to DayActivity
 class DaySchedule extends React.Component {
-  state = {};
+  handleAttachmentDownload = a => {
+    saveFileById(a.id, a.originalName);
+  };
 
   render() {
     const { classes, day } = this.props;
 
-    const secondary = true;
+    const attachmentListItems = day.attachments.map(a => {
+      return (
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <FolderIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={a.originalName}
+            secondary={formatBytes(a.size)}
+          />
+          <ListItemSecondaryAction>
+            <IconButton aria-label="Download">
+              <CloudDownloadIcon
+                onClick={() => this.handleAttachmentDownload(a)}
+              />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      );
+    });
 
     return (
       <Grid container className={classes.activityContainer}>
@@ -152,9 +176,12 @@ class DaySchedule extends React.Component {
                       {day.lectureRoom}
                     </Typography>
                   </Grid>
-                  <Grid item className={classes.attachmentItem}>
-                    <AttachmentIcon />
-                  </Grid>
+
+                  {attachmentListItems.length > 0 && (
+                    <Grid item className={classes.attachmentItem}>
+                      <AttachmentIcon />
+                    </Grid>
+                  )}
                 </Grid>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.details}>
@@ -178,26 +205,11 @@ class DaySchedule extends React.Component {
                   <Grid item className={classes.helper} lg={4}>
                     <Typography variant="subheading">Attachments</Typography>
 
-                    <List dense={true}>
-                      {generate(
-                        <ListItem>
-                          <ListItemAvatar>
-                            <Avatar>
-                              <FolderIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary="info.pdf"
-                            secondary={secondary ? '320kb' : null}
-                          />
-                          <ListItemSecondaryAction>
-                            <IconButton aria-label="Delete">
-                              <CloudDownloadIcon />
-                            </IconButton>
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                      )}
-                    </List>
+                    {attachmentListItems.length > 0 ? (
+                      <List dense={true}>{attachmentListItems}</List>
+                    ) : (
+                      <div>No attachments</div>
+                    )}
                   </Grid>
                 </Grid>
               </ExpansionPanelDetails>

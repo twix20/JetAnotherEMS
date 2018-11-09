@@ -2,7 +2,7 @@
 
 namespace JetAnotherEMS.Domain.Interfaces
 {
-    public interface ISchoolingEventRepository : IRepository<SchoolingEvent>
+    public interface ISchoolingEventDayRepository : IRepository<SchoolingEventDay>
     {
     }
 }

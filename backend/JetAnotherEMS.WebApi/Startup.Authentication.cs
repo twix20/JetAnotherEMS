@@ -5,7 +5,9 @@ using JetAnotherEMS.Infrastructure.Identity;
 using JetAnotherEMS.Infrastructure.Identity.Data;
 using JetAnotherEMS.Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,15 +32,13 @@ namespace JetAnotherEMS.WebApi
             });
 
 
-
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = "https://localhost:44364";
+                options.Authority = Configuration.GetValue<string>("IdentityServer:Url");
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

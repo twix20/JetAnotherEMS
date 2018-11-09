@@ -49,6 +49,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
 
             modelBuilder.Entity<UploadedFile>().Property<string>("Discriminator").Metadata.AfterSaveBehavior = PropertySaveBehavior.Save;
 
+            modelBuilder.Entity<SchoolingEventDay>()
+                .HasMany(d => d.Tags)
+                .WithOne(x => x.EventDay)
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(modelBuilder);
         }
 

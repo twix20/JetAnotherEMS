@@ -276,7 +276,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.HasIndex("SchoolingEventDayId");
 
-                    b.ToTable("SchoolingEventDayAttachments");
+                    b.ToTable("SchoolingEventDayAttachment");
 
                     b.HasDiscriminator().HasValue("SchoolingEventDayAttachment");
                 });
@@ -285,11 +285,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("JetAnotherEMS.Domain.Models.UploadedFile");
 
-                    b.Property<Guid?>("EventId");
+                    b.Property<Guid>("EventId");
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("SchoolingEventGalleryFiles");
+                    b.ToTable("SchoolingEventGalleryFile");
 
                     b.HasDiscriminator().HasValue("SchoolingEventGalleryFile");
                 });
@@ -357,7 +357,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
                         .WithMany("Gallery")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

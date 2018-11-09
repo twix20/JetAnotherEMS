@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using JetAnotherEMS.Domain.Models;
+using Newtonsoft.Json;
 
 namespace JetAnotherEMS.Application.ViewModels
 {
@@ -17,7 +19,7 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public UploadedFileType FileType { get; set; }
 
-        public string LocationOnDisk { get; set; }
+        [JsonIgnore]public string LocationOnDisk { get; set; }
 
         /// <summary>
         /// File Size in bytes

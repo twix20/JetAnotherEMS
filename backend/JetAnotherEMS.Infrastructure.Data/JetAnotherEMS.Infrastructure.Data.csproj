@@ -6,6 +6,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Context\SeedData\Attachment_1.pdf" />
+    <None Remove="Context\SeedData\Attachment_2.pdf" />
+    <None Remove="Context\SeedData\Gallery_1.jpg" />
+    <None Remove="Context\SeedData\Gallery_2.jpg" />
+    <None Remove="Context\SeedData\Gallery_3.png" />
+    <None Remove="Context\SeedData\Gallery_4.jpg" />
+    <None Remove="Context\SeedData\Gallery_5.jpg" />
+    <None Remove="Context\SeedData\Gallery_6.jpg" />
+    <None Remove="Context\SeedData\Gallery_7.jpg" />
+    <None Remove="Context\SeedData\Gallery_8.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Context\SeedData\Attachment_1.pdf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Context\SeedData\Attachment_2.pdf" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_1.jpg" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_2.jpg" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_3.png" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_4.jpg" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_5.jpg" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_6.jpg" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_7.jpg" />
+    <EmbeddedResource Include="Context\SeedData\Gallery_8.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />

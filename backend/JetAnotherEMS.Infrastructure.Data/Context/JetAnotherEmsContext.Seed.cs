@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using JetAnotherEMS.Domain.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace JetAnotherEMS.Infrastructure.Data.Context
 {
     public static class JetAnotherEmsContextSeed
     {
-        public static void Seed(this JetAnotherEmsContext context)
+        public static void Seed(this JetAnotherEmsContext context, IHostingEnvironment hostingEnvironment)
         {
+            var uploadFolderPath = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+
             var events = new List<SchoolingEvent>()
             {
                 new SchoolingEvent()
@@ -41,6 +46,17 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                                     Value = "Angular",
                                     Description = "Web framework"
                                 }
+                            },
+                            Attachments = new List<SchoolingEventDayAttachment>()
+                            {
+                                new SchoolingEventDayAttachment()
+                                {
+                                    Id = Guid.Parse("9e2c7877-2fde-46f4-8efb-c7d3f85be0b1"),
+                                    FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Attachment_1.pdf",
+                                    LocationOnDisk = uploadFolderPath,
+                                    OriginalName = "Attachment_1.pdf",
+                                    Size = 264_000
+                                }
                             }
                         },
                         new SchoolingEventDay()
@@ -57,6 +73,17 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                                 {
                                     Value = "Angular2",
                                     Description = "Web framework2"
+                                }
+                            },
+                            Attachments = new List<SchoolingEventDayAttachment>()
+                            {
+                                new SchoolingEventDayAttachment()
+                                {
+                                    Id = Guid.Parse("88edc8d2-e8f8-4f71-b717-5d23bf78a231"),
+                                    FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Attachment_2.pdf",
+                                    LocationOnDisk = uploadFolderPath,
+                                    OriginalName = "Attachment_2.pdf",
+                                    Size = 264_000
                                 }
                             }
                         }
@@ -77,13 +104,60 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                             TotalQuantity = 20,
                             Currency = "PLN"
                         }
+                    },
+                    Gallery = new List<SchoolingEventGalleryFile>()
+                    {
+                        new SchoolingEventGalleryFile()
+                        {
+                            Id = Guid.Parse("34265bbc-8279-4e00-9fbe-880ef8142751"),
+                            FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Gallery_1.jpg",
+                            LocationOnDisk = uploadFolderPath,
+                            OriginalName = "Gallery_1.jpg",
+                            Size = 264_000,
+                        },
+                        new SchoolingEventGalleryFile()
+                        {
+                            Id = Guid.Parse("34265bbc-8279-4e00-9fbe-880ef8142752"),
+                            FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Gallery_2.jpg",
+                            LocationOnDisk = uploadFolderPath,
+                            OriginalName = "Gallery_2.jpg",
+                            Size = 94_000,
+                        },
+                        new SchoolingEventGalleryFile()
+                        {
+                            Id = Guid.Parse("34265bbc-8279-4e00-9fbe-880ef8142753"),
+                            FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Gallery_3.jpg",
+                            LocationOnDisk = uploadFolderPath,
+                            OriginalName = "Gallery_3.jpg",
+                            Size = 1_000_002,
+                        },
+
                     }
-                    
                 }
             };
 
             if (!context.Set<SchoolingEvent>().Any())
             {
+                var executinAssembly = Assembly.GetExecutingAssembly();
+                var manifestResourceNames = Assembly.GetAssembly(typeof(JetAnotherEmsContextSeed)).GetManifestResourceNames();
+
+                foreach (var resourceName in manifestResourceNames)
+                {
+                    using (Stream stream = executinAssembly.GetManifestResourceStream(resourceName))
+                    {
+                        var pathToSave = Path.Combine(uploadFolderPath, resourceName);
+
+                        if (File.Exists(pathToSave))
+                            File.Delete(pathToSave);
+
+                        using (var fileStream = File.Create(pathToSave))
+                        {
+                            stream.Seek(0, SeekOrigin.Begin);
+                            stream.CopyTo(fileStream);
+                        }
+                    }
+                }
+
                 context.AddRange(events);
                 context.SaveChanges();
             }

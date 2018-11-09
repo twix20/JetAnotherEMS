@@ -119,7 +119,7 @@ namespace JetAnotherEMS.WebApi
 
                 // DUMMY SEED
                 var ctx = scope.Resolve<JetAnotherEmsContext>();
-                ctx.Seed();
+                ctx.Seed(env);
             }
         }
     }

@@ -235,8 +235,12 @@ export function* handleLoadEventCreatorInitialValues(action) {
           size: a.size,
           type: a.type,
           origin: 'local'
+        })),
+        tags: d.tags.map(t => ({
+          description: t.description,
+          label: t.value,
+          value: t.value
         }))
-        //TODO: add tags
       })),
       gallery: event.gallery.map(g => ({
         id: g.id,

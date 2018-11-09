@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.IO;
 using JetAnotherEMS.Domain.Models;
 using Newtonsoft.Json;
 
@@ -11,7 +11,6 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public string OriginalName { get; set; }
 
-
         /// <summary>
         /// one of the MIME types
         /// </summary>
@@ -19,7 +18,10 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public UploadedFileType FileType { get; set; }
 
-        [JsonIgnore]public string LocationOnDisk { get; set; }
+        [JsonIgnore]
+        public string LocationOnDisk { get; set; }
+
+        public string FtpFileUrl => string.Join("/", new string[] {"https://localhost:44364", "uploads", FileName}); //TODO: take it from config
 
         /// <summary>
         /// File Size in bytes

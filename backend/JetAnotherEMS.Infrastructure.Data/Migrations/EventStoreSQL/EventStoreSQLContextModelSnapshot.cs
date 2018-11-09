@@ -236,6 +236,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.Property<Guid>("UpdatedByUserId");
 
+                    b.Property<string>("WebUrl");
+
                     b.HasKey("Id");
 
                     b.ToTable("UploadedFile");

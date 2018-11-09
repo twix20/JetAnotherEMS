@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EventCard from '../EventCard/EventCard';
+import FeaturedEventCard from '../FeaturedEventCard/FeaturedEventCard';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
@@ -40,7 +40,7 @@ class EventListContainer extends React.Component {
         <List>
           {featuredEvents.map((e, i) => (
             <ListItem disableGutters key={i}>
-              <EventCard event={e} />
+              <FeaturedEventCard event={e} />
             </ListItem>
           ))}
         </List>

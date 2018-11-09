@@ -185,12 +185,14 @@ class EventDetailsCard extends React.Component {
       ${moment(event.endingDateTime).format('L')}`;
     const hasEventStarted = moment(event.startingDateTime).isBefore(new Date());
 
+    const galleryUrls = event.gallery.map(g => g.ftpFileUrl);
+
     return (
       <div>
         {expanded && (
           <Fade in={expanded}>
             <div className={classes.expandedCarouselContainer}>
-              <EventImagesCarousel />
+              <EventImagesCarousel slides={galleryUrls} />
             </div>
           </Fade>
         )}
@@ -207,7 +209,7 @@ class EventDetailsCard extends React.Component {
               {!expanded && (
                 <Fade in={!expanded}>
                   <div>
-                    <EventImagesCarousel />
+                    <EventImagesCarousel slides={galleryUrls} />
                   </div>
                 </Fade>
               )}

@@ -28,6 +28,8 @@ import TagsPicker from '../TagsPicker/TagsPicker';
 import { FilePond, File, registerPlugin } from 'react-filepond';
 import AceEditor from 'react-ace';
 
+import { API_URL } from '../../config/urls';
+
 export const renderTextField = ({
   input: { name, onChange, value, ...restInput },
   meta,
@@ -99,7 +101,7 @@ export const renderFileUploader = ({
   const error = meta.error && meta.touched;
 
   let serverProp = {
-    url: 'https://localhost:44364/api/File/',
+    url: `${API_URL}/File/`,
     process: {
       url: 'Upload',
       headers: {

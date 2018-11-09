@@ -3,26 +3,21 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import AccessTime from '@material-ui/icons/AccessTime';
-import Person from '@material-ui/icons/Person';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import TagsList from '../TagsList';
 import { Link } from 'react-router-dom';
-import Checkbox from '@material-ui/core/Checkbox';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import PlaceIcon from '@material-ui/icons/Place';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import HeartCheckbox from '../common/HeartCheckbox';
 import SchoolIcon from '@material-ui/icons/School';
 
 import EventImagesCarousel from '../EventImagesCarousel';
 
 import moment from 'moment';
+import { API_HOST_URL } from '../../config/urls';
 
 const styles = theme => ({
   image: {
@@ -140,11 +135,12 @@ const styles = theme => ({
   }
 });
 
-class EventCard extends React.PureComponent {
-  state = {};
-
+class FeaturedEventCard extends React.PureComponent {
   render() {
     const { classes, event } = this.props;
+
+    const teacherNames = event.teacherNames.join(', ');
+    const galleryUrls = event.gallery.map(g => g.ftpFileUrl);
 
     return (
       <Paper>
@@ -155,8 +151,7 @@ class EventCard extends React.PureComponent {
               className={classes.heart}
             />
 
-            <EventImagesCarousel />
-            {/* <img src={event.imageUrl} className={classes.image} /> */}
+            <EventImagesCarousel slides={galleryUrls} />
           </Grid>
           <Grid
             item
@@ -175,10 +170,7 @@ class EventCard extends React.PureComponent {
               xs={6}
             >
               <Grid item className={classes.infoDetail}>
-                <Tooltip
-                  position="bottom"
-                  title={event.teacherNames.join(', ')}
-                >
+                <Tooltip position="bottom" title={teacherNames}>
                   <div>
                     <Typography
                       className={classes.infoNumber}
@@ -289,4 +281,4 @@ class EventCard extends React.PureComponent {
   }
 }
 
-export default withStyles(styles)(EventCard);
+export default withStyles(styles)(FeaturedEventCard);

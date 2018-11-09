@@ -186,6 +186,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                     FileName = table.Column<string>(nullable: true),
                     OriginalName = table.Column<string>(nullable: true),
                     LocationOnDisk = table.Column<string>(nullable: true),
+                    WebUrl = table.Column<string>(nullable: true),
                     Size = table.Column<long>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     SchoolingEventDayId = table.Column<Guid>(nullable: true),

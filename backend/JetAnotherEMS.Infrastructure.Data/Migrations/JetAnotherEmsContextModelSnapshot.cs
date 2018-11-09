@@ -216,6 +216,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
 
                     b.Property<Guid>("UpdatedByUserId");
 
+                    b.Property<string>("WebUrl");
+
                     b.HasKey("Id");
 
                     b.ToTable("UploadedFiles");

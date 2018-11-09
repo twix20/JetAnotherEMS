@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
-using System.Text;
 using JetAnotherEMS.Domain.Core.Models;
 
 namespace JetAnotherEMS.Domain.Models
@@ -27,6 +25,8 @@ namespace JetAnotherEMS.Domain.Models
         [NotMapped] public UploadedFileType FileType => MapExtension(OriginalName);
 
         public string LocationOnDisk { get; set; }
+
+        public string WebUrl { get; set; }
 
         /// <summary>
         /// Length in bytes

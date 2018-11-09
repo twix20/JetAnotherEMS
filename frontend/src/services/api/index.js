@@ -1,10 +1,13 @@
 import axios from 'axios';
+import { API_URL } from '../../config/urls';
 import schoolingEvent from './schoolingEvent';
 import account from './account';
 import ticket from './ticket';
 import tags from './tags';
 
-export let instance = axios.create();
+export let instance = axios.create({
+  baseURL: API_URL
+});
 instance.interceptors.request.use(function(config) {
   const token = localStorage.getItem('jwt');
   config.headers.Authorization = token ? `Bearer ${token}` : '';

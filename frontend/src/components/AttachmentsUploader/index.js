@@ -6,10 +6,10 @@ import { change as changleFieldValue } from 'redux-form';
 
 import FineUploaderTraditional from 'fine-uploader-wrappers';
 
+import { API_URL } from '../../config/urls';
+
 import { FilePond, File, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
-
-import merge from 'lodash/merge';
 
 const styles = theme => ({
   root: {
@@ -52,7 +52,7 @@ class AttachmentsUploader extends React.Component {
           allowMultiple={true}
           maxFiles={3}
           server={{
-            url: 'https://localhost:44364/api/File/',
+            url: `${API_URL}/File/`,
             process: {
               url: 'Upload',
               headers: {

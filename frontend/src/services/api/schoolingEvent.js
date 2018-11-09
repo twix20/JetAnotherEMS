@@ -1,23 +1,20 @@
 import { instance } from './index';
 
-const URL_HOST = 'https://localhost:44364';
-//TODO: move url to config/env variable
 export default {
   getFeaturedEvents: ({ page, pageSize, ...filter }) =>
-    instance.get(`${URL_HOST}/api/SchoolingEvent/Featured`, {
+    instance.get(`/SchoolingEvent/Featured`, {
       params: {
         page,
         pageSize,
         ...filter
       }
     }),
-  getEvent: ({ id }) => instance.get(`${URL_HOST}/api/SchoolingEvent/${id}`),
-  getSchedule: ({ id }) =>
-    instance.get(`${URL_HOST}/api/SchoolingEvent/${id}/Schedule`),
+  getEvent: ({ id }) => instance.get(`/SchoolingEvent/${id}`),
+  getSchedule: ({ id }) => instance.get(`/SchoolingEvent/${id}/Schedule`),
   getParticipants: ({ id }) =>
-    instance.get(`${URL_HOST}/api/SchoolingEvent/${id}/Participants`),
+    instance.get(`$/SchoolingEvent/${id}/Participants`),
   getAvailableTickets: ({ id }) =>
-    instance.get(`${URL_HOST}/api/SchoolingEvent/${id}/Tickets`),
-  create: payload => instance.post(`${URL_HOST}/api/SchoolingEvent`, payload),
-  update: payload => instance.patch(`${URL_HOST}/api/SchoolingEvent`, payload)
+    instance.get(`/SchoolingEvent/${id}/Tickets`),
+  create: payload => instance.post(`/SchoolingEvent`, payload),
+  update: payload => instance.patch(`/SchoolingEvent`, payload)
 };

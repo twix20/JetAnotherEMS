@@ -126,9 +126,9 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                         new SchoolingEventGalleryFile()
                         {
                             Id = Guid.Parse("34265bbc-8279-4e00-9fbe-880ef8142753"),
-                            FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Gallery_3.jpg",
+                            FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Gallery_3.png",
                             LocationOnDisk = uploadFolderPath,
-                            OriginalName = "Gallery_3.jpg",
+                            OriginalName = "Gallery_3.png",
                             Size = 1_000_002,
                         },
 

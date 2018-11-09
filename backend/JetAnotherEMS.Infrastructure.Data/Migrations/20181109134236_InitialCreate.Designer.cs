@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
+namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(EventStoreSQLContext))]
-    [Migration("20181109073927_InitialCreate")]
+    [DbContext(typeof(JetAnotherEmsContext))]
+    [Migration("20181109134236_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,24 +21,33 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("JetAnotherEMS.Domain.Core.Events.StoredEvent", b =>
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.GoogleMapsAddress", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("AggregateId");
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Data");
+                    b.Property<Guid>("CreatedByUserId");
 
-                    b.Property<string>("MessageType");
+                    b.Property<string>("Description");
 
-                    b.Property<DateTime>("Timestamp");
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
-                    b.Property<string>("User");
+                    b.Property<float>("Lat");
+
+                    b.Property<float>("Lng");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<Guid>("UpdatedByUserId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StoredEvent");
+                    b.ToTable("GoogleMapsAddresses");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("GoogleMapsAddress");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEvent", b =>
@@ -62,36 +71,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.HasKey("Id");
 
-                    b.ToTable("SchoolingEvent");
-                });
-
-            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventAddress", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<Guid>("CreatedByUserId");
-
-                    b.Property<string>("Description");
-
-                    b.Property<Guid>("EventId");
-
-                    b.Property<float>("Lat");
-
-                    b.Property<float>("Lng");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.Property<Guid>("UpdatedByUserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId")
-                        .IsUnique();
-
-                    b.ToTable("SchoolingEventAddress");
+                    b.ToTable("SchoolingEvents");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDay", b =>
@@ -125,7 +105,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("SchoolingEventDay");
+                    b.ToTable("SchoolingEventDays");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDayTag", b =>
@@ -155,7 +135,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.HasIndex("SchoolingEventDayId");
 
-                    b.ToTable("SchoolingEventDayTag");
+                    b.ToTable("SchoolingEventDayTags");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventFollower", b =>
@@ -179,7 +159,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("SchoolingEventFollower");
+                    b.ToTable("SchoolingEventFollowers");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventTicket", b =>
@@ -211,7 +191,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("SchoolingEventTicket");
+                    b.ToTable("SchoolingEventTickets");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.UploadedFile", b =>
@@ -238,9 +218,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.Property<Guid>("UpdatedByUserId");
 
+                    b.Property<string>("WebUrl");
+
                     b.HasKey("Id");
 
-                    b.ToTable("UploadedFile");
+                    b.ToTable("UploadedFiles");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("UploadedFile");
                 });
@@ -272,7 +254,22 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("UserSchoolingEventTicket");
+                    b.ToTable("UserSchoolingEventTickets");
+                });
+
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventAddress", b =>
+                {
+                    b.HasBaseType("JetAnotherEMS.Domain.Models.GoogleMapsAddress");
+
+                    b.Property<Guid>("EventId");
+
+                    b.HasIndex("EventId")
+                        .IsUnique()
+                        .HasFilter("[EventId] IS NOT NULL");
+
+                    b.ToTable("SchoolingEventAddress");
+
+                    b.HasDiscriminator().HasValue("SchoolingEventAddress");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDayAttachment", b =>
@@ -299,14 +296,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                     b.ToTable("SchoolingEventGalleryFile");
 
                     b.HasDiscriminator().HasValue("SchoolingEventGalleryFile");
-                });
-
-            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventAddress", b =>
-                {
-                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
-                        .WithOne("Location")
-                        .HasForeignKey("JetAnotherEMS.Domain.Models.SchoolingEventAddress", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDay", b =>
@@ -351,6 +340,14 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventTicket", "Ticket")
                         .WithMany()
                         .HasForeignKey("TicketId");
+                });
+
+            modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventAddress", b =>
+                {
+                    b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
+                        .WithOne("Location")
+                        .HasForeignKey("JetAnotherEMS.Domain.Models.SchoolingEventAddress", "EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventDayAttachment", b =>

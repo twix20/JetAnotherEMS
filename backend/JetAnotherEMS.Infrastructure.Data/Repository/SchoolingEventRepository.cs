@@ -59,7 +59,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
                     fileEntity.FileName = dbFile.FileName;
                     fileEntity.OriginalName = dbFile.OriginalName;
                     fileEntity.Size = dbFile.Size;
-                    fileEntity.WebUrl = dbFile.WebUrl;
+                    fileEntity.FtpFileUrl = dbFile.FtpFileUrl;
                     fileEntity.CreatedAt = dbFile.CreatedAt;
                     fileEntity.CreatedByUserId = dbFile.CreatedByUserId;
 

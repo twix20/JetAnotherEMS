@@ -26,7 +26,7 @@ namespace JetAnotherEMS.Domain.Models
 
         public string LocationOnDisk { get; set; }
 
-        public string WebUrl { get; set; }
+        public string FtpFileUrl { get; set; }
 
         /// <summary>
         /// Length in bytes

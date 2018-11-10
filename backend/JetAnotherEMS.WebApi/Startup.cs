@@ -114,10 +114,6 @@ namespace JetAnotherEMS.WebApi
             using (var scope = ApplicationContainer.BeginLifetimeScope("AutofacWebRequest"))
             {
                 CreateRoles(scope);
-
-                // DUMMY SEED
-                var ctx = scope.Resolve<JetAnotherEmsContext>();
-                ctx.Seed(env);
             }
         }
     }

@@ -9,6 +9,7 @@ using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
+using Microsoft.AspNetCore.Hosting;
 
 namespace JetAnotherEMS.Application.Services
 {
@@ -33,7 +34,7 @@ namespace JetAnotherEMS.Application.Services
             return Mapper.Map<UploadedFileViewModel>(entity);
         }
 
-        public async Task SaveFile(UploadedFileViewModel fileViewModel, Stream contentStream, string pathToSave)
+        public async Task SaveFile(UploadedFileViewModel fileViewModel, Stream contentStream, string pathToSave, string baseUrl)
         {
             //TODO: validate
             var entity = Mapper.Map<UploadedFile>(fileViewModel);
@@ -41,6 +42,7 @@ namespace JetAnotherEMS.Application.Services
             var extension = Path.GetExtension(entity.OriginalName);
             entity.FileName = $"{fileViewModel.Id}{extension}";
             entity.Size = contentStream.Length;
+            entity.FtpFileUrl = $"{baseUrl}/uploads/{entity.FileName}";
 
             await _fileRepository.Add(entity);
 

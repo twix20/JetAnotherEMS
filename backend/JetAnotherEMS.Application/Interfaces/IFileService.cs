@@ -18,8 +18,9 @@ namespace JetAnotherEMS.Application.Interfaces
         /// <param name="fileViewModel"></param>
         /// <param name="contentStream"></param>
         /// <param name="pathToSave"></param>
+        /// <param name="ftpFileUrl"></param>
         /// <returns></returns>
-        Task SaveFile(UploadedFileViewModel fileViewModel, Stream contentStream, string pathToSave);
+        Task SaveFile(UploadedFileViewModel fileViewModel, Stream contentStream, string pathToSave, string ftpFileUrl);
 
         /// <summary>
         /// Deletes file from local disk

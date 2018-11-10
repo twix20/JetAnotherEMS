@@ -10,9 +10,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
 {
     public static class JetAnotherEmsContextSeed
     {
-        public static void Seed(this JetAnotherEmsContext context, IHostingEnvironment hostingEnvironment)
+        public static void Seed(this JetAnotherEmsContext context, IHostingEnvironment hostingEnvironment, string baseUrl)
         {
             var uploadFolderPath = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+            Func<string, string> ftpFileUrlResolver = fileName => $"{baseUrl}/uploads/{fileName}";
 
             var events = new List<SchoolingEvent>()
             {
@@ -55,7 +56,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                                     FileName = "JetAnotherEMS.Infrastructure.Data.Context.SeedData.Attachment_1.pdf",
                                     LocationOnDisk = uploadFolderPath,
                                     OriginalName = "Attachment_1.pdf",
-                                    Size = 264_000
+                                    Size = 264_000,
+                                    FtpFileUrl = $"{baseUrl}"
                                 }
                             }
                         },
@@ -135,6 +137,23 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                     }
                 }
             };
+            foreach (var @event in events)
+            {
+                foreach (var eventDay in @event.Schedule)
+                {
+                    foreach (var attachment in eventDay.Attachments)
+                    {
+                        attachment.FtpFileUrl = ftpFileUrlResolver(attachment.FileName);
+                    }
+                }
+                foreach (var galleryFile in @event.Gallery)
+                {
+                    galleryFile.FtpFileUrl = ftpFileUrlResolver(galleryFile.FileName);
+                }
+            }
+
+
+
 
             if (!context.Set<SchoolingEvent>().Any())
             {

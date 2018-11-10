@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using JetAnotherEMS.Infrastructure.Data.Context;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JetAnotherEMS.WebApi.Controllers
@@ -7,6 +10,25 @@ namespace JetAnotherEMS.WebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly JetAnotherEmsContext _context;
+        private readonly IHostingEnvironment _env;
+
+        public ValuesController(JetAnotherEmsContext context, IHostingEnvironment env)
+        {
+            _context = context;
+            _env = env;
+        }
+
+        [HttpGet]
+        [Route("/Seed")]
+        public ActionResult<IEnumerable<string>> Seed()
+        {
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            _context.Seed(_env, baseUrl);
+
+            return Ok();
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using RequestSizeLimitAttribute = JetAnotherEMS.WebApi.Attributes.RequestSizeLimitAttribute;
 
@@ -47,11 +48,16 @@ namespace JetAnotherEMS.WebApi.Controllers
             //TODO: move to command handler
             var fullTempPathToSave = Path.Combine(_environment.WebRootPath, "uploads");
 
+
+            //string.Join("/", _env., "uploads", entity.FileName);
+
             var vm = Mapper.Map<UploadedFileViewModel>(filepond);
             vm.Id = Guid.NewGuid();
             vm.LocationOnDisk = fullTempPathToSave;
 
-            await _fileService.SaveFile(vm, filepond.OpenReadStream(), fullTempPathToSave);
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
+            await _fileService.SaveFile(vm, filepond.OpenReadStream(), fullTempPathToSave, baseUrl);
 
             return Content(vm.Id.ToString());
         }

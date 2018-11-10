@@ -77,10 +77,12 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            var dbConnectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION") ?? config.GetConnectionString("DefaultConnection");
+
             // define the database to use
             optionsBuilder
                 .UseLazyLoadingProxies()
-                .UseSqlServer(config.GetConnectionString("DefaultConnection"));
+                .UseSqlServer(dbConnectionString);
         }
 
         private void AddTimestamps()

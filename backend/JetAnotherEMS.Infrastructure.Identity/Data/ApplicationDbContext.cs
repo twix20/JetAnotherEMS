@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
@@ -24,10 +25,12 @@ namespace JetAnotherEMS.Infrastructure.Identity.Data
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            var dbConnectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION") ?? config.GetConnectionString("DefaultConnection");
+
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
                 .UseLazyLoadingProxies()
-                .UseSqlServer(config.GetConnectionString("DefaultConnection"));
+                .UseSqlServer(dbConnectionString);
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

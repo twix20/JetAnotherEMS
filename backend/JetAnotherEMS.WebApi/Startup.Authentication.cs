@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.IO;
 using JetAnotherEMS.Infrastructure.Identity;
 using JetAnotherEMS.Infrastructure.Identity.Data;
 using JetAnotherEMS.Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +27,6 @@ namespace JetAnotherEMS.WebApi
                 options.Password.RequiredLength = 1;
                 options.Password.RequiredUniqueChars = 1;
             });
-
 
             services.AddAuthentication(options =>
             {

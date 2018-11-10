@@ -2,7 +2,6 @@
 using FluentValidation;
 using JetAnotherEMS.Application;
 using JetAnotherEMS.Application.Services;
-using JetAnotherEMS.Domain.Commands.SchoolingEvent;
 using JetAnotherEMS.Domain.Core.Validation;
 using JetAnotherEMS.Domain.Validation;
 

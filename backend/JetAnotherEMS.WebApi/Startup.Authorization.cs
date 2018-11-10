@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using JetAnotherEMS.Infrastructure.Identity.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +34,7 @@ namespace JetAnotherEMS.WebApi
             }
         }
 
-        private void CreateRole(ILifetimeScope scope, string roleName)
+        private void CreateRole(IComponentContext scope, string roleName)
         {
             var roleManager = scope.Resolve<RoleManager<IdentityRole>>();
 

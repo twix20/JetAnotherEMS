@@ -1,11 +1,8 @@
 ﻿using Autofac;
 using JetAnotherEMS.Domain.Core.Events;
-using JetAnotherEMS.Infrastructure.Data.Context;
 using JetAnotherEMS.Infrastructure.Data.EventSourcing;
 using JetAnotherEMS.Infrastructure.Data.Repository;
 using JetAnotherEMS.Infrastructure.Data.Repository.EventSourcing;
-using JetAnotherEMS.Infrastructure.Identity.Data;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace JetAnotherEMS.Infrastructure.IoC.AutofacModules
 {

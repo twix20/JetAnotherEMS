@@ -161,7 +161,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
 
                     b.Property<Guid>("CreatedByUserId");
 
-                    b.Property<Guid?>("EventId");
+                    b.Property<Guid>("EventId");
 
                     b.Property<DateTime>("UpdatedAt");
 
@@ -323,7 +323,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations.EventStoreSQL
                 {
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
                         .WithMany("Followers")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventTicket", b =>

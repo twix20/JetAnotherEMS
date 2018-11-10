@@ -15,11 +15,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
         {
             //modelBuilder.ApplyConfiguration(new StoredEventMap());
 
-            modelBuilder.Entity<SchoolingEventGalleryFile>();
-            modelBuilder.Entity<SchoolingEventDayAttachment>();
-
-            modelBuilder.Entity<UploadedFile>().Property<string>("Discriminator").Metadata.AfterSaveBehavior = PropertySaveBehavior.Save;
-
             base.OnModelCreating(modelBuilder);
         }
 

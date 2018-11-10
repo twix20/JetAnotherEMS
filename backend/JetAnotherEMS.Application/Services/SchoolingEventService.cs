@@ -65,6 +65,7 @@ namespace JetAnotherEMS.Application.Services
         {
             var featuredEventsQuery = _schoolingEventRepository
                 .GetAll()
+                .Where(e => e.IsPublic)
                 .Skip(page * pageSize)
                 .Take(pageSize);
 

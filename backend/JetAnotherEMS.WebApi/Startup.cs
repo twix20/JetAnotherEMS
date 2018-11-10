@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using JetAnotherEMS.Infrastructure.Data.Context;
@@ -113,7 +116,28 @@ namespace JetAnotherEMS.WebApi
 
             using (var scope = ApplicationContainer.BeginLifetimeScope("AutofacWebRequest"))
             {
+                WaitForDatabase(scope);
                 CreateRoles(scope);
+            }
+        }
+
+        private void WaitForDatabase(ILifetimeScope scope)
+        {
+            var dbContext = scope.Resolve<JetAnotherEmsContext>();
+            while (true)
+            {
+
+                try
+                {
+                    var x = dbContext.SchoolingEvents.ToList();
+
+                    break;
+                }
+                catch (SqlException sqlEx)
+                {
+                    Console.WriteLine(sqlEx.Message);
+                    Thread.Sleep(100);
+                }
             }
         }
     }

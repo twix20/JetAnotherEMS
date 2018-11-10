@@ -9,10 +9,10 @@ import { Carousel } from 'react-responsive-carousel';
 
 class EventImagesCarousel extends React.Component {
   render() {
-    const { slides } = this.props;
+    const { slides, ...rest } = this.props;
 
     return (
-      <Carousel emulateTouch infiniteLoop showThumbs={false}>
+      <Carousel emulateTouch infiniteLoop showThumbs={false} {...rest}>
         {slides.map((s, i) => (
           <div key={i}>
             <img src={s} />

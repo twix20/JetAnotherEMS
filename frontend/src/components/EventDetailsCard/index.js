@@ -84,6 +84,13 @@ const styles = theme => ({
     justifyContent: 'center',
     padding: theme.spacing.unit * 2
   },
+  carousel: {
+    '& .carousel .slide img': {
+      height: 'auto',
+      maxWidth: '100%',
+      maxHeight: 550
+    }
+  },
   expandedCarouselContainer: {
     margin: theme.spacing.unit * 3,
 
@@ -203,7 +210,7 @@ class EventDetailsCard extends React.Component {
         {expanded && (
           <Fade in={expanded}>
             <div className={classes.expandedCarouselContainer}>
-              <EventImagesCarousel slides={galleryUrls} />
+              <EventImagesCarousel slides={galleryUrls} autoPlay />
             </div>
           </Fade>
         )}
@@ -219,8 +226,8 @@ class EventDetailsCard extends React.Component {
             >
               {!expanded && (
                 <Fade in={!expanded}>
-                  <div>
-                    <EventImagesCarousel slides={galleryUrls} />
+                  <div className={classes.carousel}>
+                    <EventImagesCarousel slides={galleryUrls} autoPlay />
                   </div>
                 </Fade>
               )}

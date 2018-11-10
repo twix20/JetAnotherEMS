@@ -27,7 +27,13 @@ const styles = theme => ({
     height: '100%'
   },
   imageContainer: {
-    position: 'relative'
+    position: 'relative',
+
+    '& .carousel .slide img': {
+      height: 'auto',
+      maxWidth: '100%',
+      maxHeight: 200
+    }
   },
   heart: {
     position: 'absolute',
@@ -153,7 +159,11 @@ class FeaturedEventCard extends React.PureComponent {
               onClick={onFollowClicked}
             />
 
-            <EventImagesCarousel slides={galleryUrls} />
+            <EventImagesCarousel
+              slides={galleryUrls}
+              autoPlay
+              // dynamicHeight
+            />
           </Grid>
           <Grid
             item

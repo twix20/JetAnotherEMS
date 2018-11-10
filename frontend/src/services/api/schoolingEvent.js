@@ -13,7 +13,7 @@ export default {
   getEvent: ({ id }) => instance.get(`/SchoolingEvent/${id}`),
   getSchedule: ({ id }) => instance.get(`/SchoolingEvent/${id}/Schedule`),
   getParticipants: ({ id }) =>
-    instance.get(`$/SchoolingEvent/${id}/Participants`),
+    instance.get(`/SchoolingEvent/${id}/Participants`),
   getAvailableTickets: ({ id }) =>
     instance.get(`/SchoolingEvent/${id}/Tickets`),
   create: payload => instance.post(`/SchoolingEvent`, payload),

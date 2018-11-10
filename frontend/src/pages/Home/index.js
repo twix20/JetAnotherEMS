@@ -16,15 +16,19 @@ import EventCreatorOpenerButton from '../../components/EventCreatorOpenerButton'
 
 import { connect } from 'react-redux';
 
-import schoolingEventActions from '../../actions/schoolingEventActions';
-import { schoolingEventSelectors } from '../../reducers/selectors';
+import schoolingEventFilterActions from '../../actions/schoolingEventFilterActions';
+import {
+  schoolingEventSelectors,
+  schoolingEventFilterSelectors
+} from '../../reducers/selectors';
+import { SchoolingEventSortType } from './../../constants/enums';
+import { updateFilter } from './../../actions/schoolingEventFilterActions';
 
 const styles = theme => ({
   listHeaderContainer: {
     padding: `${theme.spacing.unit}px 0`,
     paddingBottom: theme.spacing.unit / 2
   },
-  sortBy: {},
   root: {
     display: 'flex',
     flexWrap: 'wrap'
@@ -52,16 +56,12 @@ const styles = theme => ({
 });
 
 class HomePage extends React.Component {
-  state = {
-    sortBy: ''
-  };
-
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleFilterChange = event => {
+    this.props.updateFilter(event.target.name, event.target.value);
   };
 
   render() {
-    const { classes, featuredEvents } = this.props;
+    const { classes, featuredEvents, sort } = this.props;
 
     return (
       <DefaultLayout
@@ -93,18 +93,24 @@ class HomePage extends React.Component {
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="sortByInput">Sort by</InputLabel>
                 <Select
-                  value={this.state.sortBy}
-                  onChange={this.handleChange}
+                  value={sort}
+                  onChange={this.handleFilterChange}
                   inputProps={{
-                    name: 'sortBy',
+                    name: 'sort',
                     id: 'sortByInput'
                   }}
                 >
-                  <MenuItem value="">
+                  <MenuItem value={SchoolingEventSortType.None}>
                     <em>Nothing</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ticket price Ascending</MenuItem>
-                  <MenuItem value={20}>Ticket price Descending</MenuItem>
+                  <MenuItem value={SchoolingEventSortType.TicketPriceAscending}>
+                    Ticket price Ascending
+                  </MenuItem>
+                  <MenuItem
+                    value={SchoolingEventSortType.TicketPriceDescending}
+                  >
+                    Ticket price Descending
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -118,10 +124,14 @@ class HomePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  featuredEvents: schoolingEventSelectors.featured(state)
+  featuredEvents: schoolingEventSelectors.featured(state),
+  sort: schoolingEventFilterSelectors.filter(state).sort
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  updateFilter: (name, data) =>
+    dispatch(schoolingEventFilterActions.updateFilter(name, data))
+});
 
 export default withStyles(styles)(
   connect(

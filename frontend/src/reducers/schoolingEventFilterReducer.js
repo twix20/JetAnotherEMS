@@ -1,6 +1,8 @@
 import ActionTypes from '../constants/actionTypes';
+import { SchoolingEventSortType } from '../constants/enums';
 
 const initialState = {
+  sort: SchoolingEventSortType.None,
   tags: [],
   dateStart: null,
   dateEnd: null,

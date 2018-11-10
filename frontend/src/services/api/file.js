@@ -1,10 +1,5 @@
-import { instance } from './index';
+import { API_URL } from '../../config/urls';
 
 export default {
-  download: ({ id }) =>
-    instance.get(`/File/${id}/Download`, {
-      headers: {
-        responseType: 'blob' // important
-      }
-    })
+  downloadUrl: ({ id }) => `${API_URL}/File/${id}/Download`
 };

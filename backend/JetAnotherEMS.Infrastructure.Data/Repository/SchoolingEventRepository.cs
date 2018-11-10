@@ -16,6 +16,14 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
         {
         }
 
+        public override async Task Add(SchoolingEvent entity)
+        {
+            Task task = Task.Run(async () => await PerformFileAssigning(entity));
+            task.Wait();
+
+            await base.Add(entity);
+        }
+
         public override void Update(SchoolingEvent entity)
         {
             foreach (var availableTicket in entity.AvailableTickets)
@@ -25,8 +33,10 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
 
             base.Update(entity);
 
-            Task task = Task.Run(async () => await PerformUpdate(entity));
+            Task task = Task.Run(async () => await PerformFileAssigning(entity));
             task.Wait();
+
+            base.Update(entity);
         }
 
         public async Task<bool> IsUserFollowingEvent(Guid userId, Guid eventId)
@@ -34,7 +44,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
             return await DbSet.Where(e => e.Id == eventId && e.Followers.Any(f => f.UserId == userId)).FirstOrDefaultAsync() != null;
         }
 
-        private async Task PerformUpdate(SchoolingEvent entity)
+        private async Task PerformFileAssigning(SchoolingEvent entity)
         {
             async Task FileAssignerHelper<T>(IEnumerable<T> fileEntities, Func<T, bool> additionalPredicate)
                 where T : UploadedFile
@@ -54,6 +64,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
                     fileEntity.CreatedByUserId = dbFile.CreatedByUserId;
 
                     Context.Entry(fileEntity).Property("Discriminator").CurrentValue = typeof(T).Name;
+
+                    Context.Update(fileEntity);
                 }
 
                 var toRemove = await Context.Set<T>().Where(x => !fileEntities.Select(g => g.Id).Contains(x.Id) && additionalPredicate(x)).ToListAsync();
@@ -89,8 +101,6 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
                 var daysToDelete = dbSchedule.Values.Where(dbScheduleValue => !newDayIds.Contains(dbScheduleValue.Id));
                 Context.RemoveRange(daysToDelete);
             }
-
-            base.Update(entity);
         }
     }
 }

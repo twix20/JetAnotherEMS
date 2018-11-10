@@ -1,11 +1,12 @@
 import { instance } from './index';
 
 export default {
-  getFeaturedEvents: ({ page, pageSize, ...filter }) =>
+  getFeaturedEvents: ({ page, pageSize, sort, ...filter }) =>
     instance.get(`/SchoolingEvent/Featured`, {
       params: {
         page,
         pageSize,
+        sort,
         ...filter
       }
     }),

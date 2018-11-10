@@ -29,7 +29,8 @@ export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   //todo: save and take page from reducer
   const data = {
     page: 0,
-    pageSize: 20,
+    pageSize: 20000,
+    sort: filter.sort,
     DateStart: filter.dateStart ? filter.dateStart.format() : null,
     DateEnd: filter.dateEnd ? filter.dateEnd.format() : null,
     PriceFrom: filter.priceFrom,

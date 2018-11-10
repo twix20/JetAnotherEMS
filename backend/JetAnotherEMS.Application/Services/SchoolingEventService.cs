@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -60,7 +61,7 @@ namespace JetAnotherEMS.Application.Services
             return vm;
         }
 
-        public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, int page, int pageSize)
+        public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, SchoolingEventSortType sort, int page, int pageSize)
         {
             var featuredEventsQuery = _schoolingEventRepository
                 .GetAll()
@@ -69,6 +70,9 @@ namespace JetAnotherEMS.Application.Services
 
             if (filter != null)
                 featuredEventsQuery = ApplyFilters(featuredEventsQuery, filter);
+
+            if (sort != SchoolingEventSortType.None)
+                featuredEventsQuery = ApplySort(featuredEventsQuery, sort);
 
             var vm = await featuredEventsQuery.ProjectTo<FeaturedSchoolingEventViewModel>().ToListAsync();
 
@@ -210,6 +214,22 @@ namespace JetAnotherEMS.Application.Services
             {
                 query = query.Where(e =>
                     e.Schedule.SelectMany(d => d.Tags).Any(t => filter.Tags.Any(x => x.Value == t.Value)));
+            }
+
+            return query;
+        }
+
+        private IQueryable<SchoolingEvent> ApplySort(IQueryable<SchoolingEvent> query, SchoolingEventSortType sort)
+        {
+            Expression<Func<SchoolingEvent, decimal>> minTicketPricePredicate = e => e.AvailableTickets.Min(t => t.Price);
+            switch (sort)
+            {
+                case SchoolingEventSortType.TicketPriceAscending:
+                    query = query.OrderBy(minTicketPricePredicate);
+                    break;
+                case SchoolingEventSortType.TicketPriceDescending:
+                    query = query.OrderByDescending(minTicketPricePredicate);
+                    break;
             }
 
             return query;

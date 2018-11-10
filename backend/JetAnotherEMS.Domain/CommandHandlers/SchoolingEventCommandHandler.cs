@@ -31,9 +31,8 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             IMediatorHandler bus, 
             INotificationHandler<DomainNotification> notifications, 
             IValidationService validationService, 
-            ISchoolingEventRepository schoolingEventRepository,
-            ISchoolingEventDayRepository schoolingEventDayRepository,
-            IFileRepository fileRepository, ISchoolingEventFollowerRepository schoolingEventFollowerRepository) : base(uow, bus, notifications, validationService)
+            ISchoolingEventRepository schoolingEventRepository, 
+            ISchoolingEventFollowerRepository schoolingEventFollowerRepository) : base(uow, bus, notifications, validationService)
         {
             _schoolingEventRepository = schoolingEventRepository;
             _schoolingEventFollowerRepository = schoolingEventFollowerRepository;

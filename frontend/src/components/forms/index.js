@@ -170,6 +170,8 @@ export const renderMUIPlacesAutocomplete = ({
           suggestion.lat = geometry.location.lat();
           suggestion.lng = geometry.location.lng();
 
+          delete suggestion.id;
+
           onChange(suggestion);
         });
       }}

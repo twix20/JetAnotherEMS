@@ -10,6 +10,7 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public bool IsPublic { get; set; }
 
+
         public SchoolingEventAddressViewModel Location { get; set; }
 
         public ICollection<SchoolingEventDayViewModel> Calendar { get; set; }

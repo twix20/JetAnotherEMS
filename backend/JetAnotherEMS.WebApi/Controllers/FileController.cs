@@ -68,8 +68,9 @@ namespace JetAnotherEMS.WebApi.Controllers
             var filePath = Path.Combine(fileDb.LocationOnDisk, fileDb.FileName);
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
             var fileName = fileDb.OriginalName;
+            var fileType = fileDb.Type;
 
-            return File(fileBytes, "application/force-download", fileName);
+            return File(fileBytes, fileType, fileName);
         }
 
 

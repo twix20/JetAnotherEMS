@@ -12,3 +12,9 @@ export const TicketStatus = {
   Approved: 2,
   Rejected: 3
 };
+
+export const SchoolingEventSortType = {
+  None: 0,
+  TicketPriceAscending: 1,
+  TicketPriceDescending: 2
+};

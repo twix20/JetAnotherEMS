@@ -42,9 +42,9 @@ namespace JetAnotherEMS.WebApi.Controllers
         [Route("[action]")]
         //TODO: sort by
         //TODO: pagination
-        public async Task<IActionResult> Featured(SchoolingEventFilterViewModel filter, int page = 0, int pageSize = 10)
+        public async Task<IActionResult> Featured(SchoolingEventFilterViewModel filter, SchoolingEventSortType sort, int page = 0, int pageSize = 10)
         {
-            var entities = await _schoolingEventService.GetFeaturedEvents(filter, page, pageSize);
+            var entities = await _schoolingEventService.GetFeaturedEvents(filter, sort, page, pageSize);
 
             return Response(entities);
         }

@@ -25,7 +25,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import TagsList from '../TagsList';
 import moment from 'moment';
-import { formatBytes, saveFileById } from '../../services/utils';
+import { formatBytes } from '../../services/utils';
+import API from '../../services/api';
 
 const styles = theme => ({
   root: {
@@ -108,7 +109,7 @@ function generate(element) {
 //TODO: rename DaySchedule to DayActivity
 class DaySchedule extends React.Component {
   handleAttachmentDownload = a => {
-    saveFileById(a.id, a.originalName);
+    window.location = API.file.downloadUrl({ id: a.id });
   };
 
   render() {

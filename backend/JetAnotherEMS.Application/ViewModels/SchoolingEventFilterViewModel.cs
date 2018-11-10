@@ -19,4 +19,11 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public IEnumerable<SchoolingEventDayTagViewModel> Tags { get; set; }
     }
+
+    public enum SchoolingEventSortType
+    {
+        None = 0,
+        TicketPriceAscending,
+        TicketPriceDescending
+    }
 }

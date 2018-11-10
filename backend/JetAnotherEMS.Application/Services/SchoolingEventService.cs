@@ -65,15 +65,17 @@ namespace JetAnotherEMS.Application.Services
         {
             var featuredEventsQuery = _schoolingEventRepository
                 .GetAll()
-                .Where(e => e.IsPublic)
-                .Skip(page * pageSize)
-                .Take(pageSize);
+                .Where(e => e.IsPublic);
 
             if (filter != null)
                 featuredEventsQuery = ApplyFilters(featuredEventsQuery, filter);
 
             if (sort != SchoolingEventSortType.None)
                 featuredEventsQuery = ApplySort(featuredEventsQuery, sort);
+
+            featuredEventsQuery = featuredEventsQuery
+                .Skip(page * pageSize)
+                .Take(pageSize);
 
             var vm = await featuredEventsQuery.ProjectTo<FeaturedSchoolingEventViewModel>().ToListAsync();
 

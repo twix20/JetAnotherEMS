@@ -102,6 +102,8 @@ namespace JetAnotherEMS.Application.AutoMapper
                 cfg.CreateMap<SchoolingEventAddressViewModel, SchoolingEventAddress>(MemberList.Source);
 
                 cfg.CreateMap<ChangeFollowSchoolingEventViewModel, ChangeFollowSchoolingEventCommand>(MemberList.Source);
+
+                cfg.CreateMap<CancelEventTicketViewModel, CancelEventTicketCommand>(MemberList.Source);
             });
 
 

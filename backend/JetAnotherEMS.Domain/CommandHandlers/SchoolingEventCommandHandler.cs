@@ -24,8 +24,7 @@ namespace JetAnotherEMS.Domain.CommandHandlers
         IRequestHandler<ChangeFollowSchoolingEventCommand>
     {
         private readonly ISchoolingEventRepository _schoolingEventRepository;
-        private readonly ISchoolingEventDayRepository _schoolingEventDayRepository;
-        private readonly IFileRepository _fileRepository;
+        private readonly ISchoolingEventFollowerRepository _schoolingEventFollowerRepository;
 
         public SchoolingEventCommandHandler(
             IUnitOfWork uow, 
@@ -34,11 +33,10 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             IValidationService validationService, 
             ISchoolingEventRepository schoolingEventRepository,
             ISchoolingEventDayRepository schoolingEventDayRepository,
-            IFileRepository fileRepository) : base(uow, bus, notifications, validationService)
+            IFileRepository fileRepository, ISchoolingEventFollowerRepository schoolingEventFollowerRepository) : base(uow, bus, notifications, validationService)
         {
             _schoolingEventRepository = schoolingEventRepository;
-            _schoolingEventDayRepository = schoolingEventDayRepository;
-            _fileRepository = fileRepository;
+            _schoolingEventFollowerRepository = schoolingEventFollowerRepository;
         }
 
         public async Task<Unit> Handle(CreateNewSchoolingEventCommand message, CancellationToken cancellationToken)
@@ -65,13 +63,6 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             //TODO: add validation
             var entity = Mapper.Map<SchoolingEvent>(request);
 
-            //var dbEntity = await _schoolingEventRepository.GetById(entity.Id);
-
-
-
-
-
-
             _schoolingEventRepository.Update(entity);
 
             if (await Commit())
@@ -82,9 +73,37 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             return Unit.Value;
         }
 
-        public Task<Unit> Handle(ChangeFollowSchoolingEventCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ChangeFollowSchoolingEventCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            //TODO: add validation
+
+            var userIdThatWantsToChangeFollowStatus = request.UserId;
+
+            var eventEntity = await _schoolingEventRepository.GetById(request.EventId);
+            var follower = eventEntity.Followers.FirstOrDefault(f => f.UserId == userIdThatWantsToChangeFollowStatus);
+
+            if (request.IsFollowing && follower == null)
+            {
+                await _schoolingEventFollowerRepository.Add(new SchoolingEventFollower()
+                {
+                    UserId = userIdThatWantsToChangeFollowStatus,
+                    EventId = eventEntity.Id
+                });
+                if (await Commit())
+                {
+                    //TODO: rise event
+                }
+            }
+            else if (!request.IsFollowing && follower != null)
+            {
+                await _schoolingEventFollowerRepository.Remove(follower.Id);
+                if (await Commit())
+                {
+                    //TODO: rise event
+                }
+            }
+
+            return Unit.Value;
         }
     }
 }

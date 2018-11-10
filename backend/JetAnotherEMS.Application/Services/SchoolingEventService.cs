@@ -35,7 +35,7 @@ namespace JetAnotherEMS.Application.Services
             UserManager<ApplicationUser> userManager)
         {
             _user = user;
-            this._schoolingEventRepository = schoolingEventRepository;
+            _schoolingEventRepository = schoolingEventRepository;
             _bus = bus;
             _userManager = userManager;
         }
@@ -49,7 +49,15 @@ namespace JetAnotherEMS.Application.Services
                 return null;
             }
 
-            return Mapper.Map<FeaturedSchoolingEventViewModel>(entity);
+            var vm = Mapper.Map<FeaturedSchoolingEventViewModel>(entity);
+
+            if (_user.IsAuthenticated())
+            {
+                var currentUserId = _user.Id;
+                vm.IsFollowing = await _schoolingEventRepository.IsUserFollowingEvent(currentUserId, entity.Id);
+            }
+
+            return vm;
         }
 
         public async Task<IEnumerable<FeaturedSchoolingEventViewModel>> GetFeaturedEvents(SchoolingEventFilterViewModel filter, int page, int pageSize)
@@ -62,11 +70,18 @@ namespace JetAnotherEMS.Application.Services
             if (filter != null)
                 featuredEventsQuery = ApplyFilters(featuredEventsQuery, filter);
 
+            var vm = await featuredEventsQuery.ProjectTo<FeaturedSchoolingEventViewModel>().ToListAsync();
 
-            var xd = await featuredEventsQuery.ToListAsync();
+            if (_user.IsAuthenticated())
+            {
+                var currentUserId = _user.Id;
+                foreach (var eventViewModel in vm)
+                {
+                    eventViewModel.IsFollowing = await _schoolingEventRepository.IsUserFollowingEvent(currentUserId, eventViewModel.Id);
+                }
+            }
 
-            return await featuredEventsQuery.ProjectTo<FeaturedSchoolingEventViewModel>()
-                .ToListAsync();
+            return vm;
         }
 
         public async Task<IEnumerable<SchoolingEventTicketViewModel>> GetTickets(Guid id)
@@ -131,6 +146,15 @@ namespace JetAnotherEMS.Application.Services
             return participantViewModels;
         }
 
+        public async Task ChangeSchoolingEventFollow(ChangeFollowSchoolingEventViewModel viewModel)
+        {
+            viewModel.UserId = _user.Id;
+
+            var command = Mapper.Map<ChangeFollowSchoolingEventCommand>(viewModel);
+
+            await _bus.SendCommand(command);
+        }
+
         private IQueryable<SchoolingEvent> ApplyFilters(IQueryable<SchoolingEvent> query,
             SchoolingEventFilterViewModel filter)
         {
@@ -157,19 +181,28 @@ namespace JetAnotherEMS.Application.Services
             // Only favorites for current user
             if (filter.OnlyFavorites.HasValue)
             {
-                query = query.Where(e => e.Followers.Any(f => f.UserId == _user.Id));
+                Func<SchoolingEventFollower, bool> followPredicate = f => f.UserId == _user.Id;
+                query = filter.OnlyFavorites.Value ? 
+                    query.Where(e => e.Followers.Any(f => followPredicate(f))) : 
+                    query.Where(e => e.Followers.Any(f => !followPredicate(f)));
             }
 
             // Only private for current user
             if (filter.OnlyPrivate.HasValue)
             {
-                query = query.Where(e => !e.IsPublic && e.CreatedByUserId == _user.Id);
+                Func<SchoolingEvent, bool> privatePredicate = e => !e.IsPublic && e.CreatedByUserId == _user.Id;
+                query = filter.OnlyPrivate.Value ? 
+                    query.Where(e => privatePredicate(e)) : 
+                    query.Where(e => !privatePredicate(e));
             }
 
             //Only created by current user
             if (filter.OnlyMy.HasValue)
             {
-                query = query.Where(e => e.CreatedByUserId == _user.Id);
+                Func<SchoolingEvent, bool> onlyMyPredicate = e => e.CreatedByUserId == _user.Id;
+                query = filter.OnlyMy.Value ?
+                    query.Where(e => onlyMyPredicate(e)) :
+                    query.Where(e => !onlyMyPredicate(e));
             }
 
             //Tags by its value

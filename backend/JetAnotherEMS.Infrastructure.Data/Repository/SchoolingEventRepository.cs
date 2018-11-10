@@ -29,6 +29,11 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
             task.Wait();
         }
 
+        public async Task<bool> IsUserFollowingEvent(Guid userId, Guid eventId)
+        {
+            return await DbSet.Where(e => e.Id == eventId && e.Followers.Any(f => f.UserId == userId)).FirstOrDefaultAsync() != null;
+        }
+
         private async Task PerformUpdate(SchoolingEvent entity)
         {
             async Task FileAssignerHelper<T>(IEnumerable<T> fileEntities, Func<T, bool> additionalPredicate)

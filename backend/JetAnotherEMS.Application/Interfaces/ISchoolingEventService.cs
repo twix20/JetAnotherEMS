@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetAnotherEMS.Application.ViewModels;
-using JetAnotherEMS.Domain.Models;
 
 namespace JetAnotherEMS.Application.Interfaces
 {
@@ -21,5 +20,7 @@ namespace JetAnotherEMS.Application.Interfaces
         Task Update(UpdateSchoolingEventViewModel viewModel);
 
         Task<IEnumerable<SchoolingEventParticipantViewModel>> GetParticipants(Guid id);
+
+        Task ChangeSchoolingEventFollow(ChangeFollowSchoolingEventViewModel viewModel);
     }
 }

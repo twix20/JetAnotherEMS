@@ -137,7 +137,7 @@ const styles = theme => ({
 
 class FeaturedEventCard extends React.PureComponent {
   render() {
-    const { classes, event } = this.props;
+    const { classes, event, onFollowClicked } = this.props;
 
     const teacherNames = event.teacherNames.join(', ');
     const galleryUrls = event.gallery.map(g => g.ftpFileUrl);
@@ -149,6 +149,8 @@ class FeaturedEventCard extends React.PureComponent {
             <HeartCheckbox
               id={`favoriteEvent_${event.id}`}
               className={classes.heart}
+              checked={!!event.isFollowing}
+              onClick={onFollowClicked}
             />
 
             <EventImagesCarousel slides={galleryUrls} />
@@ -280,5 +282,9 @@ class FeaturedEventCard extends React.PureComponent {
     );
   }
 }
+
+FeaturedEventCard.defaultProps = {
+  onFollowClicked: e => {}
+};
 
 export default withStyles(styles)(FeaturedEventCard);

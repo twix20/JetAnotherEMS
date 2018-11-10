@@ -6,8 +6,6 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
 import red from '@material-ui/core/colors/red';
 
 const styles = theme => ({
@@ -20,7 +18,15 @@ const styles = theme => ({
 });
 
 function HeartCheckbox(props) {
-  const { classes, onChange, labelText, id, className } = props;
+  const {
+    classes,
+    onChange,
+    labelText,
+    id,
+    className,
+    checkboxClassName,
+    ...rest
+  } = props;
 
   return (
     <div className={className}>
@@ -30,11 +36,13 @@ function HeartCheckbox(props) {
         checkedIcon={<Favorite />}
         color="default"
         value="checkedH"
+        className={checkboxClassName}
         classes={{
           root: classes.root,
           checked: classes.checked
         }}
         onChange={onChange}
+        {...rest}
       />
     </div>
   );

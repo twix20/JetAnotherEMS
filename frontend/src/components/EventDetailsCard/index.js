@@ -58,6 +58,8 @@ import { connect } from 'react-redux';
 import schoolingEventActions from '../../actions/schoolingEventActions';
 import ticketActions from '../../actions/ticketActions';
 
+import HeartCheckbox from '../common/HeartCheckbox';
+
 import moment from 'moment';
 
 import {
@@ -73,6 +75,9 @@ const styles = theme => ({
   },
   details: {
     flex: 1
+  },
+  followCheckbox: {
+    padding: 0
   },
   buyTicketContainer: {
     textAlign: 'center',
@@ -167,6 +172,12 @@ class EventDetailsCard extends React.Component {
   handleTicketCancel = userEventTicketId => {
     const { cancelTicket, eventId } = this.props;
     cancelTicket(userEventTicketId, eventId);
+  };
+
+  handleFollowClick = newFollowStatus => {
+    const { changeFollow, eventId } = this.props;
+
+    changeFollow(eventId, newFollowStatus);
   };
 
   render() {
@@ -326,9 +337,16 @@ class EventDetailsCard extends React.Component {
 
               <Grid item>
                 <CardActions className={classes.actions} disableActionSpacing>
-                  <IconButton aria-label="Add to favorites">
-                    <FavoriteIcon />
+                  <IconButton
+                    aria-label="Add to favorites"
+                    onClick={() => this.handleFollowClick(!event.isFollowing)}
+                  >
+                    <HeartCheckbox
+                      checked={!!event.isFollowing}
+                      checkboxClassName={classes.followCheckbox}
+                    />
                   </IconButton>
+
                   <IconButton aria-label="Share">
                     <ShareIcon />
                   </IconButton>
@@ -375,7 +393,15 @@ const mapDispatchToProps = dispatch => ({
       schoolingEventActions.getEventAvailableTicketsRequest.start({ id })
     ),
   cancelTicket: (id, eventId) =>
-    dispatch(ticketActions.cancelTicketForEventRequest.start({ id, eventId }))
+    dispatch(ticketActions.cancelTicketForEventRequest.start({ id, eventId })),
+  changeFollow: (eventId, newFollowStatus) => {
+    dispatch(
+      schoolingEventActions.changeSchoolingEventFollow.start({
+        eventId,
+        newFollowStatus
+      })
+    );
+  }
 });
 
 export default withStyles(styles)(

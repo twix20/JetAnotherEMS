@@ -43,12 +43,23 @@ export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
     schoolingEventActions.getFeaturedSchoolingEventsRequest.start(data)
   );
 
-  //TODO: apply filter
-
   const { response, error } = yield sagaRequestWrapper(
     schoolingEventActions.getFeaturedSchoolingEventsRequest,
     api.schoolingEvent.getFeaturedEvents,
     data
+  );
+}
+
+export function* handleChangeSchoolingEventFollowSaga(action) {
+  const { eventId, newFollowStatus } = action;
+
+  const { response, error } = yield sagaRequestWrapper(
+    schoolingEventActions.changeSchoolingEventFollow,
+    api.schoolingEvent.changeSchoolingEventFollow,
+    {
+      eventId,
+      newFollowStatus
+    }
   );
 }
 
@@ -304,6 +315,10 @@ export default function* root() {
     takeEvery(
       schoolingEventActions.loadEventCreatorInitialValues.START,
       handleLoadEventCreatorInitialValues
+    ),
+    takeLatest(
+      schoolingEventActions.changeSchoolingEventFollow.START,
+      handleChangeSchoolingEventFollowSaga
     )
   ]);
 }

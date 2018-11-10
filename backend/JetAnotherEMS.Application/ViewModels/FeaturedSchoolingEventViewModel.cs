@@ -28,5 +28,7 @@ namespace JetAnotherEMS.Application.ViewModels
         public long TicketsLeftCount { get; set; }
 
         public decimal MinTicketPrice { get; set; }
+
+        public bool? IsFollowing { get; set; }
     }
 }

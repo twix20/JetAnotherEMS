@@ -32,15 +32,28 @@ class EventListContainer extends React.Component {
     this.props.getMoreFeaturedSchoolingEvents();
   }
 
+  handleFollowClick = event => {
+    const newFollowStatus = !event.isFollowing;
+    console.log(event);
+    console.log(newFollowStatus);
+
+    this.props.changeFollow(event.id, newFollowStatus);
+  };
+
   render() {
     const { featuredEvents, loadingFeaturedEvents } = this.props;
 
     return (
       <React.Fragment>
         <List>
-          {featuredEvents.map((e, i) => (
-            <ListItem disableGutters key={i}>
-              <FeaturedEventCard event={e} />
+          {featuredEvents.map((featuredEvent, index) => (
+            <ListItem disableGutters key={index}>
+              <FeaturedEventCard
+                event={featuredEvent}
+                onFollowClicked={clickEvent =>
+                  this.handleFollowClick(featuredEvent)
+                }
+              />
             </ListItem>
           ))}
         </List>
@@ -61,6 +74,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getMoreFeaturedSchoolingEvents: () => {
     dispatch(schoolingEventActions.getMoreFeaturedSchoolingEvents);
+  },
+  changeFollow: (eventId, newFollowStatus) => {
+    dispatch(
+      schoolingEventActions.changeSchoolingEventFollow.start({
+        eventId,
+        newFollowStatus
+      })
+    );
   }
 });
 

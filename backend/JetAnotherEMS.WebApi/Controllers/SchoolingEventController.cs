@@ -18,7 +18,6 @@ namespace JetAnotherEMS.WebApi.Controllers
     public class SchoolingEventController : ApiController
     {
         private readonly ISchoolingEventService _schoolingEventService;
-        private readonly ISchoolingEventGalleryFileRepository _eventGalleryFileRepository;
 
         public SchoolingEventController(
             INotificationHandler<DomainNotification> notifications, 
@@ -26,7 +25,6 @@ namespace JetAnotherEMS.WebApi.Controllers
             ISchoolingEventService schoolingEventService, ISchoolingEventGalleryFileRepository eventGalleryFileRepository) : base(notifications, mediator)
         {
             _schoolingEventService = schoolingEventService;
-            _eventGalleryFileRepository = eventGalleryFileRepository;
         }
 
         [HttpGet]
@@ -39,8 +37,6 @@ namespace JetAnotherEMS.WebApi.Controllers
             return Response(vm);
         }
 
-
-
         [HttpGet]
         [AllowAnonymous]
         [Route("[action]")]
@@ -49,8 +45,6 @@ namespace JetAnotherEMS.WebApi.Controllers
         public async Task<IActionResult> Featured(SchoolingEventFilterViewModel filter, int page = 0, int pageSize = 10)
         {
             var entities = await _schoolingEventService.GetFeaturedEvents(filter, page, pageSize);
-
-            var all = await _eventGalleryFileRepository.GetAll().ToListAsync();
 
             return Response(entities);
         }
@@ -116,6 +110,21 @@ namespace JetAnotherEMS.WebApi.Controllers
             }
 
             await _schoolingEventService.Update(viewModel);
+
+            return Response(viewModel);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> ChangeSchoolingEventFollow([FromBody] ChangeFollowSchoolingEventViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(viewModel);
+            }
+
+            await _schoolingEventService.ChangeSchoolingEventFollow(viewModel);
 
             return Response(viewModel);
         }

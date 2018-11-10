@@ -20,6 +20,21 @@ const featured = (state = featuredDefaultState, action) => {
           }, state.byId)
         }
       };
+    case schoolingEventActions.changeSchoolingEventFollow.SUCCESS: {
+      const { eventId, newFollowStatus } = action;
+
+      if (!state.byId[eventId]) return state;
+
+      return {
+        byId: {
+          ...state.byId,
+          [eventId]: {
+            ...state.byId[eventId],
+            isFollowing: newFollowStatus
+          }
+        }
+      };
+    }
     case ActionTypes.UPDATE_SCHOOLING_EVENT_FILTER:
       return {
         byId: {}
@@ -79,6 +94,17 @@ const byId = (state = {}, action) => {
       return {
         ...state,
         [id]: action.response.data.data
+      };
+    }
+    case schoolingEventActions.changeSchoolingEventFollow.SUCCESS: {
+      const { eventId, newFollowStatus } = action;
+
+      return {
+        ...state,
+        [eventId]: {
+          ...state[eventId],
+          isFollowing: newFollowStatus
+        }
       };
     }
     default:

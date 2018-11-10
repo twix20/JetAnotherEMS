@@ -16,5 +16,10 @@ export default {
   getAvailableTickets: ({ id }) =>
     instance.get(`/SchoolingEvent/${id}/Tickets`),
   create: payload => instance.post(`/SchoolingEvent`, payload),
-  update: payload => instance.patch(`/SchoolingEvent`, payload)
+  update: payload => instance.patch(`/SchoolingEvent`, payload),
+  changeSchoolingEventFollow: ({ eventId, newFollowStatus }) =>
+    instance.post(`/SchoolingEvent/ChangeSchoolingEventFollow`, {
+      eventId,
+      IsFollowing: newFollowStatus
+    })
 };

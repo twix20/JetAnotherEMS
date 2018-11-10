@@ -24,7 +24,7 @@ class EventImagesCarousel extends React.Component {
 }
 
 EventImagesCarousel.propTypes = {
-  imageUrls: PropTypes.array.isRequired
+  slides: PropTypes.array.isRequired
 };
 
 export default EventImagesCarousel;

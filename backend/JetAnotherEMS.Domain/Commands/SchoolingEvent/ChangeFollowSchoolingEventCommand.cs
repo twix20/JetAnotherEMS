@@ -9,6 +9,9 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 
         public Guid UserId { get; set; }
 
+        /// <summary>
+        /// New following requested state
+        /// </summary>
         public bool IsFollowing { get; set; }
 
         public ChangeFollowSchoolingEventCommand(Guid eventId, Guid userId, bool isFollowing)

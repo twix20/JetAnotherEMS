@@ -11,7 +11,8 @@ import {
   GET_EVENT_AVAILABLE_TICKETS_REQUEST,
   GET_EVENT_PARTICIPANTS_REQUEST,
   LOAD_EVENT_CREATOR_INITIAL_VALUES,
-  OPEN_CREATOR_DIALOG
+  OPEN_CREATOR_DIALOG,
+  CHANGE_SCHOOLING_EVENT_FOLLOW_REQUEST
 } from '../constants/actionTypes';
 
 //TODO: Rename all GET requestas as Fetch
@@ -25,6 +26,10 @@ const getEventParticipantsRequest = createAsyncAction(
 
 const getFeaturedSchoolingEventsRequest = createAsyncAction(
   GET_FEATURED_SCHOOLING_EVENTS_REQUEST
+);
+
+const changeSchoolingEventFollow = createAsyncAction(
+  CHANGE_SCHOOLING_EVENT_FOLLOW_REQUEST
 );
 
 const getEventRequest = createAsyncAction(GET_SCHOOLING_EVENT_REQUEST);
@@ -57,6 +62,7 @@ export default {
   getEventAvailableTicketsRequest,
   getMoreFeaturedSchoolingEvents,
   getEventParticipantsRequest,
+  changeSchoolingEventFollow,
   createOrUpdateSchoolingEvent,
   createSchoolingEventRequest,
   updateSchoolingEventRequest,

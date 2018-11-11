@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using JetAnotherEMS.Application.ViewModels;
-using JetAnotherEMS.Domain.Models;
 
 namespace JetAnotherEMS.Application.Interfaces
 {

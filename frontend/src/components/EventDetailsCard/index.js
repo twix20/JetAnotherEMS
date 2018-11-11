@@ -68,6 +68,8 @@ import {
   schoolingEventSelectors
 } from '../../reducers/selectors';
 
+import API from '../../services/api';
+
 const styles = theme => ({
   detailsContainer: {
     paddingTop: '0 !important',
@@ -187,6 +189,22 @@ class EventDetailsCard extends React.Component {
     changeFollow(eventId, newFollowStatus);
   };
 
+  handleDownloadCallendar = () => {
+    const { eventId } = this.props;
+
+    window.location = API.schoolingEvent.downloadCalendarUrl({
+      id: eventId
+    });
+  };
+
+  handleDownloadAllAttachments = () => {
+    const { eventId } = this.props;
+
+    window.location = API.schoolingEvent.downloadAllAttachmentsUrl({
+      id: eventId
+    });
+  };
+
   render() {
     const { classes, eventId } = this.props;
     const { headerMenuEl, expanded, detailsItems } = this.state;
@@ -259,7 +277,11 @@ class EventDetailsCard extends React.Component {
                           <ListItemIcon>
                             <ArrowUpwardIcon />
                           </ListItemIcon>
-                          <ListItemText inset primary="Export scheadule" />
+                          <ListItemText
+                            inset
+                            primary="Export scheadule"
+                            onClick={this.handleDownloadCallendar}
+                          />
                         </MenuItem>
                         <MenuItem onClick={this.handleHeaderMenuClose}>
                           <ListItemIcon>
@@ -268,6 +290,7 @@ class EventDetailsCard extends React.Component {
                           <ListItemText
                             inset
                             primary="Download all attachments"
+                            onClick={this.handleDownloadAllAttachments}
                           />
                         </MenuItem>
                       </Menu>

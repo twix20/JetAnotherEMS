@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Ical.Net.Serialization;
 using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Core.Bus;
@@ -18,12 +21,15 @@ namespace JetAnotherEMS.WebApi.Controllers
     public class SchoolingEventController : ApiController
     {
         private readonly ISchoolingEventService _schoolingEventService;
+        private readonly DomainNotificationHandler _notifications;
 
         public SchoolingEventController(
             INotificationHandler<DomainNotification> notifications, 
             IMediatorHandler mediator,
-            ISchoolingEventService schoolingEventService, ISchoolingEventGalleryFileRepository eventGalleryFileRepository) : base(notifications, mediator)
+            ISchoolingEventService schoolingEventService, 
+            ISchoolingEventGalleryFileRepository eventGalleryFileRepository) : base(notifications, mediator)
         {
+            _notifications = (DomainNotificationHandler) notifications;
             _schoolingEventService = schoolingEventService;
         }
 
@@ -128,5 +134,51 @@ namespace JetAnotherEMS.WebApi.Controllers
 
             return Response(viewModel);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{id:guid}/[action]")]
+        public async Task<IActionResult> DownloadAllAttachments(Guid id)
+        {
+            var packageStream = await _schoolingEventService.CompressAllAttachmentsToZipForEvent(id);
+
+            if (IsValidOperation())
+            {
+                return File(packageStream.ToArray(), "application/octet-stream", $"{id}_attachments.zip");
+            }
+
+            return BadRequest(new
+            {
+                success = false,
+                errors = _notifications.GetNotifications().Select(n => n.Value)
+            });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{id:guid}/[action]")]
+        public async Task<IActionResult> Calendar(Guid id)
+        {
+            var calendar = await _schoolingEventService.GenerateCalendar(id);
+
+            if (IsValidOperation())
+            {
+                var serializer = new CalendarSerializer(calendar);
+                var serializedCalendar = serializer.SerializeToString();
+                var calendarBytes = Encoding.ASCII.GetBytes(serializedCalendar);
+
+                return File(calendarBytes, "application/octet-stream", $"{id}_calendar.iCal");
+            }
+
+            return BadRequest(new
+            {
+                success = false,
+                errors = _notifications.GetNotifications().Select(n => n.Value)
+            });
+        }
+
+
+
+
     }
 }

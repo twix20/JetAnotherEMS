@@ -68,6 +68,8 @@ import {
   schoolingEventSelectors
 } from '../../reducers/selectors';
 
+import API from '../../services/api';
+
 const styles = theme => ({
   detailsContainer: {
     paddingTop: '0 !important',
@@ -187,6 +189,14 @@ class EventDetailsCard extends React.Component {
     changeFollow(eventId, newFollowStatus);
   };
 
+  handleDownloadAllAttachments = () => {
+    const { eventId } = this.props;
+
+    window.location = API.schoolingEvent.downloadAllAttachmentsUrl({
+      id: eventId
+    });
+  };
+
   render() {
     const { classes, eventId } = this.props;
     const { headerMenuEl, expanded, detailsItems } = this.state;
@@ -268,6 +278,7 @@ class EventDetailsCard extends React.Component {
                           <ListItemText
                             inset
                             primary="Download all attachments"
+                            onClick={this.handleDownloadAllAttachments}
                           />
                         </MenuItem>
                       </Menu>

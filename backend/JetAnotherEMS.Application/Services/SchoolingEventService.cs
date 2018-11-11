@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Ical.Net;
+using Ical.Net.CalendarComponents;
+using Ical.Net.DataTypes;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using JetAnotherEMS.Application.Interfaces;
@@ -201,6 +204,35 @@ namespace JetAnotherEMS.Application.Services
 
             outputMemStream.Position = 0;
             return outputMemStream;
+        }
+
+        public async Task<Calendar> GenerateCalendar(Guid id)
+        {
+            var entity = await _schoolingEventRepository.GetById(id);
+            if (entity == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("GenerateCalendar", $"Event with id {id} doesn't exist"));
+                return null;
+            }
+
+            var daysToPack = entity.Schedule.ToList();
+            var eventLocation = entity.Location;
+            var geographicLocation = new GeographicLocation(eventLocation.Lat, eventLocation.Lng);
+
+            var calendarEvents = daysToPack.Select(d => new CalendarEvent
+            {
+                Start = new CalDateTime(d.Start),
+                End = new CalDateTime(d.End),
+                Description = d.Description,
+                Location = eventLocation.Description,
+                GeographicLocation = geographicLocation,
+                Summary = d.Title
+            });
+
+            var calendar = new Calendar();
+            calendar.Events.AddRange(calendarEvents);
+
+            return calendar;
         }
 
         private IQueryable<SchoolingEvent> ApplyFilters(IQueryable<SchoolingEvent> query,

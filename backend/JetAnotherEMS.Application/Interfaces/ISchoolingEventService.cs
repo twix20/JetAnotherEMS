@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Ical.Net;
 using JetAnotherEMS.Application.ViewModels;
 
 namespace JetAnotherEMS.Application.Interfaces
@@ -25,5 +26,7 @@ namespace JetAnotherEMS.Application.Interfaces
         Task ChangeSchoolingEventFollow(ChangeFollowSchoolingEventViewModel viewModel);
 
         Task<MemoryStream> CompressAllAttachmentsToZipForEvent(Guid eventId);
+
+        Task<Calendar> GenerateCalendar(Guid id);
     }
 }

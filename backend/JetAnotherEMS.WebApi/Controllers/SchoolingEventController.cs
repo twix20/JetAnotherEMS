@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Ical.Net.Serialization;
 using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Core.Bus;
@@ -151,6 +153,31 @@ namespace JetAnotherEMS.WebApi.Controllers
                 errors = _notifications.GetNotifications().Select(n => n.Value)
             });
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{id:guid}/[action]")]
+        public async Task<IActionResult> Calendar(Guid id)
+        {
+            var calendar = await _schoolingEventService.GenerateCalendar(id);
+
+            if (IsValidOperation())
+            {
+                var serializer = new CalendarSerializer(calendar);
+                var serializedCalendar = serializer.SerializeToString();
+                var calendarBytes = Encoding.ASCII.GetBytes(serializedCalendar);
+
+                return File(calendarBytes, "application/octet-stream", $"{id}_calendar.iCal");
+            }
+
+            return BadRequest(new
+            {
+                success = false,
+                errors = _notifications.GetNotifications().Select(n => n.Value)
+            });
+        }
+
+
 
 
     }

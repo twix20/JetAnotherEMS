@@ -189,6 +189,14 @@ class EventDetailsCard extends React.Component {
     changeFollow(eventId, newFollowStatus);
   };
 
+  handleDownloadCallendar = () => {
+    const { eventId } = this.props;
+
+    window.location = API.schoolingEvent.downloadCalendarUrl({
+      id: eventId
+    });
+  };
+
   handleDownloadAllAttachments = () => {
     const { eventId } = this.props;
 
@@ -269,7 +277,11 @@ class EventDetailsCard extends React.Component {
                           <ListItemIcon>
                             <ArrowUpwardIcon />
                           </ListItemIcon>
-                          <ListItemText inset primary="Export scheadule" />
+                          <ListItemText
+                            inset
+                            primary="Export scheadule"
+                            onClick={this.handleDownloadCallendar}
+                          />
                         </MenuItem>
                         <MenuItem onClick={this.handleHeaderMenuClose}>
                           <ListItemIcon>

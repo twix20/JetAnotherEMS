@@ -4,6 +4,7 @@ import { API_URL } from '../../config/urls';
 export default {
   downloadAllAttachmentsUrl: ({ id }) =>
     `${API_URL}/SchoolingEvent/${id}/DownloadAllAttachments`,
+  downloadCalendarUrl: ({ id }) => `${API_URL}/SchoolingEvent/${id}/Calendar`,
   getFeaturedEvents: ({ page, pageSize, sort, ...filter }) =>
     instance.get(`/SchoolingEvent/Featured`, {
       params: {

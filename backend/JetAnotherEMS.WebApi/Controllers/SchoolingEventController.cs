@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using JetAnotherEMS.Application.Interfaces;
@@ -18,12 +19,15 @@ namespace JetAnotherEMS.WebApi.Controllers
     public class SchoolingEventController : ApiController
     {
         private readonly ISchoolingEventService _schoolingEventService;
+        private readonly DomainNotificationHandler _notifications;
 
         public SchoolingEventController(
             INotificationHandler<DomainNotification> notifications, 
             IMediatorHandler mediator,
-            ISchoolingEventService schoolingEventService, ISchoolingEventGalleryFileRepository eventGalleryFileRepository) : base(notifications, mediator)
+            ISchoolingEventService schoolingEventService, 
+            ISchoolingEventGalleryFileRepository eventGalleryFileRepository) : base(notifications, mediator)
         {
+            _notifications = (DomainNotificationHandler) notifications;
             _schoolingEventService = schoolingEventService;
         }
 
@@ -128,5 +132,26 @@ namespace JetAnotherEMS.WebApi.Controllers
 
             return Response(viewModel);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{id:guid}/[action]")]
+        public async Task<IActionResult> DownloadAllAttachments(Guid id)
+        {
+            var packageStream = await _schoolingEventService.CompressAllAttachmentsToZipForEvent(id);
+
+            if (IsValidOperation())
+            {
+                return File(packageStream.ToArray(), "application/octet-stream", $"{id}_attachments.zip");
+            }
+
+            return BadRequest(new
+            {
+                success = false,
+                errors = _notifications.GetNotifications().Select(n => n.Value)
+            });
+        }
+
+
     }
 }

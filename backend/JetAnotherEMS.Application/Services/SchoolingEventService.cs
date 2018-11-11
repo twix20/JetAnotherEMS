@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using JetAnotherEMS.Application.Interfaces;
 using JetAnotherEMS.Application.ViewModels;
 using JetAnotherEMS.Domain.Commands.SchoolingEvent;
@@ -160,6 +163,44 @@ namespace JetAnotherEMS.Application.Services
             var command = Mapper.Map<ChangeFollowSchoolingEventCommand>(viewModel);
 
             await _bus.SendCommand(command);
+        }
+
+        public async Task<MemoryStream> CompressAllAttachmentsToZipForEvent(Guid eventId)
+        {
+            var entity = await _schoolingEventRepository.GetById(eventId);
+            if (entity == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("CompressAllAttachmentsToZipForEvent", $"Event with id {eventId} doesn't exist"));
+                return null;
+            }
+
+            var outputMemStream = new MemoryStream();
+            var zipStream = new ZipOutputStream(outputMemStream);
+            zipStream.SetLevel(4); //0-9, 9 being the highest level of compression
+
+            var daysToZip = entity.Schedule.OrderBy(d => d.Start);
+            foreach (var day in daysToZip)
+            {
+                foreach (var dayAttachment in day.Attachments)
+                {
+                    var entryName = $"{day.Start:ddMMyy}_{day.Title}_{dayAttachment.OriginalName}";
+                    var newEntry = new ZipEntry(entryName) { DateTime = DateTime.Now };
+
+                    zipStream.PutNextEntry(newEntry);
+
+                    using (var attachmentStream = File.OpenRead(dayAttachment.FullFilePath))
+                    {
+                        StreamUtils.Copy(attachmentStream, zipStream, new byte[4096]);
+                    }
+                }
+            }
+
+            zipStream.CloseEntry();
+            zipStream.IsStreamOwner = false;    // False stops the Close also Closing the underlying stream.
+            zipStream.Close();          // Must finish the ZipOutputStream before using outputMemStream.
+
+            outputMemStream.Position = 0;
+            return outputMemStream;
         }
 
         private IQueryable<SchoolingEvent> ApplyFilters(IQueryable<SchoolingEvent> query,

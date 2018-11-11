@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using JetAnotherEMS.Application.ViewModels;
 
@@ -22,5 +23,7 @@ namespace JetAnotherEMS.Application.Interfaces
         Task<IEnumerable<SchoolingEventParticipantViewModel>> GetParticipants(Guid id);
 
         Task ChangeSchoolingEventFollow(ChangeFollowSchoolingEventViewModel viewModel);
+
+        Task<MemoryStream> CompressAllAttachmentsToZipForEvent(Guid eventId);
     }
 }

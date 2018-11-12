@@ -13,6 +13,7 @@ namespace JetAnotherEMS.Domain.Models
             { UploadedFileType.Png, "image/png"},
 
             { UploadedFileType.Pdf, "application/pdf"},
+            { UploadedFileType.Doc, "application/msword"},
             { UploadedFileType.Zip, "application/zip"},
         };
 
@@ -47,6 +48,8 @@ namespace JetAnotherEMS.Domain.Models
                     return UploadedFileType.Png;
                 case ".pdf":
                     return UploadedFileType.Pdf;
+                case ".doc":
+                    return UploadedFileType.Doc;
                 case ".zip":
                     return UploadedFileType.Zip;
                 default:
@@ -64,6 +67,7 @@ namespace JetAnotherEMS.Domain.Models
         Png,
 
         Pdf,
+        Doc,
         Zip
     }
 }

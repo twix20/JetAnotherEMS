@@ -161,7 +161,6 @@ class EventDetailsCard extends React.Component {
       fetchAvailableTickets
     } = this.props;
 
-    fetchEvent(eventId);
     fetchUsersTicket(eventId);
     fetchAvailableTickets(eventId);
   }

@@ -3,6 +3,8 @@ import ActionTypes, { OPEN_CREATOR_DIALOG } from '../constants/actionTypes';
 
 import schoolingEventActions from '../actions/schoolingEventActions';
 
+import { SchoolingEvent } from './../models/index';
+
 const featuredDefaultState = {
   byId: {}
 };

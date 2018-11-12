@@ -62,6 +62,7 @@ namespace JetAnotherEMS.Application.Services
             {
                 var currentUserId = _user.Id;
                 vm.IsFollowing = await _schoolingEventRepository.IsUserFollowingEvent(currentUserId, entity.Id);
+                vm.HasCreated = vm.CreatedByUserId == _user.Id;
             }
 
             return vm;
@@ -91,6 +92,7 @@ namespace JetAnotherEMS.Application.Services
                 foreach (var eventViewModel in vm)
                 {
                     eventViewModel.IsFollowing = await _schoolingEventRepository.IsUserFollowingEvent(currentUserId, eventViewModel.Id);
+                    eventViewModel.HasCreated = eventViewModel.CreatedByUserId == _user.Id;
                 }
             }
 

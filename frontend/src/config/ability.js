@@ -18,9 +18,9 @@ export const abilityForUser = user => {
   }
 
   if (user.roles.includes('Company')) {
-    can('manage', 'Participiants', { createdByUserId: user.userId });
+    can('readParticipiants', 'SchoolingEvent', { hasCreated: true });
     can('create', 'SchoolingEvent');
-    can('update', 'SchoolingEvent', { createdByUserId: user.userId });
+    can('update', 'SchoolingEvent', { hasCreated: true });
   }
 
   if (user.roles.includes('User')) {

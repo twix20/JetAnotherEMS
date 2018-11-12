@@ -30,5 +30,7 @@ namespace JetAnotherEMS.Application.ViewModels
         public decimal MinTicketPrice { get; set; }
 
         public bool? IsFollowing { get; set; }
+
+        public bool HasCreated { get; set; }
     }
 }

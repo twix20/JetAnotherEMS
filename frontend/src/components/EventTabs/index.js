@@ -2,35 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Paper from '@material-ui/core/Paper';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import HelpIcon from '@material-ui/icons/Help';
-import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
-import ThumbDown from '@material-ui/icons/ThumbDown';
-import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import DayScheduleCarousel from '../../components/DayScheduleCarousel';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import PlaceIcon from '@material-ui/icons/Place';
 import MapIcon from '@material-ui/icons/Map';
-import times from 'lodash/times';
 
-import PeopleTable from '../../components/PeopleTable';
 import ParticipantsTab from '../../components/ParticipantsTab';
 import GoogleMapReact from 'google-map-react';
-
-import { connect } from 'react-redux';
-import { schoolingEventSelectors } from '../../reducers/selectors';
-
-const cords = {
-  lat: 51.1078852,
-  lng: 17.0385376
-};
+import Can from '../../components/Can';
+import { SchoolingEvent } from './../../models';
+import ability from '../../config/ability';
 
 function TabContainer(props) {
   return (
@@ -98,12 +82,13 @@ class EventTabs extends React.PureComponent {
   };
 
   render() {
-    const { classes, eventId, getEvent } = this.props;
+    const { classes, event } = this.props;
     const { value } = this.state;
 
-    const event = getEvent(eventId);
-
     if (!event) return null;
+
+    console.log(event);
+    const eventModel = new SchoolingEvent({ ...event });
 
     const cords = { lat: event.location.lat, lng: event.location.lng };
     const markContent = event.location.description;
@@ -119,21 +104,24 @@ class EventTabs extends React.PureComponent {
             textColor="secondary"
           >
             <Tab label="Schedule" icon={<CalendarTodayIcon />} />
-            <Tab label="Participants" icon={<PersonPinIcon />} />
             <Tab label="Location" icon={<MapIcon />} />
+
+            {ability.can('readParticipiants', eventModel) && (
+              <Tab label="Participants" icon={<PersonPinIcon />} />
+            )}
           </Tabs>
         </AppBar>
 
         <div className={classes.tabContentContainer}>
-          {value === 0 && <DayScheduleCarousel eventId={eventId} />}
+          {value === 0 && <DayScheduleCarousel eventId={event.id} />}
           {value === 1 && (
             <TabContainer>
-              <ParticipantsTab eventId={eventId} />
+              <LocationMap center={cords} zoom={11} markContent={markContent} />
             </TabContainer>
           )}
           {value === 2 && (
             <TabContainer>
-              <LocationMap center={cords} zoom={11} markContent={markContent} />
+              <ParticipantsTab eventId={event.id} />
             </TabContainer>
           )}
         </div>
@@ -144,11 +132,7 @@ class EventTabs extends React.PureComponent {
 
 EventTabs.propTypes = {
   classes: PropTypes.object.isRequired,
-  eventId: PropTypes.string.isRequired
+  event: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  getEvent: id => schoolingEventSelectors.eventById(state, id)
-});
-
-export default withStyles(styles)(connect(mapStateToProps)(EventTabs));
+export default withStyles(styles)(EventTabs);

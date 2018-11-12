@@ -14,6 +14,9 @@ import createHistory from 'history/createBrowserHistory';
 import thunk from 'redux-thunk';
 import { reducer as notificationsReducer } from 'reapop';
 
+import { extractUserFromToken } from './services/authService';
+import ability, { abilityForUser } from './config/ability';
+
 export const history = createHistory();
 
 // Build the middleware for intercepting and dispatching navigation actions
@@ -47,11 +50,15 @@ export const store = createStore(reducer, composeWithDevTools(getMiddleware()));
 // Load previous user token
 const jwtToken = localStorage.getItem('jwt');
 
-if (jwtToken) {
+if (jwtToken && jwtToken != 'undefined') {
+  const user = extractUserFromToken(jwtToken);
+
+  const newAbility = abilityForUser(user);
+  ability.update(newAbility.rules);
+
   store.dispatch(
     authActions.login.success({
-      accessToken: jwtToken,
-      tokenType: 'Bearer'
+      user
     })
   );
 }

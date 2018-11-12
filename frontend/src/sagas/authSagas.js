@@ -1,10 +1,21 @@
-import { all, call, put, takeLatest, select } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  put,
+  takeLatest,
+  select,
+  takeEvery
+} from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { SubmissionError } from 'redux-form';
 import { sagaRequestWrapper } from './common';
 import api from '../services/api';
 import authActions from '../actions/authActions';
 import { registerWithCredentials } from './../actions/authActions';
+import ability, { abilityForUser } from './../config/ability';
+
+import { LOGOUT } from '../constants/actionTypes';
+import { extractUserFromToken } from './../services/authService';
 
 export function* handleRegisterWithCredentials(action) {
   const { email, password, confirmPassword, account } = action.payload;
@@ -49,12 +60,13 @@ function* handleLoginSaga(action) {
       token_type: tokenType
     } = response.data.data;
 
-    const payload = {
-      accessToken,
-      tokenType
-    };
+    //CASL
+    const user = extractUserFromToken(accessToken);
 
-    yield put(authActions.login.success(payload));
+    const newAbility = abilityForUser(user);
+    ability.update(newAbility.rules);
+
+    yield put(authActions.login.success({ user }));
   } else if (error) {
     const formError = new SubmissionError({
       email: 'User with this email is not found', // specific field error
@@ -65,12 +77,17 @@ function* handleLoginSaga(action) {
   }
 }
 
+function* handleLogoutSaga(action) {
+  ability.update(abilityForUser(null).rules);
+}
+
 export default function* root() {
   yield all([
     takeLatest(authActions.login.REQUEST, handleLoginSaga),
     takeLatest(
       authActions.registerWithCredentials.REQUEST,
       handleRegisterWithCredentials
-    )
+    ),
+    takeEvery(LOGOUT, handleLogoutSaga)
   ]);
 }

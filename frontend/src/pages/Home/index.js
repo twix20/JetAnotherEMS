@@ -22,7 +22,7 @@ import {
   schoolingEventFilterSelectors
 } from '../../reducers/selectors';
 import { SchoolingEventSortType } from './../../constants/enums';
-import { updateFilter } from './../../actions/schoolingEventFilterActions';
+import Can from './../../components/Can';
 
 const styles = theme => ({
   listHeaderContainer: {
@@ -76,7 +76,9 @@ class HomePage extends React.Component {
         }
       >
         <Grid container>
-          <EventCreatorOpenerButton mode="add" />
+          <Can I="create" a="SchoolingEvent">
+            <EventCreatorOpenerButton mode="add" />
+          </Can>
 
           <Grid
             container

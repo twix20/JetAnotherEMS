@@ -14,22 +14,10 @@ const initialState = {
 export default (state = {}, action) => {
   switch (action.type) {
     case authActions.login.SUCCESS: {
-      const { accessToken } = action.payload;
-
-      const decoded = jwtDecode(accessToken);
+      const { user } = action.payload;
 
       return {
-        token: accessToken,
-        userId: decoded['sub'],
-        email:
-          decoded[
-            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
-          ],
-        roles: [
-          decoded[
-            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-          ]
-        ]
+        ...user
       };
     }
     case LOGOUT:

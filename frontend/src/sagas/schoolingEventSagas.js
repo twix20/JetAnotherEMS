@@ -25,6 +25,7 @@ import authActions from '../actions/authActions';
 import { initialize } from 'redux-form';
 import moment from 'moment';
 import { push } from 'react-router-redux';
+import { fetchTicketForEvent } from './ticketSagas';
 
 export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
   const filter = yield select(schoolingEventFilterSelectors.filter);
@@ -291,6 +292,7 @@ function* handleUserChanged(action) {
   const allEventsInState = yield select(schoolingEventSelectors.events);
   for (const event of allEventsInState) {
     yield fork(fetchSchoolingEvent, { id: event.id });
+    yield fork(fetchTicketForEvent, { eventId: event.id });
   }
 }
 

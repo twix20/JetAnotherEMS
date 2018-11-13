@@ -19,6 +19,7 @@ export const abilityForUser = user => {
     can('readParticipiants', 'SchoolingEvent', { hasCreated: true });
     can('create', 'SchoolingEvent');
     can('update', 'SchoolingEvent', { hasCreated: true });
+    can('buyTicket', 'SchoolingEvent');
     can('follow', 'SchoolingEvent');
   }
 

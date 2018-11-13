@@ -14,7 +14,8 @@ import { connect } from 'react-redux';
 
 const styles = theme => ({
   cardMargin: {
-    margin: theme.spacing.unit * 3
+    margin: theme.spacing.unit * 3,
+    width: '100%'
   }
 });
 

@@ -288,10 +288,10 @@ namespace JetAnotherEMS.Application.Services
             }
 
             //Tags by its value
-            if (filter.Tags != null && filter.Tags.Any())
+            if (filter.TagValues != null && filter.TagValues.Any())
             {
                 query = query.Where(e =>
-                    e.Schedule.SelectMany(d => d.Tags).Any(t => filter.Tags.Any(x => x.Value == t.Value)));
+                    e.Schedule.SelectMany(d => d.Tags).Any(t => filter.TagValues.Any(v => v == t.Value)));
             }
 
             return query;

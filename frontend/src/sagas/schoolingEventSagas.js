@@ -41,7 +41,8 @@ export function* fetchMoreFeaturedEventsWithAppliedFilter(action) {
     PriceTo: filter.priceTo,
     OnlyFavorites: filter.onlyFavorites,
     OnlyPrivate: filter.onlyPrivate,
-    OnlyMy: filter.onlyMy
+    OnlyMy: filter.onlyMy,
+    TagValues: filter.tags.map(t => t.value)
   };
 
   yield put(

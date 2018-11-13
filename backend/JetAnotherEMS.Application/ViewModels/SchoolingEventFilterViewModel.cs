@@ -17,7 +17,7 @@ namespace JetAnotherEMS.Application.ViewModels
 
         public bool? OnlyMy { get; set; }
 
-        public IEnumerable<SchoolingEventDayTagViewModel> Tags { get; set; }
+        public IEnumerable<string> TagValues { get; set; }
     }
 
     public enum SchoolingEventSortType

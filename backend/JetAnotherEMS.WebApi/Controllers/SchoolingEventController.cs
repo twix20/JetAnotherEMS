@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,8 +49,16 @@ namespace JetAnotherEMS.WebApi.Controllers
         [Route("[action]")]
         //TODO: sort by
         //TODO: pagination
-        public async Task<IActionResult> Featured(SchoolingEventFilterViewModel filter, SchoolingEventSortType sort, int page = 0, int pageSize = 10)
+        public async Task<IActionResult> Featured(
+            SchoolingEventFilterViewModel filter,
+            [FromQuery(Name = "TagValues[]")]IEnumerable<string> tagValues, 
+            SchoolingEventSortType sort, 
+            int page = 0, 
+            int pageSize = 10)
         {
+
+            filter.TagValues = tagValues;
+
             var entities = await _schoolingEventService.GetFeaturedEvents(filter, sort, page, pageSize);
 
             return Response(entities);

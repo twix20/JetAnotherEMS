@@ -12,22 +12,6 @@ import {
 } from '../../reducers/selectors';
 
 class EventListContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      events: [
-        {
-          id: 2,
-          title: 'Some fancy Title',
-          description: 'Description',
-          imageUrl:
-            'https://workmax.pl/wp-content/uploads/2018/01/szkolenia-bhp.jpg'
-        }
-      ]
-    };
-  }
-
   componentDidMount() {
     this.props.getMoreFeaturedSchoolingEvents();
   }

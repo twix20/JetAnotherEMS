@@ -19,6 +19,9 @@ import moment from 'moment';
 import Can from '../Can';
 
 const styles = theme => ({
+  root: {
+    width: '100%'
+  },
   image: {
     maxWidth: '100%',
     maxHeight: '100%',
@@ -148,7 +151,7 @@ class FeaturedEventCard extends React.PureComponent {
     const galleryUrls = event.gallery.map(g => g.ftpFileUrl);
 
     return (
-      <Paper>
+      <Paper className={classes.root}>
         <Grid container direction="row">
           <Grid item className={classes.imageContainer} md={3}>
             <Can I="follow" a="SchoolingEvent">

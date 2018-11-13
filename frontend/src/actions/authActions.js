@@ -3,7 +3,8 @@ import {
   POST_REGISTER_WITH_CREDENTIALS_REQUEST,
   LOGIN,
   REGISTER_WITH_CREDENTIALS,
-  LOGOUT
+  LOGOUT,
+  TOKEN_EXPIRED
 } from '../constants/actionTypes';
 import { createAsyncAction, createAction } from './common';
 import { createFormAction } from 'redux-form-saga';
@@ -16,6 +17,8 @@ export const postRegisterWithCredentialsRequest = createAsyncAction(
 );
 
 export const logout = () => createAction(LOGOUT);
+export const tokenExpired = () => createAction(TOKEN_EXPIRED);
+
 export const login = createFormAction(LOGIN);
 export const registerWithCredentials = createFormAction(
   REGISTER_WITH_CREDENTIALS
@@ -26,5 +29,6 @@ export default {
   postRegisterWithCredentialsRequest,
   login,
   registerWithCredentials,
-  logout
+  logout,
+  tokenExpired
 };

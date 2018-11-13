@@ -4,22 +4,25 @@ import {
   put,
   takeLatest,
   select,
-  takeEvery
+  takeEvery,
+  fork
 } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { SubmissionError } from 'redux-form';
 import ActionTypes, {
-  GET_FEATURED_SCHOOLING_EVENTS_REQUEST,
-  GET_SCHOOLING_EVENT_REQUEST,
-  GET_SCHOOLING_EVENT_SCHEDULE_REQUEST,
-  GET_MORE_SCHOOLING_EVENTS
+  GET_MORE_SCHOOLING_EVENTS,
+  LOGOUT
 } from '../constants/actionTypes';
 import { sagaRequestWrapper } from './common';
 import api from '../services/api';
 import schoolingEventActions from '../actions/schoolingEventActions';
-import { schoolingEventFilterSelectors } from '../reducers/selectors';
+import {
+  schoolingEventFilterSelectors,
+  schoolingEventSelectors
+} from '../reducers/selectors';
 import ticketActions from '../actions/ticketActions';
-import { change as changeFieldValue, initialize } from 'redux-form';
+import authActions from '../actions/authActions';
+import { initialize } from 'redux-form';
 import moment from 'moment';
 import { push } from 'react-router-redux';
 
@@ -280,6 +283,17 @@ export function* handleLoadEventCreatorInitialValues(action) {
   }
 }
 
+function* handleUserChanged(action) {
+  //Reload schooling event if user loged in or loged out
+
+  yield fork(fetchMoreFeaturedEventsWithAppliedFilter);
+
+  const allEventsInState = yield select(schoolingEventSelectors.events);
+  for (const event of allEventsInState) {
+    yield fork(fetchSchoolingEvent, { id: event.id });
+  }
+}
+
 export default function* root() {
   yield all([
     takeLatest(
@@ -320,6 +334,7 @@ export default function* root() {
     takeLatest(
       schoolingEventActions.changeSchoolingEventFollow.START,
       handleChangeSchoolingEventFollowSaga
-    )
+    ),
+    takeEvery([authActions.login.SUCCESS, LOGOUT], handleUserChanged)
   ]);
 }

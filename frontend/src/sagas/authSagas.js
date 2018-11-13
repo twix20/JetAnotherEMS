@@ -14,7 +14,7 @@ import authActions from '../actions/authActions';
 import { registerWithCredentials } from './../actions/authActions';
 import ability, { abilityForUser } from './../config/ability';
 
-import { LOGOUT } from '../constants/actionTypes';
+import { LOGOUT, TOKEN_EXPIRED } from '../constants/actionTypes';
 import { extractUserFromToken } from './../services/authService';
 
 export function* handleRegisterWithCredentials(action) {
@@ -78,7 +78,12 @@ function* handleLoginSaga(action) {
 }
 
 function* handleLogoutSaga(action) {
-  ability.update(abilityForUser(null).rules);
+  const newAbility = abilityForUser(null);
+  ability.update(newAbility.rules);
+}
+
+function* handleTokenExpiredSaga(action) {
+  yield call(handleLogoutSaga);
 }
 
 export default function* root() {
@@ -88,6 +93,7 @@ export default function* root() {
       authActions.registerWithCredentials.REQUEST,
       handleRegisterWithCredentials
     ),
-    takeEvery(LOGOUT, handleLogoutSaga)
+    takeEvery(LOGOUT, handleLogoutSaga),
+    takeEvery(TOKEN_EXPIRED, handleTokenExpiredSaga)
   ]);
 }

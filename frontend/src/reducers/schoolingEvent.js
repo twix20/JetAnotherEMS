@@ -128,6 +128,7 @@ const creatorDialog = (state = { isOpen: false }, action) => {
 
 export const selectors = {
   eventById: (state, id) => state.schoolingEvent.byId[id],
+  events: state => Object.values(state.schoolingEvent.byId),
   featured: state => Object.values(state.schoolingEvent.featured.byId) || [],
   availableTickets: (state, eventId) =>
     state.schoolingEvent.availableTickets.byEventId[eventId] || [],

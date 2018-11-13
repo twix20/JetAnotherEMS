@@ -61,6 +61,9 @@ if (jwtToken && jwtToken != 'undefined') {
       user
     })
   );
+} else {
+  const newAbility = abilityForUser(null);
+  ability.update(newAbility.rules);
 }
 
 sagaMiddleware.run(rootSaga);

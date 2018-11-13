@@ -2,20 +2,15 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -25,11 +20,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
@@ -38,8 +29,6 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import PersonIcon from '@material-ui/icons/Person';
 import NoteIcon from '@material-ui/icons/Note';
 
-import Button from '@material-ui/core/Button';
-import NavigationIcon from '@material-ui/icons/Navigation';
 import SchoolIcon from '@material-ui/icons/School';
 
 import Menu from '@material-ui/core/Menu';
@@ -60,10 +49,11 @@ import ticketActions from '../../actions/ticketActions';
 
 import HeartCheckbox from '../common/HeartCheckbox';
 
+import Can from '../Can';
+
 import moment from 'moment';
 
 import {
-  createLoadingSelector,
   userTicketsSelectors,
   schoolingEventSelectors
 } from '../../reducers/selectors';
@@ -154,12 +144,7 @@ class EventDetailsCard extends React.Component {
   };
 
   componentDidMount() {
-    const {
-      eventId,
-      fetchEvent,
-      fetchUsersTicket,
-      fetchAvailableTickets
-    } = this.props;
+    const { eventId, fetchUsersTicket, fetchAvailableTickets } = this.props;
 
     fetchUsersTicket(eventId);
     fetchAvailableTickets(eventId);
@@ -206,7 +191,7 @@ class EventDetailsCard extends React.Component {
 
   render() {
     const { classes, eventId } = this.props;
-    const { headerMenuEl, expanded, detailsItems } = this.state;
+    const { headerMenuEl, expanded } = this.state;
 
     const ExpandIcon = expanded ? ExpandLessIcon : ExpandMoreIcon;
 
@@ -366,15 +351,17 @@ class EventDetailsCard extends React.Component {
 
               <Grid item>
                 <CardActions className={classes.actions} disableActionSpacing>
-                  <IconButton
-                    aria-label="Add to favorites"
-                    onClick={() => this.handleFollowClick(!event.isFollowing)}
-                  >
-                    <HeartCheckbox
-                      checked={!!event.isFollowing}
-                      checkboxClassName={classes.followCheckbox}
-                    />
-                  </IconButton>
+                  <Can I="follow" a="SchoolingEvent">
+                    <IconButton
+                      aria-label="Add to favorites"
+                      onClick={() => this.handleFollowClick(!event.isFollowing)}
+                    >
+                      <HeartCheckbox
+                        checked={!!event.isFollowing}
+                        checkboxClassName={classes.followCheckbox}
+                      />
+                    </IconButton>
+                  </Can>
 
                   <IconButton aria-label="Share">
                     <ShareIcon />

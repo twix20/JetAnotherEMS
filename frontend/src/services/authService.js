@@ -16,3 +16,14 @@ export const extractUserFromToken = jwtToken => {
 
   return user;
 };
+
+export const isTokenExpired = jwtToken => {
+  const decoded = jwtDecode(jwtToken);
+
+  const exp = decoded['exp'];
+  const milliseconds = new Date().getTime();
+
+  const isExpired = milliseconds > exp * 1000;
+
+  return isExpired;
+};

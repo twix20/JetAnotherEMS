@@ -13,11 +13,10 @@ import { Link } from 'react-router-dom';
 import PlaceIcon from '@material-ui/icons/Place';
 import HeartCheckbox from '../common/HeartCheckbox';
 import SchoolIcon from '@material-ui/icons/School';
-
 import EventImagesCarousel from '../EventImagesCarousel';
-
 import moment from 'moment';
-import { API_HOST_URL } from '../../config/urls';
+
+import Can from '../Can';
 
 const styles = theme => ({
   image: {
@@ -152,12 +151,14 @@ class FeaturedEventCard extends React.PureComponent {
       <Paper>
         <Grid container direction="row">
           <Grid item className={classes.imageContainer} md={3}>
-            <HeartCheckbox
-              id={`favoriteEvent_${event.id}`}
-              className={classes.heart}
-              checked={!!event.isFollowing}
-              onClick={onFollowClicked}
-            />
+            <Can I="follow" a="SchoolingEvent">
+              <HeartCheckbox
+                id={`favoriteEvent_${event.id}`}
+                className={classes.heart}
+                checked={!!event.isFollowing}
+                onClick={onFollowClicked}
+              />
+            </Can>
 
             <EventImagesCarousel
               slides={galleryUrls}

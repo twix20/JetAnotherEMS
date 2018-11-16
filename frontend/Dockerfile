@@ -4,6 +4,7 @@ FROM node:8.12-alpine as build
 RUN mkdir /app
 WORKDIR /app
 COPY ["package.json", "./"]
+RUN yarn cache clean
 RUN yarn
 COPY . ./
 RUN yarn build

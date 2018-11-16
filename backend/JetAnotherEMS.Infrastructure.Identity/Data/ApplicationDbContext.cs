@@ -28,9 +28,13 @@ namespace JetAnotherEMS.Infrastructure.Identity.Data
             var dbConnectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION") ?? config.GetConnectionString("DefaultConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            //optionsBuilder
+            //    .UseLazyLoadingProxies()
+            //    .UseSqlServer(dbConnectionString);
+
             optionsBuilder
                 .UseLazyLoadingProxies()
-                .UseSqlServer(dbConnectionString);
+                .UseInMemoryDatabase("ApplicationDbContext");
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

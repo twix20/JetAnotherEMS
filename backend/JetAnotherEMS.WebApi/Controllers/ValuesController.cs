@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JetAnotherEMS.Infrastructure.Data.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -24,7 +25,9 @@ namespace JetAnotherEMS.WebApi.Controllers
         public ActionResult<IEnumerable<string>> Seed()
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            _context.Seed(_env, baseUrl);
+
+            if(!_context.SchoolingEvents.Any())
+                _context.Seed(_env, baseUrl);
 
             return Ok();
         }

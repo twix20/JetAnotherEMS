@@ -30,9 +30,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
             var dbConnectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION") ?? config.GetConnectionString("DefaultConnection");
 
             // define the database to use
+            //optionsBuilder
+            //    .UseLazyLoadingProxies()
+            //    .UseSqlServer(dbConnectionString);
+
             optionsBuilder
                 .UseLazyLoadingProxies()
-                .UseSqlServer(dbConnectionString);
+                .UseInMemoryDatabase("EventStoreSQLContext");
         }
     }
 }

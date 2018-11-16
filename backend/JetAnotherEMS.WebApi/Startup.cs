@@ -116,7 +116,7 @@ namespace JetAnotherEMS.WebApi
 
             using (var scope = ApplicationContainer.BeginLifetimeScope("AutofacWebRequest"))
             {
-                WaitForDatabase(scope);
+                //WaitForDatabase(scope);
                 CreateRoles(scope);
             }
         }

@@ -48,9 +48,6 @@ namespace JetAnotherEMS.WebApi.Controllers
             //TODO: move to command handler
             var fullTempPathToSave = Path.Combine(_environment.WebRootPath, "uploads");
 
-
-            //string.Join("/", _env., "uploads", entity.FileName);
-
             var vm = Mapper.Map<UploadedFileViewModel>(filepond);
             vm.Id = Guid.NewGuid();
             vm.LocationOnDisk = fullTempPathToSave;

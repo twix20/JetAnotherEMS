@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine AS base
 WORKDIR /app
 EXPOSE 52390
 EXPOSE 44364
@@ -17,13 +17,14 @@ COPY JetAnotherEMS.sln .
 RUN dotnet restore
 COPY . .
 WORKDIR /src/JetAnotherEMS.WebApi
-RUN dotnet build JetAnotherEMS.WebApi.csproj -c Release -o /app
+RUN dotnet build JetAnotherEMS.WebApi.csproj -c Release -o /JetAnotherEMS.WebApi
 
 FROM build AS publish
-RUN dotnet publish JetAnotherEMS.WebApi.csproj -c Release -o /app
+RUN dotnet publish JetAnotherEMS.WebApi.csproj -c Release -o /JetAnotherEMS.WebApi
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app .
-COPY --from=publish /app /JetAnotherEMS.WebApi
+COPY --from=publish /JetAnotherEMS.WebApi /JetAnotherEMS.WebApi
+
+WORKDIR /JetAnotherEMS.WebApi
 ENTRYPOINT ["dotnet", "JetAnotherEMS.WebApi.dll"]

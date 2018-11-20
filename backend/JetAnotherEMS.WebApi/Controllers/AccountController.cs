@@ -93,12 +93,7 @@ namespace JetAnotherEMS.WebApi.Controllers
             var allowedScope = _configuration.GetValue<string>("IdentityServer:AllowedScope");
 
 
-            _logger.LogWarning("identityServerUrl: " + identityServerUrl);
-
             var disco = await DiscoveryClient.GetAsync(identityServerUrl);
-
-            _logger.LogWarning(disco.Raw);
-            _logger.LogWarning(disco.TokenEndpoint);
 
             var tokenClient = new TokenClient(disco.TokenEndpoint, clientId, secret);
 

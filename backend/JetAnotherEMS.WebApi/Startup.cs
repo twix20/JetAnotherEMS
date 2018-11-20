@@ -61,7 +61,6 @@ namespace JetAnotherEMS.WebApi
             builder.RegisterType<EventStoreSQLContext>().InstancePerLifetimeScope();
             builder.RegisterType<JetAnotherEmsContext>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ApplicationContextDbFactory>().AsSelf().AsImplementedInterfaces();
             builder.Register<ApplicationDbContext>(ctx =>
             {
                 var factory = ctx.Resolve<IDesignTimeDbContextFactory<ApplicationDbContext>>();
@@ -116,6 +115,10 @@ namespace JetAnotherEMS.WebApi
 
             using (var scope = ApplicationContainer.BeginLifetimeScope("AutofacWebRequest"))
             {
+                var dbContext = scope.Resolve<JetAnotherEmsContext>();
+                 dbContext.Seed(env, "https://localhost:5001");
+
+
                 //WaitForDatabase(scope);
                 CreateRoles(scope);
             }

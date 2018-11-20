@@ -19,20 +19,7 @@ const styles = theme => {};
 class EventCreatorOpenerButton extends React.Component {
   state = {
     initialValues: {
-      calendar: [
-        {
-          id: createRandomGuid(),
-          title: 'All Day Event very long title',
-          description: 'Example descr',
-          lectureRoom: 'Lecture room',
-          teacher: 'teacher',
-          // allDay: true,
-          start: moment().toDate(),
-          end: moment()
-            .add(2, 'hours')
-            .toDate()
-        }
-      ]
+      calendar: []
     }
   };
 

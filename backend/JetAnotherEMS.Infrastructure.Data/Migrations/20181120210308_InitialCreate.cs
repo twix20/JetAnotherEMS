@@ -178,13 +178,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                         column: x => x.SchoolingEventDayId,
                         principalTable: "SchoolingEventDays",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UploadedFiles_SchoolingEvents_EventId",
                         column: x => x.EventId,
                         principalTable: "SchoolingEvents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

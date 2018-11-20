@@ -168,22 +168,13 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
                     {
                         var pathToSave = Path.Combine(uploadFolderPath, resourceName);
 
-                        Console.WriteLine("pathToSave");
-                        Console.WriteLine(pathToSave);
-
-                        Console.WriteLine("stream.Length");
-                        Console.WriteLine(stream.Length);
-
                         if (File.Exists(pathToSave))
                         {
-                            Console.WriteLine("File existed, deleting");
                             File.Delete(pathToSave);
                         }
 
-                        Console.WriteLine("before fileStream");
                         using (var fileStream = File.Create(pathToSave))
                         {
-                            Console.WriteLine("fileStream");
                             stream.Seek(0, SeekOrigin.Begin);
                             stream.CopyTo(fileStream);
                         }

@@ -6,7 +6,7 @@ namespace JetAnotherEMS.Domain.Models
 {
     public class SchoolingEventDayAttachment : UploadedFile
     {
-        public Guid SchoolingEventDayId { get; set; }
+        public Guid? SchoolingEventDayId { get; set; }
 
         [ForeignKey("SchoolingEventDayId")]
         public virtual SchoolingEventDay SchoolingEventDay { get; set; }

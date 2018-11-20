@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,6 +11,7 @@ using JetAnotherEMS.Domain.Core.Bus;
 using JetAnotherEMS.Domain.Interfaces;
 using JetAnotherEMS.Domain.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace JetAnotherEMS.Application.Services
 {
@@ -45,10 +47,10 @@ namespace JetAnotherEMS.Application.Services
             entity.FtpFileUrl = $"{baseUrl}/uploads/{entity.FileName}";
 
             await _fileRepository.Add(entity);
+            await _fileRepository.SaveChanges();
 
             await _fileRepository.SaveFile(entity, contentStream);
 
-            await _fileRepository.SaveChanges();
         }
 
         public async Task DeleteFile(Guid id)
@@ -65,6 +67,13 @@ namespace JetAnotherEMS.Application.Services
             var entity = Mapper.Map<UploadedFile>(file);
 
             await _fileRepository.MoveFile(entity, pathToMove);
+        }
+
+        public async Task<IEnumerable<UploadedFileViewModel>> GetAll()
+        {
+            var all = await _fileRepository.GetAll().ToListAsync();
+
+            return all.Select(a => Mapper.Map<UploadedFileViewModel>(a));
         }
     }
 }

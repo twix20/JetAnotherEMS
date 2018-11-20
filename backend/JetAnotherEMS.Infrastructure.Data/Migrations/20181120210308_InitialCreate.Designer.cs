@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JetAnotherEMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JetAnotherEmsContext))]
-    [Migration("20181111184156_InitialCreate")]
+    [Migration("20181120210308_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -272,7 +272,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("JetAnotherEMS.Domain.Models.UploadedFile");
 
-                    b.Property<Guid>("SchoolingEventDayId");
+                    b.Property<Guid?>("SchoolingEventDayId");
 
                     b.HasIndex("SchoolingEventDayId");
 
@@ -285,7 +285,7 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("JetAnotherEMS.Domain.Models.UploadedFile");
 
-                    b.Property<Guid>("EventId");
+                    b.Property<Guid?>("EventId");
 
                     b.HasIndex("EventId");
 
@@ -348,16 +348,14 @@ namespace JetAnotherEMS.Infrastructure.Data.Migrations
                 {
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEventDay", "SchoolingEventDay")
                         .WithMany("Attachments")
-                        .HasForeignKey("SchoolingEventDayId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SchoolingEventDayId");
                 });
 
             modelBuilder.Entity("JetAnotherEMS.Domain.Models.SchoolingEventGalleryFile", b =>
                 {
                     b.HasOne("JetAnotherEMS.Domain.Models.SchoolingEvent", "Event")
                         .WithMany("Gallery")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventId");
                 });
 #pragma warning restore 612, 618
         }

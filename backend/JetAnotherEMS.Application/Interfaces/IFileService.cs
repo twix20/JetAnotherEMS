@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using JetAnotherEMS.Application.ViewModels;
@@ -27,5 +28,6 @@ namespace JetAnotherEMS.Application.Interfaces
         Task DeleteFile(Guid id);
 
         Task MoveFile(UploadedFileViewModel file, string pathToMove);
+        Task<IEnumerable<UploadedFileViewModel>> GetAll();
     }
 }

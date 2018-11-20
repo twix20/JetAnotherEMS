@@ -92,5 +92,15 @@ namespace JetAnotherEMS.WebApi.Controllers
                 return Response(new { id });
             }
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Get()
+        {
+   
+            return Response( (await _fileService.GetAll()));
+
+
+        }
     }
 }

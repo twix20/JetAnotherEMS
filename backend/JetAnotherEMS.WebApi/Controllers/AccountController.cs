@@ -92,7 +92,14 @@ namespace JetAnotherEMS.WebApi.Controllers
             var secret = _configuration.GetValue<string>("IdentityServer:Secret");
             var allowedScope = _configuration.GetValue<string>("IdentityServer:AllowedScope");
 
+
+            _logger.LogWarning("identityServerUrl: " + identityServerUrl);
+
             var disco = await DiscoveryClient.GetAsync(identityServerUrl);
+
+            _logger.LogWarning(disco.Raw);
+            _logger.LogWarning(disco.TokenEndpoint);
+
             var tokenClient = new TokenClient(disco.TokenEndpoint, clientId, secret);
 
             var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(model.Email, model.Password, allowedScope);

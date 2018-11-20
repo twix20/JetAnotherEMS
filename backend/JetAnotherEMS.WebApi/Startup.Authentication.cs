@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using IdentityServer4.Configuration;
 using JetAnotherEMS.Infrastructure.Identity;
 using JetAnotherEMS.Infrastructure.Identity.Data;
 using JetAnotherEMS.Infrastructure.Identity.Models;

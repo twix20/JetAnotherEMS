@@ -1,0 +1,19 @@
+.dockerignore
+.env
+**/.git
+.gitignore
+**/.vs
+.vs
+**/.vscode
+**/.toolstarget
+
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+**/[Bb]in/
+**/[Oo]bj/
+**/node_modules/
+/node_modules
+**/dist/
+
+# Build results
+**/[Dd]ebug/
+**/[Rr]elease/

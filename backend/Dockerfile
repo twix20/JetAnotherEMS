@@ -1,7 +1,5 @@
 FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine AS base
 WORKDIR /app
-EXPOSE 52390
-EXPOSE 44364
 
 FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
@@ -27,4 +25,6 @@ WORKDIR /app
 COPY --from=publish /JetAnotherEMS.WebApi /JetAnotherEMS.WebApi
 
 WORKDIR /JetAnotherEMS.WebApi
+EXPOSE 5000
+ENV ASPNETCORE_URLS http://*:5000
 ENTRYPOINT ["dotnet", "JetAnotherEMS.WebApi.dll"]

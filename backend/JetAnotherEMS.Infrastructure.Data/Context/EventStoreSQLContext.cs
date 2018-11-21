@@ -32,8 +32,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
             // define the database to use
             optionsBuilder
                 .UseLazyLoadingProxies()
-                //.UseInMemoryDatabase("EventStoreSQLContext")
-                .UseSqlServer(dbConnectionString);
+                .UseInMemoryDatabase("EventStoreSQLContext");
+            //.UseSqlServer(dbConnectionString);
 
         }
     }

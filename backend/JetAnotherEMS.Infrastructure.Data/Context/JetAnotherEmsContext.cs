@@ -82,8 +82,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Context
             // define the database to use
             optionsBuilder
                 .UseLazyLoadingProxies()
-                //    .UseInMemoryDatabase("JetAnotherEmsContext")
-                .UseSqlServer(dbConnectionString);
+                .UseInMemoryDatabase("JetAnotherEmsContext");
+            //.UseSqlServer(dbConnectionString);
         }
 
         private void AddTimestamps()

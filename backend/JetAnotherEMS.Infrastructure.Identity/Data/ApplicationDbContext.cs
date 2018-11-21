@@ -30,8 +30,8 @@ namespace JetAnotherEMS.Infrastructure.Identity.Data
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
                 .UseLazyLoadingProxies()
-                //    .UseInMemoryDatabase("ApplicationDbContext");
-                .UseSqlServer(dbConnectionString);
+                .UseInMemoryDatabase("ApplicationDbContext");
+                //.UseSqlServer(dbConnectionString);
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

@@ -116,7 +116,7 @@ namespace JetAnotherEMS.WebApi
             using (var scope = ApplicationContainer.BeginLifetimeScope("AutofacWebRequest"))
             {
                 var dbContext = scope.Resolve<JetAnotherEmsContext>();
-                dbContext.Seed(env, "http://localhost:5000");
+                dbContext.Seed(env, "https://jetanotheremsapi.now.sh/");
 
 
                 //WaitForDatabase(scope);

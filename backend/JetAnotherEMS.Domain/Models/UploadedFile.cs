@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using JetAnotherEMS.Domain.Core.Models;
@@ -22,14 +24,23 @@ namespace JetAnotherEMS.Domain.Models
         /// <summary>
         /// Length in bytes
         /// </summary>
+        [Required]
         public long Size { get; set; }
 
+        [Required]
+        [MaxLength(128)]
         public string FileName { get; set; }
 
+        [Required]
+        [MaxLength(128)]
         public string OriginalName { get; set; }
 
+        [Required]
+        [MaxLength(512)]
         public string LocationOnDisk { get; set; }
 
+        [Required]
+        [MaxLength(512)]
         public string FtpFileUrl { get; set; }
 
         [NotMapped]

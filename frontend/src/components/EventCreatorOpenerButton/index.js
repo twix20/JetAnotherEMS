@@ -19,7 +19,12 @@ const styles = theme => {};
 class EventCreatorOpenerButton extends React.Component {
   state = {
     initialValues: {
-      calendar: []
+      calendar: [],
+      location: {
+        description: 'Initial seed',
+        lat: 12,
+        lng: 23
+      }
     }
   };
 

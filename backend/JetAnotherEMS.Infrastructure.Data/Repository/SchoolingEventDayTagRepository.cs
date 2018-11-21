@@ -20,8 +20,8 @@ namespace JetAnotherEMS.Infrastructure.Data.Repository
         {
             return DbSet.Where(t => 
                 t.Value.Contains(query) || 
-                t.Description.Contains(query))
-                .ToListAsync();
+                (t.Description != null && t.Description.Contains(query)))
+            .ToListAsync();
         }
     }
 }

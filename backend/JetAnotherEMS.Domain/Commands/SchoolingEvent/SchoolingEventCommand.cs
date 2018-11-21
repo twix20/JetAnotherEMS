@@ -8,6 +8,8 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 {
     public abstract class SchoolingEventCommand : Command
     {
+        public Guid Id { get; set; }
+
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -23,6 +25,7 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
         public ICollection<SchoolingEventGalleryFile> Gallery { get; set; }
 
         public SchoolingEventCommand(
+            Guid id,
             string title,
             string description,
             bool isPublic,
@@ -31,6 +34,7 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
             ICollection<SchoolingEventTicket> tickets, 
             ICollection<SchoolingEventGalleryFile> gallery)
         {
+            Id = id;
             Title = title;
             Description = description;
             IsPublic = isPublic;

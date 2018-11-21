@@ -99,8 +99,8 @@ namespace JetAnotherEMS.WebApi
                     options
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                        .AllowAnyHeader();
+                        //.AllowCredentials();
                 });
 
             app.UseHttpsRedirection();
@@ -116,7 +116,7 @@ namespace JetAnotherEMS.WebApi
             using (var scope = ApplicationContainer.BeginLifetimeScope("AutofacWebRequest"))
             {
                 var dbContext = scope.Resolve<JetAnotherEmsContext>();
-                 dbContext.Seed(env, "https://localhost:5001");
+                dbContext.Seed(env, "http://localhost:5000");
 
 
                 //WaitForDatabase(scope);

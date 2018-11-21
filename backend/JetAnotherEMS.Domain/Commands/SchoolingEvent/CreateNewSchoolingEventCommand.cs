@@ -9,13 +9,14 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
     public class CreateNewSchoolingEventCommand : SchoolingEventCommand
     {
         public CreateNewSchoolingEventCommand(
+            Guid id,
             string title, 
             string description, 
             bool isPublic,
             SchoolingEventAddress location,
             ICollection<SchoolingEventDay> calendar, 
             ICollection<SchoolingEventTicket> tickets,
-            ICollection<SchoolingEventGalleryFile> gallery) : base(title, description, isPublic, location, calendar, tickets, gallery)
+            ICollection<SchoolingEventGalleryFile> gallery) : base(id, title, description, isPublic, location, calendar, tickets, gallery)
         {
             location.Id = Guid.Empty;
 

@@ -48,7 +48,7 @@ namespace JetAnotherEMS.Domain.CommandHandlers
 
             var entity = Mapper.Map<SchoolingEvent>(message);
 
-            await _schoolingEventRepository.Add(entity);
+            await _schoolingEventRepository.CreateEntireEvent(entity);
 
             if (await Commit())
             {
@@ -62,7 +62,7 @@ namespace JetAnotherEMS.Domain.CommandHandlers
             //TODO: add validation
             var entity = Mapper.Map<SchoolingEvent>(request);
 
-            _schoolingEventRepository.Update(entity);
+            await _schoolingEventRepository.UpdateEntireEvent(entity);
 
             if (await Commit())
             {

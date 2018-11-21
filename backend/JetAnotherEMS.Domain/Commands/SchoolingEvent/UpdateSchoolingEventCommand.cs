@@ -8,11 +8,6 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
 {
     public class UpdateSchoolingEventCommand : SchoolingEventCommand
     {
-        /// <summary>
-        /// Id of the event to update
-        /// </summary>
-        public Guid Id { get; set; }
-
         public UpdateSchoolingEventCommand(
             Guid id,
             string title, 
@@ -21,9 +16,8 @@ namespace JetAnotherEMS.Domain.Commands.SchoolingEvent
             SchoolingEventAddress location, 
             ICollection<SchoolingEventDay> calendar, 
             ICollection<SchoolingEventTicket> tickets,
-            ICollection<SchoolingEventGalleryFile> gallery) : base(title, description, isPublic, location, calendar, tickets, gallery)
+            ICollection<SchoolingEventGalleryFile> gallery) : base(id, title, description, isPublic, location, calendar, tickets, gallery)
         {
-            this.Id = id;
         }
     }
 }

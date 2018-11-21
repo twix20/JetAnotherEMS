@@ -299,7 +299,7 @@ namespace JetAnotherEMS.Application.Services
 
         private IQueryable<SchoolingEvent> ApplySort(IQueryable<SchoolingEvent> query, SchoolingEventSortType sort)
         {
-            Expression<Func<SchoolingEvent, decimal>> minTicketPricePredicate = e => e.AvailableTickets.Min(t => t.Price);
+            Expression<Func<SchoolingEvent, decimal>> minTicketPricePredicate = e => e.AvailableTickets.Any() ? e.AvailableTickets.Min(t => t.Price) : decimal.MaxValue;
             switch (sort)
             {
                 case SchoolingEventSortType.TicketPriceAscending:

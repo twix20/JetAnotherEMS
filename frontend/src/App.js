@@ -7,6 +7,8 @@ import BigCalendar from 'react-big-calendar-like-google';
 import NotificationsSystem from 'reapop';
 import moment from 'moment';
 
+import DialogGDPR from './components/DialogGDPR';
+
 import HomePage from './pages/Home';
 import EventPage from './pages/Event';
 
@@ -36,6 +38,7 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
+          <DialogGDPR />
           <NotificationsSystem theme={reapopTheme} />
           <Switch>
             <Route exact path="/" component={HomePage} />
